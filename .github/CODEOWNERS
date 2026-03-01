@@ -1,8 +1,5 @@
 # Last match in file takes precedence.
 
-# Sorting by path instead of by who added it one day :(
-# this isn't how codeowners rules work pls read the first comment instead of trying to force a sorting order
-
 #/Resources/ConfigPresets/WizardsDen/  @nikthechampiongr @crazybrain23
 #/Content.*/Administration/ @DrSmugleaf @nikthechampiongr @crazybrain23
 #/Resources/ServerInfo/ @nikthechampiongr @crazybrain23
@@ -43,3 +40,22 @@
 #/Content.*/NPC @metalgearsloth
 #/Content.*/Shuttles @metalgearsloth
 #/Content.*/Weapons @metalgearsloth
+
+# SandwichStation Edits:
+
+# code changes will send PR to following users
+* @SandwichStation/pr-reviewers
+
+# Only allow CentComm Admirals to edit these files/folders:
+/LICENSES/* @SandwichStation/centcomm-admiral # We dont want legal trouble because a missing license
+/RobustToolbox/* @SandwichStation/centcomm-admiral # We dont want random bugs due to version updates
+/.github/* @SandwichStation/centcomm-admiral # important folder
+/SECURITY.md @SandwichStation/centcomm-admiral # Sensitive data, strict rules
+/README.md @SandwichStation/centcomm-admiral # Our public message, no random changes permitted
+*.bat @SandwichStation/centcomm-admiral # Since everyone will be running these, stricter rules
+*.sh @SandwichStation/centcomm-admiral # Since everyone will be running these, stricter rules
+/Scripts/* @SandwichStation/centcomm-admiral # Since everyone will be running these, stricter rules
+/Tools/* @SandwichStation/centcomm-admiral # Normal users have no reason to mess with these files
+
+# Only allow permission changes by SandwichStation Owner
+/.github/CODEOWNERS @B3CKDOOR
