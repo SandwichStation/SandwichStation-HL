@@ -1,7 +1,7 @@
 ---
 name: Report an Issue
-about: "..."
-title: ''
+about: ''
+title: '[BUG]'
 labels: ''
 assignees: ''
 
