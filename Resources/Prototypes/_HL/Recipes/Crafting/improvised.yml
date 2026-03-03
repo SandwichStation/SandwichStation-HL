@@ -6,3 +6,30 @@
   category: construction-category-weapons
   description: improvised-railgun-mag-desc
   objectType: Item
+
+- type: construction
+  id: ScrapRingLVImprovisedCrafting
+  graph: ScrapRingLVImprovisedCraftingGraph
+  startNode: start
+  targetNode: ring
+  category: construction-category-clothing
+  description: improvised-scrap-ring-lv-desc
+  objectType: Item
+
+- type: construction
+  id: ScrapRingMVImprovisedCrafting
+  graph: ScrapRingMVImprovisedCraftingGraph
+  startNode: start
+  targetNode: ring
+  category: construction-category-clothing
+  description: improvised-scrap-ring-mv-desc
+  objectType: Item
+
+- type: construction
+  id: ScrapRingHVImprovisedCrafting
+  graph: ScrapRingHVImprovisedCraftingGraph
+  startNode: start
+  targetNode: ring
+  category: construction-category-clothing
+  description: improvised-scrap-ring-hv-desc
+  objectType: Item

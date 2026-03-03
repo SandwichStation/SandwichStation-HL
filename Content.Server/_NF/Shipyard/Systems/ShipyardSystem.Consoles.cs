@@ -497,7 +497,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while attempting to load shuttle from file/temp: {ex}");
+            Logger.GetSawmill("hardlight").Error($"Error while attempting to load shuttle from file/temp: {ex}");
             loaded = false;
         }
 
@@ -585,12 +585,12 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 && member.Station == consoleStation)
             {
                 _station.RemoveGridFromStation(consoleStation.Value, shuttleUid);
-                Logger.Info($"[ShipLoad(Console)] Removed station membership from loaded ship {ToPrettyString(shuttleUid)} (station {ToPrettyString(consoleStation.Value)})");
+                Logger.GetSawmill("hardlight").Info($"[ShipLoad(Console)] Removed station membership from loaded ship {ToPrettyString(shuttleUid)} (station {ToPrettyString(consoleStation.Value)})");
             }
         }
         catch (Exception rmEx)
         {
-            Logger.Warning($"[ShipLoad(Console)] Failed to remove station membership from {ToPrettyString(shuttleUid)}: {rmEx.Message}");
+            Logger.GetSawmill("hardlight").Warning($"[ShipLoad(Console)] Failed to remove station membership from {ToPrettyString(shuttleUid)}: {rmEx.Message}");
         }
         // For loaded ships, we don't spawn a new station via a GameMap prototype unless we can infer the vessel ID.
         EntityUid? shuttleStation = null;
@@ -703,11 +703,11 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             try
             {
                 RaiseNetworkEvent(new Content.Shared.Shuttles.Save.DeleteLocalShipFileMessage(args.SourceFilePath!), session);
-                Logger.Info($"Requested client to delete local ship file '{args.SourceFilePath}' after successful load");
+                Logger.GetSawmill("hardlight").Info($"Requested client to delete local ship file '{args.SourceFilePath}' after successful load");
             }
             catch (Exception ex)
             {
-                Logger.Warning($"Failed to request client-side deletion for '{args.SourceFilePath}': {ex}");
+                Logger.GetSawmill("hardlight").Warning($"Failed to request client-side deletion for '{args.SourceFilePath}': {ex}");
             }
         }
 

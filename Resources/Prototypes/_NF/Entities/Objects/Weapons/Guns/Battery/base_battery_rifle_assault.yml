@@ -70,7 +70,7 @@
   - type: Gun
     angleIncrease: 1.2
     angleDecay: 2
-    fireRate: 2.5
+    fireRate: 5.0 #Double of 2.5 at 15 burn a shot with a limited mag and not being pinpoint accurate like others. Lasers can be reflected by eshields (sec available) too
     soundGunshot:
       path: /Audio/_DV/Weapons/Guns/Gunshots/laser.ogg
     soundEmpty:

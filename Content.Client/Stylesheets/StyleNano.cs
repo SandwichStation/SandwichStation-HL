@@ -169,6 +169,7 @@ namespace Content.Client.Stylesheets
         public static readonly string MedicalButtonClass = "MedicalButton";
         public static readonly string SecurityButtonClass = "SecurityButton";
         public static readonly string ServiceButtonClass = "ServiceButton";
+        public static readonly string LewdButtonClass = "LewdButton"; // HL
 
         // DeltaV - AAC button colors
         public static readonly Color CommandButtonColorDefault = Color.FromHex("#404A58");
@@ -188,6 +189,11 @@ namespace Content.Client.Stylesheets
         public static readonly Color ServiceButtonColorDefault = Color.FromHex("#607952");
         public static readonly Color ServiceColorHovered = Color.FromHex("#667A76");
         // End DeltaV
+
+        // HL
+        public static readonly Color LewdButtonColorDefault = Color.FromHex("#9345a8");
+        public static readonly Color LewdButtonColorHovered = Color.FromHex("#9654a8");
+        // End HL
 
         //Bwoink
         public const string StyleClassPinButtonPinned = "pinButtonPinned";
@@ -1978,6 +1984,17 @@ namespace Content.Client.Stylesheets
                     .Pseudo(ContainerButton.StylePseudoClassHover)
                     .Prop(Control.StylePropertyModulateSelf, JusticeColorHovered),
                 // End DeltaV
+                // Start HL
+                Element<ContainerButton>()
+                    .Class(LewdButtonClass)
+                    .Pseudo(ContainerButton.StylePseudoClassNormal)
+                    .Prop(Control.StylePropertyModulateSelf, LewdButtonColorDefault),
+
+                Element<ContainerButton>()
+                    .Class(LewdButtonClass)
+                    .Pseudo(ContainerButton.StylePseudoClassHover)
+                    .Prop(Control.StylePropertyModulateSelf, LewdButtonColorHovered),
+                // End HL
 
                 // Silicon law edit ui
                 Element<Label>().Class(SiliconLawContainer.StyleClassSiliconLawPositionLabel)

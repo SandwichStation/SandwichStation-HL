@@ -39,7 +39,7 @@ public sealed class RoomGridFileManagementSystem : EntitySystem
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to load room data from {filePath}: {ex.Message}");
+            Logger.GetSawmill("hardlight").Error($"Failed to load room data from {filePath}: {ex.Message}");
         }
 
         RaiseNetworkEvent(new SendRoomGridDataMessage(message.ConsoleNetEntity, message.CharacterKey, yamlData, found));
@@ -58,7 +58,7 @@ public sealed class RoomGridFileManagementSystem : EntitySystem
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to save room data to {filePath}: {ex.Message}");
+            Logger.GetSawmill("hardlight").Error($"Failed to save room data to {filePath}: {ex.Message}");
         }
     }
 

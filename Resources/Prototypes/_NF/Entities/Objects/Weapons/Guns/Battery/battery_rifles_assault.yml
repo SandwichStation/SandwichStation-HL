@@ -22,7 +22,7 @@
   parent: [ NFBaseWeaponEnergyRifleAssaultFireModes, NFBaseWeaponFrameEnergyRifleAssaultCybersun ]
   name: turbo laser mk3
   description: |-
-    A turbo laser ripped from the guardian unit. Appears to be a rather old model. Doesn't seem to be working properly. Supposedly highly illegal.
+    A turbo laser ripped from the guardian unit and repurposed into a handheld laser machinegun powered by a capacitor bank carried on the back. Highly illegal.
   components:
   - type: Gun
     soundGunshot:

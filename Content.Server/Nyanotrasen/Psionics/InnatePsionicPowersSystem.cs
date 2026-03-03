@@ -28,7 +28,7 @@ namespace Content.Server.Nyanotrasen.Psionics
             {
                 if (!_prototypeManager.TryIndex<PsionicPowerPrototype>(powerId, out var proto))
                 {
-                    Logger.Error($"[InnatePsionics] Unknown psionic power prototype '{powerId}' on entity {uid}");
+                    Logger.GetSawmill("hardlight").Error($"[InnatePsionics] Unknown psionic power prototype '{powerId}' on entity {uid}");
                     continue;
                 }
 

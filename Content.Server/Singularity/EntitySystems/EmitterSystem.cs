@@ -32,6 +32,8 @@ namespace Content.Server.Singularity.EntitySystems
     [UsedImplicitly]
     public sealed class EmitterSystem : SharedEmitterSystem
     {
+        private static readonly TimeSpan MinimumEmitterDelay = TimeSpan.FromMilliseconds(50);
+
         [Dependency] private readonly IRobustRandom _random = default!;
         [Dependency] private readonly IPrototypeManager _prototype = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
@@ -187,6 +189,8 @@ namespace Content.Server.Singularity.EntitySystems
             component.FireInterval = component.BaseFireInterval * MathF.Pow(component.FireRateMultiplier, fireRateRating - 1);
             component.FireBurstDelayMin = component.BaseFireBurstDelayMin * MathF.Pow(component.FireRateMultiplier, fireRateRating - 1);
             component.FireBurstDelayMax = component.BaseFireBurstDelayMax * MathF.Pow(component.FireRateMultiplier, fireRateRating - 1);
+
+            SanitizeTimings(component);
         }
 
         private void OnUpgradeExamine(EntityUid uid, EmitterComponent component, UpgradeExamineEvent args)
@@ -245,6 +249,7 @@ namespace Content.Server.Singularity.EntitySystems
             }
 
             component.IsPowered = true;
+            SanitizeTimings(component);
 
             component.FireShotCounter = 0;
             component.TimerCancel = new CancellationTokenSource();
@@ -261,8 +266,10 @@ namespace Content.Server.Singularity.EntitySystems
 
             // Any power-off condition should result in the timer for this method being cancelled
             // and thus not firing
-            DebugTools.Assert(component.IsPowered);
-            DebugTools.Assert(component.IsOn);
+            if (!component.IsPowered || !component.IsOn)
+                return;
+
+            SanitizeTimings(component);
 
             Fire(uid, component);
 
@@ -283,6 +290,21 @@ namespace Content.Server.Singularity.EntitySystems
             // Must be set while emitter powered.
             DebugTools.AssertNotNull(component.TimerCancel);
             Timer.Spawn(delay, () => ShotTimerCallback(uid, component), component.TimerCancel!.Token);
+        }
+
+        private static void SanitizeTimings(EmitterComponent component)
+        {
+            if (component.FireBurstSize < 1)
+                component.FireBurstSize = 1;
+
+            if (component.FireInterval < MinimumEmitterDelay)
+                component.FireInterval = MinimumEmitterDelay;
+
+            if (component.FireBurstDelayMin < MinimumEmitterDelay)
+                component.FireBurstDelayMin = MinimumEmitterDelay;
+
+            if (component.FireBurstDelayMax < component.FireBurstDelayMin)
+                component.FireBurstDelayMax = component.FireBurstDelayMin;
         }
 
         private void Fire(EntityUid uid, EmitterComponent component)

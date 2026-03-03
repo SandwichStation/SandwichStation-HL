@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
@@ -179,7 +179,7 @@ public sealed class MoverController : SharedMoverController
 
         ApplyTick(component, remainingFraction);
 
-        // Logger.Info($"{curDir}{walk}{sprint}");
+        // Logger.GetSawmill("hardlight").Info($"{curDir}{walk}{sprint}");
         return new ShuttleInput(component.CurTickStrafeMovement, component.CurTickRotationMovement, component.CurTickBraking);
     }
 

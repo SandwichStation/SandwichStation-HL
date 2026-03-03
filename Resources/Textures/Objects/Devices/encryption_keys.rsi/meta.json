@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Created by DSC@300074782328750080 for Space Station 14, borg_label taken from https://github.com/vgstation-coders/vgstation13/blob/e71d6c4fba5a51f99b81c295dcaec4fc2f58fb19/icons/mob/screen1.dmi and modified by ArtisticRoomba, crypt states modified by Flareguy for Space Station 14, nano/cartel/arca by Sera for Hardlight",
+  "copyright": "Created by DSC@300074782328750080 for Space Station 14, borg_label taken from https://github.com/vgstation-coders/vgstation13/blob/e71d6c4fba5a51f99b81c295dcaec4fc2f58fb19/icons/mob/screen1.dmi and modified by ArtisticRoomba, crypt states modified by Flareguy for Space Station 14, nano/cartel/arca by Sera for Hardlight, Avali crypt modified by Nyxu for hardlight using a base sprite from Avali Triage github https://github.com/Avali-Triage-Team/Avali ",
   "size": {
     "x": 32,
     "y": 32
@@ -49,6 +49,9 @@
 	{"name": "a_label"},
 	{"name": "b_label"},
 	{"name": "c_label"},
-      {"name": "crypt-interdyne"}
+    {"name": "crypt-interdyne"},
+	{"name": "crypt_avali"},
+	{"name": "crypt_avaliblue"}
+	  
   ]
 }

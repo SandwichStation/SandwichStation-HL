@@ -6,9 +6,12 @@ using Robust.Client.Player;
 using Robust.Client.State;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface;
+using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Physics;
+using Robust.Shared.Utility;
+using System.Linq;
 
 namespace Content.Client.Sprite;
 
@@ -31,6 +34,7 @@ public sealed class SpriteFadeSystem : EntitySystem
     private List<(MapCoordinates Point, bool ExcludeBoundingBox)> _points = new();
 
     private readonly HashSet<FadingSpriteComponent> _comps = new();
+    private readonly ISawmill _sawmill = Logger.GetSawmill("sprite.fade");
 
     private EntityQuery<SpriteComponent> _spriteQuery;
     private EntityQuery<SpriteFadeComponent> _fadeQuery;
@@ -87,8 +91,19 @@ public sealed class SpriteFadeSystem : EntitySystem
         {
             foreach (var (mapPos, excludeBB) in _points)
             {
+                EntityUid[] clickable;
+                try
+                {
+                    clickable = state.GetClickableEntities(mapPos, excludeFaded: false).ToArray();
+                }
+                catch (DebugAssertException e)
+                {
+                    _sawmill.Warning($"Skipping sprite fade query due to bounds assertion: {e}");
+                    continue;
+                }
+
                 // Also want to handle large entities even if they may not be clickable.
-                foreach (var ent in state.GetClickableEntities(mapPos, excludeFaded: false))
+                foreach (var ent in clickable)
                 {
                     if (ent == player ||
                         !_fadeQuery.HasComponent(ent) ||

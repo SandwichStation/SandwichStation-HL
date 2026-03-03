@@ -45,25 +45,25 @@ namespace Content.Server.Shuttles.Save
             if (!_entityManager.TryGetComponent<ShuttleDeedComponent>(deedUid, out var deed) || deed.ShuttleUid == null ||
                 !_entityManager.TryGetEntity(deed.ShuttleUid.Value, out var shuttleNetUid))
             {
-                Logger.Warning($"Player {playerSession.Name} attempted ship save without a valid shuttle deed / shuttle reference on ID {deedUid}");
+                Logger.GetSawmill("hardlight").Warning($"Player {playerSession.Name} attempted ship save without a valid shuttle deed / shuttle reference on ID {deedUid}");
                 return;
             }
 
             var gridToSave = shuttleNetUid.Value;
             if (!_entityManager.HasComponent<MapGridComponent>(gridToSave))
             {
-                Logger.Warning($"Player {playerSession.Name} deed shuttle {gridToSave} is not a grid");
+                Logger.GetSawmill("hardlight").Warning($"Player {playerSession.Name} deed shuttle {gridToSave} is not a grid");
                 return;
             }
 
             var shipName = deed.ShuttleName ?? $"SavedShip_{DateTime.Now:yyyyMMdd_HHmmss}";
 
             var shipyardGridSaveSystem = _entitySystemManager.GetEntitySystem<Content.Server._NF.Shipyard.Systems.ShipyardGridSaveSystem>();
-            Logger.Info($"Player {playerSession.Name} is saving deed-referenced ship {shipName} (grid {gridToSave})");
+            Logger.GetSawmill("hardlight").Info($"Player {playerSession.Name} is saving deed-referenced ship {shipName} (grid {gridToSave})");
             var success = shipyardGridSaveSystem.TrySaveGridAsShip(gridToSave, shipName, playerSession.UserId.ToString(), playerSession);
             if (success)
             {
-                Logger.Info($"Successfully saved ship {shipName}");
+                Logger.GetSawmill("hardlight").Info($"Successfully saved ship {shipName}");
                 // Mirror ShipyardGridSaveSystem deed/grid cleanup to avoid stale ownership
                 if (_entityManager.TryGetComponent<ShuttleDeedComponent>(deedUid, out var deedComp))
                 {
@@ -88,26 +88,26 @@ namespace Content.Server.Shuttles.Save
             }
             else
             {
-                Logger.Error($"Failed to save ship {shipName}");
+                Logger.GetSawmill("hardlight").Error($"Failed to save ship {shipName}");
             }
         }
         public void RequestSaveShip(EntityUid deedUid, ICommonSession? playerSession)
         {
             if (playerSession == null)
             {
-                Logger.Warning($"Attempted to save ship for deed {deedUid} without a valid player session.");
+                Logger.GetSawmill("hardlight").Warning($"Attempted to save ship for deed {deedUid} without a valid player session.");
                 return;
             }
 
             if (!_entityManager.TryGetComponent<ShuttleDeedComponent>(deedUid, out var deedComponent))
             {
-                Logger.Warning($"Player {playerSession.Name} tried to save ship with invalid deed UID: {deedUid}");
+                Logger.GetSawmill("hardlight").Warning($"Player {playerSession.Name} tried to save ship with invalid deed UID: {deedUid}");
                 return;
             }
 
             if (deedComponent.ShuttleUid == null || !_entityManager.TryGetEntity(deedComponent.ShuttleUid.Value, out var shuttleUid) || !_entityManager.TryGetComponent<MapGridComponent>(shuttleUid.Value, out var grid))
             {
-                Logger.Warning($"Player {playerSession.Name} tried to save ship with deed {deedUid} but no valid shuttle UID found.");
+                Logger.GetSawmill("hardlight").Warning($"Player {playerSession.Name} tried to save ship with deed {deedUid} but no valid shuttle UID found.");
                 return;
             }
 
@@ -117,7 +117,7 @@ namespace Content.Server.Shuttles.Save
             // Get the ShipyardGridSaveSystem and use it to save the ship
             var shipyardGridSaveSystem = _entitySystemManager.GetEntitySystem<Content.Server._NF.Shipyard.Systems.ShipyardGridSaveSystem>();
 
-            Logger.Info($"Player {playerSession.Name} is saving ship {shipName} via ShipyardGridSaveSystem");
+            Logger.GetSawmill("hardlight").Info($"Player {playerSession.Name} is saving ship {shipName} via ShipyardGridSaveSystem");
 
             // Save the ship using the working grid-based system (synchronously on main thread)
             var success2 = shipyardGridSaveSystem.TrySaveGridAsShip(shuttleUid.Value, shipName, playerSession.UserId.ToString(), playerSession);
@@ -125,11 +125,11 @@ namespace Content.Server.Shuttles.Save
             {
                 // Clean up the deed after successful save
                 _entityManager.RemoveComponent<ShuttleDeedComponent>(deedUid);
-                Logger.Info($"Successfully saved and removed ship {shipName}");
+                Logger.GetSawmill("hardlight").Info($"Successfully saved and removed ship {shipName}");
             }
             else
             {
-                Logger.Error($"Failed to save ship {shipName}");
+                Logger.GetSawmill("hardlight").Error($"Failed to save ship {shipName}");
             }
         }
 
@@ -139,7 +139,7 @@ namespace Content.Server.Shuttles.Save
             if (playerSession == null)
                 return;
 
-            Logger.Info($"Player {playerSession.Name} requested to load ship from YAML data");
+            Logger.GetSawmill("hardlight").Info($"Player {playerSession.Name} requested to load ship from YAML data");
 
             // TODO: Implement ship loading from saved files
             // This would involve deserializing the ship data and spawning it in the game world
@@ -153,7 +153,7 @@ namespace Content.Server.Shuttles.Save
                 return;
 
             // Client handles available ships from local user data
-            Logger.Info($"Player {playerSession.Name} requested available ships - client handles this locally");
+            Logger.GetSawmill("hardlight").Info($"Player {playerSession.Name} requested available ships - client handles this locally");
         }
 
         private void OnAdminSendPlayerShips(AdminSendPlayerShipsMessage msg, EntitySessionEventArgs args)

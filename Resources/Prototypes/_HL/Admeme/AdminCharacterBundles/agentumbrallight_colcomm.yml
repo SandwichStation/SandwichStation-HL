@@ -1,0 +1,95 @@
+- type: startingGear
+  id: CCAgentUmbralLight
+  equipment:
+    pocket1: EnergySwordNfsd
+    pocket2: EnergyShieldNfsd
+    head: ClothingHeadHelmetChameleon
+    # neck:
+    mask: ClothingMaskGasCentcom
+    eyes: ClothingEyesGlassesNfsd
+    ears: ClothingHeadsetAltColCom
+    gloves: ClothingHandsGlovesSr
+    shoes: ClothingShoesBootsLaceup
+    suitstorage: SmallBluespaceAirTank
+    outerClothing: ClothingOuterWinterCCWarden
+    jumpsuit: ClothingUniformJumpsuitCentcomFormal
+    belt: ClothingBeltSheathFilled
+    back: ClothingBackpackSatchelHoldingNirouFilled
+    id: UmbralLightColcommPDA
+
+- type: startingGear
+  id: CCAgentUmbralLightCombat
+  equipment:
+    pocket1: EnergySwordNfsd
+    pocket2: EnergyShieldNfsd
+    head: ClothingHeadHelmetChameleon
+    neck: ClothingNeckMantleDirectorate
+    mask: ClothingMaskGasCentcom
+    eyes: ClothingEyesGlassesNfsd
+    ears: ClothingHeadsetAltColCom
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsSpeedAntiqueProto
+    suitstorage: WeaponShotgunBigLeady
+    outerClothing: ClothingOuterHardsuitERTCentcomm
+    jumpsuit: ClothingUniformJumpsuitCentcomFormal
+    belt: ClothingBeltMilitaryWebbing
+    back: BluespaceAirTank
+    id: UmbralLightColcommPDA
+
+# ID Card
+- type: entity
+  id: UmbralLightColcommIDCard
+  parent: IDCardStandard
+  name: CC Agent Umbral-Light's ID card (Colonial Agent)
+  description: '"And the Mountain was Pleased..."'
+  suffix: UmbralLight, Admin
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: IdCard
+    fullName: Agent Umbral-Light
+    jobTitle: job-title-colonial-agent
+    jobIcon: JobIconColComm
+  - type: Sprite
+    layers:
+    - state: centcom
+    - state: idcentcom
+  - type: Item
+    heldPrefix: blue
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+
+# pda
+- type: entity
+  id: UmbralLightColcommPDA
+  parent: CentcomPDA
+  # name:
+  # description:
+  suffix: UmbralLight, Admin
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: Pda
+    id: UmbralLightColcommIDCard # ID Card
+    penSlot:
+      startingItem: PenCentcom
+      whitelist:
+        tags:
+        - Write
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - BountyContractsCartridge
+    - AstroNavCartridge
+    - MedTekCartridge
+    - WantedListCartridge
+    - GlimmerMonitorCartridge
+    - PsiWatchCartridge

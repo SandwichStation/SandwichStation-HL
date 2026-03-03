@@ -1509,3 +1509,79 @@ Entries:
         maps.
   id: 160
   time: '2026-03-01T07:12:24.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Fix
+      message: Fixed contra levels on syndicate cosmetics.
+  id: 161
+  time: '2026-03-01T21:56:59.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Add
+      message: >-
+        Station AI now has access to the Freelancer, Traffic, and ColSec radio
+        channels.
+  id: 162
+  time: '2026-03-01T21:57:17.0000000+00:00'
+- author: IrkallaEpsilon
+  changes:
+    - type: Fix
+      message: Gatfruit to Ritland infinite money exploit
+    - type: Fix
+      message: Gatfruit to infinite FUCs to infinite money exploit
+  id: 163
+  time: '2026-03-03T01:45:58.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added the radio system from goob.
+  id: 164
+  time: '2026-03-03T01:50:17.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Fix
+      message: Fixed a bunch of broken tests and the lag we've been experiencing
+  id: 165
+  time: '2026-03-03T01:59:40.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Tweak
+      message: Hyperlathes now only take 1.5x longer instead of 3x to craft.
+  id: 166
+  time: '2026-03-03T02:00:12.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Tweak
+      message: Hardlight Core now has a public evac dock.
+    - type: Tweak
+      message: >-
+        Hardlight Core security dock has been slightly extended to accommodate
+        ships better.
+  id: 167
+  time: '2026-03-03T02:00:36.0000000+00:00'
+- author: ratkingnyxu-lgtm
+  changes:
+    - type: Add
+      message: ADF-TALON comms key (spawn only)
+  id: 168
+  time: '2026-03-03T02:04:04.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Add
+      message: Added distinguishable YES ERP and NO ERP poster.
+  id: 169
+  time: '2026-03-03T06:05:27.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: more disks!
+  id: 170
+  time: '2026-03-03T06:16:36.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Add
+      message: lewd category for AAC tablet
+    - type: Add
+      message: 'term loose to hazard category in AAC tablet '
+  id: 171
+  time: '2026-03-03T08:34:53.0000000+00:00'

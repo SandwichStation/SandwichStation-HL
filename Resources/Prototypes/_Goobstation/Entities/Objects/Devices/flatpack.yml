@@ -1,0 +1,17 @@
+- type: entity
+  parent: BaseFlatpack
+  id: RadioRigFlatpack
+  name: radio rig flatpack
+  description: A flatpack used for constructing a radio rig.
+  components:
+  - type: Flatpack
+    entity: StationRadioRig
+
+- type: entity
+  parent: BaseFlatpack
+  id: RadioServerFlatpack
+  name: radio server flatpack
+  description: A flatpack used for constructing a radio server.
+  components:
+  - type: Flatpack
+    entity: StationRadioServer

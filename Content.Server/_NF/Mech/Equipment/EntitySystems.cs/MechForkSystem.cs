@@ -94,6 +94,11 @@ public sealed class MechForkSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
+        if (TerminatingOrDeleted(toRemove)
+            || TerminatingOrDeleted(mech)
+            || TerminatingOrDeleted(component.ItemContainer.Owner))
+            return;
+
         _container.Remove(toRemove, component.ItemContainer);
         var mechxform = Transform(mech);
         var xform = Transform(toRemove);
@@ -292,12 +297,17 @@ public sealed class MechForkSystem : EntitySystem
                 }
                 foreach (var removeUid in toRemove)
                 {
+                    if (TerminatingOrDeleted(removeUid) || TerminatingOrDeleted(container.Value.Owner))
+                        continue;
+
                     _container.Remove(removeUid, container.Value, destination: coords);
                 }
             }
         }
 
-        _container.Insert(args.Args.Target.Value, component.ItemContainer);
+        if (!TerminatingOrDeleted(args.Args.Target.Value) && !TerminatingOrDeleted(component.ItemContainer.Owner))
+            _container.Insert(args.Args.Target.Value, component.ItemContainer);
+
         _mech.UpdateUserInterface(equipmentComponent.EquipmentOwner.Value);
 
         args.Handled = true;
@@ -332,7 +342,14 @@ public sealed class MechForkSystem : EntitySystem
         int index = 0;
         for (int i = 0; i < itemsToInsert; i++)
         {
-            if (!_container.Insert(component.ItemContainer.ContainedEntities[index], rackContainer))
+            var item = component.ItemContainer.ContainedEntities[index];
+            if (TerminatingOrDeleted(item) || TerminatingOrDeleted(rackContainer.Owner))
+            {
+                index++;
+                continue;
+            }
+
+            if (!_container.Insert(item, rackContainer))
                 index++;
         }
 
@@ -370,7 +387,14 @@ public sealed class MechForkSystem : EntitySystem
         int index = 0;
         for (int i = 0; i < itemsToInsert; i++)
         {
-            if (!_container.Insert(rackContainer.ContainedEntities[index], component.ItemContainer))
+            var item = rackContainer.ContainedEntities[index];
+            if (TerminatingOrDeleted(item) || TerminatingOrDeleted(component.ItemContainer.Owner))
+            {
+                index++;
+                continue;
+            }
+
+            if (!_container.Insert(item, component.ItemContainer))
                 index++;
         }
 

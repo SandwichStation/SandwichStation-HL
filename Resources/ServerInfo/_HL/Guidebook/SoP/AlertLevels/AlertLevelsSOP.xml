@@ -41,7 +41,7 @@ The [color=#388c34]Green Alert[/color] will always appear at the start of shift 
   </ColorBox>
   <ColorBox>
     <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="10">
-      Attention! Station alert level is now blue! There is a confirmed threat to the station. Security should perform random checks. Crewmembers are advised to be vigilant and report suspicious activity to security.
+      Attention! Station alert level is now blue! There is a confirmed threat to the station. Crewmembers are advised to be vigilant and report suspicious activity to security.
     </Box>
   </ColorBox>
 </Table>

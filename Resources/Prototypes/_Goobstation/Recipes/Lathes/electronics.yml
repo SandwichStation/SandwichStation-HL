@@ -133,10 +133,18 @@
 #   id: TeslaCoilCircuitboard
 #   result: TeslaCoilCircuitboard
 
-# - type: latheRecipe
-#   parent: BaseGoldCircuitboardRecipe
-#   icon:
-#     sprite:  Structures/Power/Generation/Singularity/collector.rsi
-#     state: ca_on
-#   id: RadiationCollectorCircuitboard
-#   result: RadiationCollectorCircuitboard
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
+  id: VinylPlayerCircuitboard
+  icon:
+    sprite:  _Goobstation/Structures/Machines/StationRadio/vinylplayer.rsi
+    state: icon
+  result: VinylPlayerCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseMachineRecipeCategory ]
+  id: StationRadioCircuitboard
+  icon:
+    sprite:  _Goobstation/Structures/Machines/StationRadio/stationradio.rsi
+    state: icon
+  result: StationRadioCircuitboard

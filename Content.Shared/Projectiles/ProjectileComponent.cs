@@ -24,13 +24,13 @@ public sealed partial class ProjectileComponent : Component
     /// <summary>
     ///     User that shot this projectile.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField]
     public EntityUid? Shooter;
 
     /// <summary>
     ///     Weapon used to shoot.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField]
     public EntityUid? Weapon;
 
     /// <summary>

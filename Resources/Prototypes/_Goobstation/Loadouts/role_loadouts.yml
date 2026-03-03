@@ -1,0 +1,8 @@
+- type: roleLoadout
+  id: JobRadioHost
+  groups:
+  - CommonBackpack
+  - Survival
+  - Trinkets
+  - GroupSpeciesBreathTool
+  - Glasses

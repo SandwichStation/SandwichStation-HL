@@ -63,6 +63,9 @@ public sealed class PacketSealingSystem : EntitySystem
 
     private void SealPacket(Entity<PacketSealingComponent> ent, EntityUid user)
     {
+        if (IsUnavailable(ent.Owner) || IsUnavailable(user))
+            return;
+
         if (!_solution.TryGetSolution(ent.Owner, ent.Comp.SolutionName, out var solutionEnt, out var solution))
             return;
 
@@ -97,6 +100,9 @@ public sealed class PacketSealingSystem : EntitySystem
     /// </summary>
     private bool TryPlaceInSameLocation(EntityUid oldPacket, EntityUid newPacket, EntityUid user)
     {
+        if (IsUnavailable(oldPacket) || IsUnavailable(newPacket) || IsUnavailable(user))
+            return false;
+
         var oldCoordinates = Transform(oldPacket).Coordinates;
         
         // Check if it's in user's hands  
@@ -111,6 +117,9 @@ public sealed class PacketSealingSystem : EntitySystem
         // Check if it's in a container (bag, backpack, etc.)
         if (_container.TryGetContainingContainer(oldPacket, out var container))
         {
+            if (IsUnavailable(container.Owner))
+                return false;
+
             // For storage containers, try to maintain the exact grid position
             if (container.ID == StorageComponent.ContainerId && 
                 TryComp<StorageComponent>(container.Owner, out var storage))
@@ -161,5 +170,10 @@ public sealed class PacketSealingSystem : EntitySystem
             "Widow" => "WrappedWidowPackage",
             _ => null
         };
+    }
+
+    private bool IsUnavailable(EntityUid uid)
+    {
+        return TerminatingOrDeleted(uid);
     }
 }

@@ -52,9 +52,17 @@ public abstract partial class SharedOfferItemSystem : EntitySystem
 
     private void OnMove(EntityUid uid, OfferItemComponent component, MoveEvent args)
     {
-        if (component.Target == null ||
-            args.NewPosition.InRange(EntityManager, _transform,
-                Transform(component.Target.Value).Coordinates, component.MaxOfferDistance))
+        if (component.Target == null)
+            return;
+
+        if (!TryComp<TransformComponent>(component.Target.Value, out var targetXform))
+        {
+            UnOffer(uid, component);
+            return;
+        }
+
+        if (args.NewPosition.InRange(EntityManager, _transform,
+                targetXform.Coordinates, component.MaxOfferDistance))
             return;
 
         UnOffer(uid, component);

@@ -1,8 +1,8 @@
 - type: startingGear
-  id: CCSuperintendentCloverBundle
+  id: CCCloverBundle
   equipment:
-    pocket1: BoxFolderColComClipboardNirou
-    pocket2: PocketBluespaceTankGilm
+    pocket1: PocketBluespaceTankGilm
+    pocket2: EnergyShieldNfsd
     head: ClothingHeadHatCentcomcap
     neck: ClothingNeckScarfStripedCentcom
     mask: ClothingMaskGasCentcom
@@ -14,14 +14,33 @@
     outerClothing: ClothingOuterArmorChameleon
     jumpsuit: ClothingUniformJumpskirtCentcomFormalDress
     belt: ClothingBeltSheathFilled
-    back: ClothingBackpackSatchelHoldingNirouFilled
+    back: ClothingBackpackMessengerHoldingCloverFilled
     id: CloverColcommPDA
 
 - type: startingGear
-  id: CCSuperintendentCloverWarBundle
+  id: CCCloverDirectorBundle
   equipment:
-    pocket1: AmmoBox145x114mmBig
-    pocket2: PocketBluespaceTankGilm
+    pocket1: PocketBluespaceTankGilm
+    pocket2: EnergyShieldNfsd
+    head: ClothingHeadHelmetChameleon
+    neck: ClothingNeckScarfStripedBlack
+    mask: ClothingMaskGasCentcom
+    eyes: ClothingEyesGlassesNfsd
+    ears: ClothingHeadsetAltColCom
+    gloves: ClothingHandsGlovesForensicNF
+    shoes: ClothingShoesChameleonNoSlips
+    suitstorage: WeaponDisablerSMGRecharging
+    outerClothing: ClothingOuterVestWebEliteCentcomm
+    jumpsuit: ClothingUniformJumpskirtCentcomDirector
+    belt: ClothingBeltSheathFilled
+    back: ClothingBackpackMessengerHoldingCloverFilled
+    id: CloverColcommDirectorPDA
+
+- type: startingGear
+  id: CCCloverWarBundle
+  equipment:
+    pocket1: PocketBluespaceTankGilm
+    pocket2: AmmoBox145x114mmBig
     head: ClothingHeadHelmetHardsuitERTCentcomm
     neck: ClothingNeckScarfStripedCentcom
     mask: ClothingMaskGasCentcom
@@ -33,10 +52,10 @@
     outerClothing: ClothingOuterVestWebEliteCentcomm
     jumpsuit: ClothingUniformJumpskirtPencilCentcomOfficial
     belt: ClothingBeltSheathFilled
-    back: ClothingBackpackSatchelHoldingNirouFilled
+    back: ClothingBackpackMessengerHoldingCloverFilled
     id: CloverColcommPDA
 
-# ID Card
+# ID Card - Normal Clover
 - type: entity
   id: CloverColcommIDCard
   parent: IDCardStandard
@@ -63,7 +82,34 @@
     tags:
     - CentralCommand
 
-# pda
+       # ID Card - Directorate Clover
+- type: entity
+  id: CloverColcommDirectorIDCard
+  parent: DirectorateIDCard
+  name: Clover Petal Enright's ID card (Colonial Superintendent)
+  description: '"So... so sleepy..."'
+  suffix: Clover, Admin
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: IdCard
+    fullName: Clover Petal Enright
+    jobTitle: job-title-colonial-superintendent
+    jobIcon: JobIconDirectorate
+  - type: Sprite
+    layers:
+    - state: centcom
+    - state: idcentcom
+  - type: Item
+    heldPrefix: blue
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+
+# pda - Normal Clover
 - type: entity
   id: CloverColcommPDA
   parent: CentcomPDA
@@ -93,3 +139,89 @@
     - WantedListCartridge
     - GlimmerMonitorCartridge
     - PsiWatchCartridge
+
+# pda Directorate Clover
+- type: entity
+  id: CloverColcommDirectorPDA
+  parent: DirectoratePDA
+  # name:
+  # description:
+  suffix: Clover, Admin
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: Pda
+    id: CloverColcommIDCard # ID Card
+    penSlot:
+      startingItem: PenCentcom
+      whitelist:
+        tags:
+        - Write
+  - type: CartridgeLoader
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - BountyContractsCartridge
+    - AstroNavCartridge
+    - MedTekCartridge
+    - WantedListCartridge
+    - GlimmerMonitorCartridge
+    - PsiWatchCartridge
+
+# backpack
+- type: entity
+  id: ClothingBackpackMessengerHoldingCloverFilled
+  parent: ClothingBackpackMessengerHolding
+  suffix: Clover, Filled
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: ExplosionResistance
+    damageCoefficient: 0
+  - type: StorageFill
+    contents:
+      - id: MedkitAdvancedFilled
+      - id: JawsOfLife
+      - id: PowerDrill
+      - id: WelderIndustrialAdvanced
+      - id: BoxDispenserFlare
+      - id: Stunbaton
+      - id: Handcuffs
+        amount: 2
+      - id: Flash
+      - id: BodyBagFolded
+      - id: FoodWaterJugBluespace
+      - id: BoxFolderColComClipboardNirou
+      - id: HandheldCrewMonitorMicroreactor
+      - id: HandHeldMassScannerMarrik
+      - id: BoxDisposableKitClover
+      - id: StorageImplanterDisposable
+      - id: TrackingImplanterDisposable
+      - id: MedicalTrackingImplanterDisposable
+      - id: DeathRattleImplanterColcommDisposable
+      - id: MindShieldImplanterDisposable
+      - id: RadioImplanterColcommDisposable
+      - id: DeathAcidifierImplanterDisposable
+
+#storage implant box
+- type: entity
+  id: BoxDisposableKitClover
+  parent: BoxDisposableKit
+  name: clover's storage implant items
+  suffix: Admin, Clover
+  components:
+  - type: Tag
+    tags:
+    - Admin
+  - type: StorageFill
+    contents:
+      - id: DoorRemoteAll
+      - id: AccessConfiguratorUniversalUniversalIDCard
+      - id: HandTeleporterAdmin
+      - id: AdminHypo
+      - id: RCDExperimental
+      - id: RubberStampCentcom

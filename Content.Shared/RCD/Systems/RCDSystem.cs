@@ -156,9 +156,7 @@ public sealed class RCDSystem : EntitySystem
         }
 
         // Swiping it again removes the authorization on it.
-        EntityUid? deedEntity = null;
-        if (shuttleDeedComponent.ShuttleUid != null)
-            TryGetEntity(shuttleDeedComponent.ShuttleUid.Value, out deedEntity);
+        var deedEntity = shuttleDeedComponent.ShuttleUid;
 
         if (rcdComponent.LinkedShuttleUid == deedEntity)
         {
@@ -328,7 +326,7 @@ public sealed class RCDSystem : EntitySystem
                 _popup.PopupClient(Loc.GetString("rcd-component-can-only-build-authorized-ship"), uid, args.User);
                 return false;
             }
-            if (!TryGetEntity(netGrid.Value, out var gridEntity) || comp.LinkedShuttleUid != gridEntity)
+            if (comp.LinkedShuttleUid != netGrid)
             {
                 _popup.PopupClient(Loc.GetString("rcd-component-can-only-build-authorized-ship"), uid, args.User);
                 return false;

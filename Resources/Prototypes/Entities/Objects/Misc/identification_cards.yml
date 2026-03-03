@@ -738,7 +738,7 @@
 - type: entity
   parent: IDCardStandard
   id: ReporterIDCard
-  name: reporter ID card
+  name: station host ID card
   components:
   - type: Sprite
     layers:

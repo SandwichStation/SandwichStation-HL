@@ -34,7 +34,9 @@ using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Server.Construction.Components;
 using Content.Shared._HL.Shipyard;
 // HardLight start
+using Content.Server.Store.Components;
 using Content.Shared._Common.Consent;
+using Content.Shared.Implants.Components;
 using Content.Shared.Light.Components;
 using Content.Shared.Mind.Components;
 using Content.Shared.SprayPainter.Components;
@@ -52,6 +54,15 @@ namespace Content.Server._NF.Shipyard.Systems;
 /// </summary>
 public sealed class ShipyardGridSaveSystem : EntitySystem
 {
+    // HardLight start: List of currency prototypes that should be stripped from ship saves.
+    private static readonly HashSet<string> NonPersistentShipSaveCurrencies = new(StringComparer.Ordinal)
+    {
+        "FrontierUplinkCoin",
+        "Telecrystal",
+        "Doubloon",
+    };
+    // HardLight end
+
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
@@ -249,7 +260,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         }
         catch (Exception ex)
         {
-            Logger.Error($"Ship save failed for '{shipName}' on grid {gridUid}: {ex}");
+            Logger.GetSawmill("hardlight").Error($"Ship save failed for '{shipName}' on grid {gridUid}: {ex}");
             return false;
         }
         finally
@@ -527,6 +538,12 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         // Skip if terminating
         if (_entityManager.GetComponent<MetaDataComponent>(uid).EntityLifeStage >= EntityLifeStage.Terminating)
             return false;
+        // HardLight: Remove uplink currencies
+        if (IsNonPersistentShipSaveCurrency(uid))
+            return true;
+        // HardLight: Remove used disposable implanters
+        if (IsSpentDisposableImplanter(uid))
+            return true;
         if (_secretStashQuery.HasComp(uid) || _persistOnSaveQuery.HasComp(uid))
             return false; // preserve stash root outright
         if (_gridQuery.HasComp(uid))
@@ -560,6 +577,36 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         // Only unanchored entities are eligible for deletion. If it's unanchored (loose) or unanchored-in-container, delete.
         return true;
     }
+
+    // HardLight start
+    // Checks if the entity is a currency that matches any in the NonPersistentShipSaveCurrencies list.
+    private bool IsNonPersistentShipSaveCurrency(EntityUid uid)
+    {
+        if (!TryComp<CurrencyComponent>(uid, out var currency) || currency.Price.Count == 0)
+            return false;
+
+        foreach (var currencyId in currency.Price.Keys)
+        {
+            if (NonPersistentShipSaveCurrencies.Contains(currencyId))
+                return true;
+        }
+
+        return false;
+    }
+
+    // Checks if the entity is an implanter that is marked as implant-only and has no implant currently slotted.
+    private bool IsSpentDisposableImplanter(EntityUid uid)
+    {
+        if (!TryComp<ImplanterComponent>(uid, out var implanter))
+            return false;
+
+        // Disposable implanters are marked implant-only. Once used, they have no implant in the slot.
+        if (!implanter.ImplantOnly)
+            return false;
+
+        return implanter.ImplanterSlot.ContainerSlot?.ContainedEntity is not { Valid: true };
+    }
+    // HardLight end
 
     private bool TryQueueLoose(EntityUid ent, List<EntityUid> list, HashSet<EntityUid> processed)
     {
@@ -1066,13 +1113,13 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                         {
                             foreach (var (solutionName, solutionData) in solutionsMap)
                             {
-                                Logger.Info($"Preserving solution '{solutionName}' in SolutionContainerManager");
+                                Logger.GetSawmill("hardlight").Info($"Preserving solution '{solutionName}' in SolutionContainerManager");
 
                                 if (solutionData is MappingDataNode solutionMap)
                                 {
                                     if (solutionMap.TryGetValue("contents", out var contentsNode) && contentsNode is SequenceDataNode contents)
                                     {
-                                        Logger.Info($"  Solution has {contents.Count} reagent entries");
+                                        Logger.GetSawmill("hardlight").Info($"  Solution has {contents.Count} reagent entries");
 
                                         // Verify each reagent entry maintains its structure
                                         foreach (var contentNode in contents)
@@ -1082,7 +1129,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                                                 if (reagentMap.TryGetValue("ReagentId", out var reagentIdNode) && reagentIdNode is ValueDataNode reagentId &&
                                                     reagentMap.TryGetValue("Quantity", out var quantityNode) && quantityNode is ValueDataNode quantity)
                                                 {
-                                                    Logger.Info($"    - ReagentId: {reagentId.Value}, Quantity: {quantity.Value}");
+                                                    Logger.GetSawmill("hardlight").Info($"    - ReagentId: {reagentId.Value}, Quantity: {quantity.Value}");
                                                 }
                                             }
                                         }
@@ -1124,7 +1171,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                             {
                                 // This is a ChemMaster buffer - prevent mixing
                                 solutionMap["canReact"] = new ValueDataNode("false");
-                                Logger.Info("Set ChemMaster buffer to non-reactive");
+                                Logger.GetSawmill("hardlight").Info("Set ChemMaster buffer to non-reactive");
                             }
                         }
                     }
@@ -1136,7 +1183,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                         compMap.Remove("storageSlotIds");
                         compMap.Remove("autoLabel");
 
-                        Logger.Info("Cleared ReagentDispenser storage slots for regeneration");
+                        Logger.GetSawmill("hardlight").Info("Cleared ReagentDispenser storage slots for regeneration");
                     }
                     newComps.Add(compMap);
                 }
@@ -1370,10 +1417,10 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                     {
                         if (solutionSystem.TryGetSolution(entity, "buffer", out var bufferEntity, out var bufferSolution))
                         {
-                            Logger.Info($"ChemMaster {entity} buffer before save: {bufferSolution.Volume}u, {bufferSolution.Contents.Count} types");
+                            Logger.GetSawmill("hardlight").Info($"ChemMaster {entity} buffer before save: {bufferSolution.Volume}u, {bufferSolution.Contents.Count} types");
                             foreach (var reagent in bufferSolution.Contents)
                             {
-                                Logger.Info($"  - {reagent.Reagent.Prototype}: {reagent.Quantity}u");
+                                Logger.GetSawmill("hardlight").Info($"  - {reagent.Reagent.Prototype}: {reagent.Quantity}u");
                             }
                         }
                     }

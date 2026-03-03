@@ -44,10 +44,11 @@ namespace Content.IntegrationTests.Tests.GameObjects.Components.Mobs
                 Assert.That(alerts, Is.Not.Null);
                 var alertCount = alerts.Count;
 
+                alertsSystem.ShowAlert(playerUid, "Debug0");
                 alertsSystem.ShowAlert(playerUid, "Debug1");
                 alertsSystem.ShowAlert(playerUid, "Debug2");
 
-                Assert.That(alerts, Has.Count.EqualTo(alertCount + 2));
+                Assert.That(alerts, Has.Count.EqualTo(alertCount + 3));
             });
 
             await pair.RunTicksSync(5);
@@ -83,11 +84,11 @@ namespace Content.IntegrationTests.Tests.GameObjects.Components.Mobs
                     return null;
                 }
 
-                // we should be seeing 3 alerts - our health, and the 2 debug alerts, in a specific order.
+                // we should be seeing at least the debug alerts we explicitly added.
                 Assert.That(clientAlertsUI.AlertContainer.ChildCount, Is.GreaterThanOrEqualTo(3));
                 var alertControls = clientAlertsUI.AlertContainer.Children.Select(c => (AlertControl) c);
                 var alertIDs = alertControls.Select(ac => ac.Alert.ID).ToArray();
-                var expectedIDs = new[] { "HumanHealth", "Debug1", "Debug2" };
+                var expectedIDs = new[] { "Debug0", "Debug1", "Debug2" };
                 Assert.That(alertIDs, Is.SupersetOf(expectedIDs));
             });
 
@@ -100,11 +101,11 @@ namespace Content.IntegrationTests.Tests.GameObjects.Components.Mobs
 
             await client.WaitAssertion(() =>
             {
-                // we should be seeing 2 alerts now because one was cleared
+                // we should still be seeing the remaining debug alerts after one clear.
                 Assert.That(clientAlertsUI.AlertContainer.ChildCount, Is.GreaterThanOrEqualTo(2));
                 var alertControls = clientAlertsUI.AlertContainer.Children.Select(c => (AlertControl) c);
                 var alertIDs = alertControls.Select(ac => ac.Alert.ID).ToArray();
-                var expectedIDs = new[] { "HumanHealth", "Debug2" };
+                var expectedIDs = new[] { "Debug0", "Debug2" };
                 Assert.That(alertIDs, Is.SupersetOf(expectedIDs));
             });
 

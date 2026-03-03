@@ -44,6 +44,9 @@ public sealed class LewdEggLayingSystem : EntitySystem
 
     private void OnHostShutdown(EntityUid user, LewdEggLayingComponent eggLaying, ComponentShutdown args)
     {
+        if (TerminatingOrDeleted(user))
+            return;
+
         _actions.RemoveAction(user, eggLaying.Action);
     }
 
@@ -121,7 +124,8 @@ public sealed class LewdEggLayingSystem : EntitySystem
         if(eggLaying.hasEggs() && !hasEggsBefore)
         {
             _popup.PopupEntity(Loc.GetString("action-popup-lay-egg-firstegg"), user, user);
-            _actions.AddAction(user, ref eggLaying.Action, eggLaying.ActionPrototype);
+            if (!TerminatingOrDeleted(user))
+                _actions.AddAction(user, ref eggLaying.Action, eggLaying.ActionPrototype);
         }
         else if(eggLaying.isHeavyOfEggs() && !isHeavyBefore)
         {
@@ -159,7 +163,8 @@ public sealed class LewdEggLayingSystem : EntitySystem
             theirEggs = (LewdEggLayingComponent)Factory.GetComponent(Factory.GetComponentName<LewdEggLayingComponent>());
             EntityManager.AddComponent(target, theirEggs);
             theirEggs.makeTempFrom(myEggs);
-            _actions.AddAction(target, ref theirEggs.Action, theirEggs.ActionPrototype);
+            if (!TerminatingOrDeleted(target))
+                _actions.AddAction(target, ref theirEggs.Action, theirEggs.ActionPrototype);
         }
 
         myEggs.addEggs(-1.0f);

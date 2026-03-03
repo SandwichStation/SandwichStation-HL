@@ -65,6 +65,9 @@ public sealed class InterviewHologramSystem : SharedInterviewHologramSystem
 
     private void OnHologramMapInit(Entity<InterviewHologramComponent> ent, ref MapInitEvent ev)
     {
+        if (TerminatingOrDeleted(ent))
+            return;
+
         _actions.AddAction(ent, ref ent.Comp.CancelApplicationActionEntity, ent.Comp.CancelApplicationAction);
         _actions.AddAction(ent, ref ent.Comp.ToggleApprovalActionEntity, ent.Comp.ToggleApprovalAction);
         _actions.SetToggled(ent.Comp.ToggleApprovalActionEntity, ent.Comp.ApplicantApproved);

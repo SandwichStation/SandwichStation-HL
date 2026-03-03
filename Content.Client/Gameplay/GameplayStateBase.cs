@@ -17,9 +17,12 @@ using Robust.Shared.Console;
 using Robust.Shared.Graphics;
 using Robust.Shared.Input;
 using Robust.Shared.Input.Binding;
+using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
+using Robust.Shared.Physics;
 using Robust.Shared.Timing;
+using Robust.Shared.Utility;
 using YamlDotNet.Serialization.TypeInspectors;
 
 namespace Content.Client.Gameplay
@@ -30,6 +33,8 @@ namespace Content.Client.Gameplay
     [Virtual]
     public class GameplayStateBase : State, IEntityEventSubscriber
     {
+        private static readonly ISawmill Sawmill = Logger.GetSawmill("gameplay.clickable");
+
         [Dependency] private readonly IEyeManager _eyeManager = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
         [Dependency] private readonly IPlayerManager _playerManager = default!;
@@ -137,7 +142,16 @@ namespace Content.Client.Gameplay
 
             // Find all the entities intersecting our click
             var spriteTree = _entityManager.EntitySysManager.GetEntitySystem<SpriteTreeSystem>();
-            var entities = spriteTree.QueryAabb(coordinates.MapId, Box2.CenteredAround(coordinates.Position, new Vector2(1, 1)));
+            HashSet<ComponentTreeEntry<SpriteComponent>> entities;
+            try
+            {
+                entities = spriteTree.QueryAabb(coordinates.MapId, Box2.CenteredAround(coordinates.Position, new Vector2(1, 1)));
+            }
+            catch (DebugAssertException e)
+            {
+                Sawmill.Debug($"Skipping clickable query due to sprite bounds assertion at {coordinates}: {e}");
+                return Array.Empty<EntityUid>();
+            }
 
             // Check the entities against whether or not we can click them
             var foundEntities = new List<(EntityUid, int, uint, float)>(entities.Count);

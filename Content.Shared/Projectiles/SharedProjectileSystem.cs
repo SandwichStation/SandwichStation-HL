@@ -46,6 +46,7 @@ using Content.Shared.Tag;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
@@ -97,6 +98,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
         SubscribeLocalEvent<ProjectileComponent, StartCollideEvent>(OnStartCollide);
         SubscribeLocalEvent<ProjectileComponent, PreventCollideEvent>(PreventCollision);
+        SubscribeLocalEvent<ProjectileComponent, ComponentGetStateAttemptEvent>(OnProjectileGetStateAttempt);
         SubscribeLocalEvent<EmbeddableProjectileComponent, ProjectileHitEvent>(OnEmbedProjectileHit);
         SubscribeLocalEvent<EmbeddableProjectileComponent, ThrowDoHitEvent>(OnEmbedThrowDoHit);
         SubscribeLocalEvent<EmbeddableProjectileComponent, ActivateInWorldEvent>(OnEmbedActivate);
@@ -104,6 +106,26 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         SubscribeLocalEvent<EmbeddableProjectileComponent, ComponentShutdown>(OnEmbeddableCompShutdown);
 
         SubscribeLocalEvent<EmbeddedContainerComponent, EntityTerminatingEvent>(OnEmbeddableTermination);
+    }
+
+    private void OnProjectileGetStateAttempt(EntityUid uid, ProjectileComponent component, ref ComponentGetStateAttemptEvent args)
+    {
+        var changed = false;
+
+        if (component.Shooter is { } shooter && !EntityManager.EntityExists(shooter))
+        {
+            component.Shooter = null;
+            changed = true;
+        }
+
+        if (component.Weapon is { } weapon && !EntityManager.EntityExists(weapon))
+        {
+            component.Weapon = null;
+            changed = true;
+        }
+
+        if (changed)
+            Dirty(uid, component);
     }
 
     private void OnStartCollide(EntityUid uid, ProjectileComponent component, ref StartCollideEvent args)

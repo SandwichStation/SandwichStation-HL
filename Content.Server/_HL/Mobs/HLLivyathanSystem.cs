@@ -73,7 +73,7 @@ public sealed class HLLivyathanSystem : EntitySystem
             _solution.TryAddReagent(bloodSolutionEntity, AbyssalBloodReagent, secondHalf, null, bloodData);
         }
 
-        if (ent.Comp.AddDragonMorphAction)
+        if (ent.Comp.AddDragonMorphAction && !TerminatingOrDeleted(ent))
             _actions.AddAction(ent, ref ent.Comp.DragonMorphActionEntity, ent.Comp.DragonMorphAction);
     }
 

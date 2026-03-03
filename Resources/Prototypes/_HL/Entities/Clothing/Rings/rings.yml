@@ -1,0 +1,106 @@
+﻿- type: entity
+  abstract: true
+  parent: BaseItem
+  id: RingBaseHL
+  components:
+  - type: Sprite
+    state: icon
+  - type: Clothing
+    slots: [ gloves, neck , accessory, accessoryalt]
+  - type: Appearance
+  - type: Item
+    size: Tiny
+  - type: Tag
+    tags:
+    - Ring
+  - type: Construction
+    node: ring
+
+- type: entity
+  parent: BaseItem
+  id: ScrapRingLVUnfinished
+  name: unfinished LV cable ring
+  description: a circle made out of LV cable, needs welding
+  components:
+  - type: Sprite
+    state: icon
+    sprite: _HL/Clothing/Rings/scrap-lv.rsi
+  - type: Item
+    size: Tiny
+  - type: Construction
+    graph: ScrapRingLVImprovisedCraftingGraph
+    node: unfinished
+
+
+- type: entity
+  parent: BaseItem
+  id: ScrapRingMVUnfinished
+  name: unfinished LV cable ring
+  description: a circle made out of MV cable, needs welding
+  components:
+  - type: Sprite
+    state: icon
+    sprite: _HL/Clothing/Rings/scrap-mv.rsi
+  - type: Item
+    size: Tiny
+  - type: Construction
+    graph: ScrapRingMVImprovisedCraftingGraph
+    node: unfinished
+
+- type: entity
+  parent: BaseItem
+  id: ScrapRingHVUnfinished
+  name: unfinished LV cable ring
+  description: a circle made out of HV cable, needs welding
+  components:
+  - type: Sprite
+    state: icon
+    sprite: _HL/Clothing/Rings/scrap-hv.rsi
+  - type: Item
+    size: Tiny
+  - type: Construction
+    graph: ScrapRingHVImprovisedCraftingGraph
+    node: unfinished
+
+- type: entity
+  parent: RingBaseHL
+  id: ScrapRingLV
+  name: LV cable ring
+  description: a ring made out of welded LV cable
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Rings/scrap-lv.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Rings/scrap-lv.rsi
+  - type: Engraveable
+  - type: Construction
+    graph: ScrapRingLVImprovisedCraftingGraph
+
+- type: entity
+  parent: RingBaseHL
+  id: ScrapRingMV
+  name: MV cable ring
+  description: a ring made out of welded LV cable
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Rings/scrap-mv.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Rings/scrap-mv.rsi
+  - type: Engraveable
+  - type: Construction
+    graph: ScrapRingMVImprovisedCraftingGraph
+
+- type: entity
+  parent: RingBaseHL
+  id: ScrapRingHV
+  name: HV cable ring
+  description: a ring made out of welded HV cable
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Rings/scrap-hv.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Rings/scrap-hv.rsi
+  - type: Engraveable
+  - type: Construction
+    graph: ScrapRingHVImprovisedCraftingGraph
+

@@ -14,7 +14,6 @@
     toggleOnInteract: false
   - type: RadioSpeaker
     toggleOnInteract: false
-    outputChatType: Speak
   - type: Intercom
     startSpeakerOnMapInit: true
   - type: Speech

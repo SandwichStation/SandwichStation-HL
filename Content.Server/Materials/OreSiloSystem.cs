@@ -100,6 +100,10 @@ public sealed class OreSiloSystem : SharedOreSiloSystem
         var actorQuery = EntityQueryEnumerator<ActorComponent, TransformComponent>();
         while (actorQuery.MoveNext(out _, out var actorComp, out var actorXform))
         {
+            var session = actorComp.PlayerSession;
+            if (session == null)
+                continue;
+
             _silosToAdd.Clear();
             _silosToRemove.Clear();
 
@@ -125,11 +129,11 @@ public sealed class OreSiloSystem : SharedOreSiloSystem
 
             foreach (var toRemove in _silosToRemove)
             {
-                _pvsOverride.RemoveSessionOverride(toRemove, actorComp.PlayerSession);
+                _pvsOverride.RemoveSessionOverride(toRemove, session);
             }
             foreach (var toAdd in _silosToAdd)
             {
-                _pvsOverride.AddSessionOverride(toAdd, actorComp.PlayerSession);
+                _pvsOverride.AddSessionOverride(toAdd, session);
             }
         }
     }

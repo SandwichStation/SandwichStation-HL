@@ -84,7 +84,7 @@ public abstract class ItemSlotUIContainer<T> : GridContainer, IItemslotUIContain
     {
         if (newButton.SlotName == "")
         {
-            Logger.Warning("Could not add button " + newButton.Name + "No slotname");
+            Logger.GetSawmill("hardlight").Warning("Could not add button " + newButton.Name + "No slotname");
         }
 
         return !Buttons.TryAdd(newButton.SlotName, newButton) ? null : newButton;

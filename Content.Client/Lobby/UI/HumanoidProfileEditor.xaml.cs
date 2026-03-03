@@ -273,7 +273,7 @@ namespace Content.Client.Lobby.UI
                     return;
                 Profile = Profile.WithCharacterAppearance(
                     Profile.Appearance.WithHairGlowing(newColor.marking.IsGlowing));
-                Logger.Info(newColor.marking.IsGlowing.ToString());
+                Logger.GetSawmill("hardlight").Info(newColor.marking.IsGlowing.ToString());
                 UpdateCMarkingsHair();
                 ReloadPreview();
             };
@@ -512,7 +512,7 @@ namespace Content.Client.Lobby.UI
             for (var i = 0; i < companies.Count; i++)
             {
                 CompanyButton.AddItem(companies[i].Name, i);
-                Logger.Debug($"Added company to dropdown: {i} - {companies[i].ID} - {companies[i].Name}");
+                Logger.GetSawmill("hardlight").Debug($"Added company to dropdown: {i} - {companies[i].ID} - {companies[i].Name}");
             }
 
             CompanyButton.OnItemSelected += args =>
@@ -529,7 +529,7 @@ namespace Content.Client.Lobby.UI
                     Profile = Profile?.WithCompany(companyId);
 
                     // Debug logging to verify selection
-                    Logger.Debug($"Company changed from {oldCompany} to {companyId}");
+                    Logger.GetSawmill("hardlight").Debug($"Company changed from {oldCompany} to {companyId}");
 
                     // Explicitly call SetDirty to update save button state
                     SetDirty();
@@ -2270,7 +2270,7 @@ namespace Content.Client.Lobby.UI
                 companies.Insert(0, none);
             }
 
-            Logger.Debug($"Updating company controls. Current profile company: {Profile.Company}");
+            Logger.GetSawmill("hardlight").Debug($"Updating company controls. Current profile company: {Profile.Company}");
 
             // Find the company in the list and select it
             bool found = false;
@@ -2279,7 +2279,7 @@ namespace Content.Client.Lobby.UI
                 if (companies[i].ID != Profile.Company)
                     continue; // Short circuit.
 
-                Logger.Debug($"Found company at index {i}: {companies[i].ID} - {companies[i].Name}");
+                Logger.GetSawmill("hardlight").Debug($"Found company at index {i}: {companies[i].ID} - {companies[i].Name}");
                 CompanyButton.SelectId(i);
 
                 found = true;
@@ -2289,7 +2289,7 @@ namespace Content.Client.Lobby.UI
             // If company wasn't found, default to "None" (index 0)
             if (!found)
             {
-                Logger.Debug($"Company {Profile.Company} not found in list, defaulting to None");
+                Logger.GetSawmill("hardlight").Debug($"Company {Profile.Company} not found in list, defaulting to None");
                 CompanyButton.SelectId(0);
 
                 // Also reset the profile's company to None if the current one is disabled

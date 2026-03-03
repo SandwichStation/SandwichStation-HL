@@ -406,22 +406,13 @@ public sealed class PlantHolderSystem : EntitySystem
                 ("usingItem", args.Used),
                 ("owner", uid)), uid, Robust.Shared.Player.Filter.PvsExcept(args.User), true);
 
-            // If this is a stack with multiple items, split one item off and use that as the source
-            // for solution transfer so that per-item solutions are preserved on the remaining stack.
-            EntityUid sourceForTransfer = args.Used;
-            EntityUid? splitEntity = null;
-            if (TryComp<StackComponent>(args.Used, out var usedStack) && usedStack.Count > 1)
-            {
-                splitEntity = _stack.Split(args.Used, 1, Transform(args.Used).Coordinates, usedStack);
-                if (splitEntity != null)
-                    sourceForTransfer = splitEntity.Value;
-            }
-
-            if (_solutionContainerSystem.TryGetSolution(sourceForTransfer, produce.SolutionName, out var soln2, out var solution2))
+            if (_solutionContainerSystem.TryGetSolution(args.Used, produce.SolutionName, out var soln2, out var solution2))
             {
                 if (_solutionContainerSystem.ResolveSolution(uid, component.SoilSolutionName, ref component.SoilSolution, out var solution1))
                 {
-                    // Transfer as much solution as the tray can accept from the single-item source.
+                    // We try to fit as much of the composted plant's contained solution into the hydroponics tray as we can,
+                    // since the plant will be consumed anyway.
+
                     var fillAmount = FixedPoint2.Min(solution2.Volume, solution1.AvailableVolume);
                     _solutionContainerSystem.TryAddSolution(component.SoilSolution.Value, _solutionContainerSystem.SplitSolution(soln2.Value, fillAmount));
 
@@ -434,26 +425,7 @@ public sealed class PlantHolderSystem : EntitySystem
                 var nutrientBonus = seed.Potency / 2.5f;
                 AdjustNutrient(uid, nutrientBonus, component);
             }
-
-            // If we split off a single-item entity earlier, delete it now. Otherwise delete (or eject label) the used entity.
-            if (splitEntity != null)
-            {
-                if (TryComp<PaperLabelComponent>(splitEntity.Value, out var paperLabel))
-                {
-                    _itemSlots.TryEjectToHands(splitEntity.Value, paperLabel.LabelSlot, args.User);
-                }
-
-                QueueDel(splitEntity.Value);
-            }
-            else
-            {
-                if (TryComp<PaperLabelComponent>(args.Used, out var paperLabel))
-                {
-                    _itemSlots.TryEjectToHands(args.Used, paperLabel.LabelSlot, args.User);
-                }
-
-                QueueDel(args.Used);
-            }
+            QueueDel(args.Used);
         }
     }
 

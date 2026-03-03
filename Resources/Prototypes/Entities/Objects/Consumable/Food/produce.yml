@@ -36,6 +36,9 @@
   id: FoodProduceBase
   abstract: true
   components:
+  - type: Perishable
+    rotAfter: 300 # 5 minutes outside a body until rotting, 15 to completely perish
+    molsPerSecondPerUnitMass: 0
   - type: SolutionContainerManager
   - type: Sprite
     state: produce
@@ -1891,7 +1894,7 @@
 
 - type: entity
   name: gatfruit
-  parent: [ FoodProduceBase, BaseC3SyndicateContrabandUnredeemable ] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContrabandUnredeemable
+  parent: [ FoodProduceBase, BaseC3SyndicateContrabandNoValue ] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContrabandUnredeemable
   id: FoodGatfruit
   description: A delicious, gun-shaped fruit with a thick wooden stem.
   components:
@@ -1913,7 +1916,7 @@
     seedId: gatfruit
   - type: Food
     trash:
-    - NFWeaponRevolverRitland45 # Frontier: WeaponRevolverPython<NFWeaponRevolverRitland45
+    - NFWeaponRevolverRitland45Anom  # Hardlight: A Ritland with no FUCvalue
   - type: Tag
     tags:
     - Fruit # It's in the name

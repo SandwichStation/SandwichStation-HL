@@ -59996,25 +59996,21 @@ entities:
   - uid: 441
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: 67.5,-35.5
       parent: 6747
   - uid: 6412
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
       pos: 69.5,-33.5
       parent: 6747
   - uid: 6503
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
       pos: 69.5,-35.5
       parent: 6747
   - uid: 6505
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: 67.5,-33.5
       parent: 6747
 - proto: CryogenicSleepUnitSpawnerPrisoner

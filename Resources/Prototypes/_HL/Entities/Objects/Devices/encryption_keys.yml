@@ -146,3 +146,17 @@
       layers:
         - state: crypt_purple
         - state: dominosrobotics_label
+- type: entity
+  parent: [EncryptionKey, RecyclableItemDeviceTiny]
+  id: EncryptionKeyADFTalon
+  name: ADF-Talon Encrypton Key
+  description: An encyption key used by members of ADF-Talon to communicate securely.
+  components:
+    - type: EncryptionKey
+      channels:
+        - ADFTalon
+      defaultChannel: ADFTalon
+    - type: Sprite
+      layers:
+        - state: crypt_avaliblue
+      

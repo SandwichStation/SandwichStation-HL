@@ -40,6 +40,7 @@
       - Janitor
       - Kitchen
       - Lawyer
+      - Journalism # goobstation
       - Mail # Frontier
       - Maintenance
       - Medical
@@ -132,6 +133,7 @@
     - CentralCommand
     - NuclearOperative
     - SyndicateAgent
+    - Journalism # goobstation
     - Wizard
     - Xenoborg
     - USSPCommand # Mono

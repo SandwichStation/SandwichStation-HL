@@ -53,11 +53,14 @@ public abstract partial class SharedVacbedSystem : EntitySystem
 
     public bool InsertBody(EntityUid uid, EntityUid target, VacbedComponent vacbedComponent)
     {
+        if (IsUnavailable(uid) || IsUnavailable(target) || IsUnavailable(vacbedComponent.BodyContainer.Owner))
+            return false;
+
         if (vacbedComponent.BodyContainer.ContainedEntity != null)
         {
             return false;
         }
-        if (!HasComp<MobStateComponent>(target))
+        if (!TryComp<MobStateComponent>(target, out _))
         {
             return false;
         }
@@ -96,7 +99,13 @@ public abstract partial class SharedVacbedSystem : EntitySystem
         if (!Resolve(uid, ref vacbedComponent))
             return null;
 
+        if (IsUnavailable(uid) || IsUnavailable(vacbedComponent.BodyContainer.Owner))
+            return null;
+
         if (vacbedComponent.BodyContainer.ContainedEntity is not { Valid: true } contained)
+            return null;
+
+        if (IsUnavailable(contained))
             return null;
 
         _containerSystem.Remove(contained, vacbedComponent.BodyContainer);
@@ -126,5 +135,10 @@ public abstract partial class SharedVacbedSystem : EntitySystem
     [Serializable, NetSerializable]
     public sealed partial class VacbedDragFinished : SimpleDoAfterEvent
     {
+    }
+
+    private bool IsUnavailable(EntityUid uid)
+    {
+        return TerminatingOrDeleted(uid);
     }
 }

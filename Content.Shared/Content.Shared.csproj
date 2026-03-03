@@ -31,6 +31,11 @@
   <ItemGroup>
     <Compile Include=".CM14\**\*.cs" />
   </ItemGroup>
+  <!-- Additional shared code from Goobstation modules (outside the regular project folder) -->
+  <ItemGroup>
+    <!-- Components, systems, etc. defined in Content.Goobstation.Shared -->
+    <Compile Include="..\Content.Goobstation.Shared\**\*.cs" />
+  </ItemGroup>
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
   <Import Project="..\RobustToolbox\MSBuild\Robust.CompNetworkGenerator.targets" />
 </Project>

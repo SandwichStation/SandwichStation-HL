@@ -1,0 +1,22 @@
+﻿- type: constructionGraph
+  id: ScrapRingHVImprovisedCraftingGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: unfinished
+      steps:
+      - material: Cable
+        amount: 10
+        doAfter: 4
+
+  - node: unfinished
+    entity: ScrapRingHVUnfinished
+    edges:
+    - to: ring
+      steps:
+      - tool: Welding
+        doAfter: 4
+
+  - node: ring
+    entity: ScrapRingHV

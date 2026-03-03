@@ -1250,6 +1250,19 @@
   conditions:
     - !type:WallmountCondition
 
+- type: construction
+  id: PosterLegitYesERP
+  graph: Poster
+  startNode: start
+  targetNode: PosterLegitYesERP
+  category: construction-category-Poster
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: true
+  conditions:
+  - !type:WallmountCondition
+
 
 - type: construction
   id: PosterLegitCarbonDioxide

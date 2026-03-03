@@ -63,6 +63,18 @@
   - type: Clothing
     sprite: Objects/Weapons/Guns/Revolvers/python.rsi
 
+- type: entity #Hardlight Addition Begin
+  id: NFWeaponRevolverRitland45Anom 
+  parent: [ NFBaseWeaponRevolverChamber45, NFBaseWeaponFrameRevolverGorlex, BaseC3SyndicateContrabandNoValue ]
+  name: ritland-45-Anom
+  description: |-
+    An anomalous revolver grown from an anomalous plant known as "Gatfruit". As effective as the real deal, illegal and yet not redeemable for FUCs.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Revolvers/python.rsi
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Revolvers/python.rsi #Hardlight Addition End 
+
 - type: entity
   id: NFWeaponRevolverPirate
   parent: [ NFBaseWeaponRevolverChamber45, NFBaseWeaponFrameRevolverSteelbolt, BaseC3ExpeditionContraband ]

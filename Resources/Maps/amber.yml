@@ -71010,7 +71010,6 @@ entities:
   - uid: 9701
     components:
     - type: Transform
-      rot: 3.141592653589793 rad
       pos: 13.5,-49.5
       parent: 2
 - proto: CryogenicSleepUnitSpawnerLateJoin
@@ -71023,7 +71022,6 @@ entities:
   - uid: 9703
     components:
     - type: Transform
-      rot: 3.141592653589793 rad
       pos: 13.5,-47.5
       parent: 2
 - proto: CryoPod

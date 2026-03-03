@@ -265,6 +265,12 @@ public abstract partial class SharedMoverController : VirtualController
             var ev = new CanWeightlessMoveEvent(uid);
             RaiseLocalEvent(uid, ref ev, true);
 
+            if (TerminatingOrDeleted(uid) || xform.Deleted || physicsComponent.Deleted || !XformQuery.HasComp(uid))
+            {
+                UsedMobMovement[uid] = false;
+                return;
+            }
+
             touching = ev.CanMove || xform.GridUid != null || MapGridQuery.HasComp(xform.GridUid);
 
             // If we're not on a grid, and not able to move in space check if we're close enough to a grid to touch.
@@ -353,6 +359,9 @@ public abstract partial class SharedMoverController : VirtualController
         {
             if (!NoRotateQuery.HasComponent(uid))
             {
+                if (TerminatingOrDeleted(uid) || !XformQuery.TryComp(uid, out xform))
+                    return;
+
                 // TODO apparently this results in a duplicate move event because "This should have its event run during
                 // island solver"??. So maybe SetRotation needs an argument to avoid raising an event?
                 var worldRot = _transform.GetWorldRotation(xform);

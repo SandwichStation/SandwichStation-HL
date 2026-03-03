@@ -1,0 +1,7 @@
+- type: radioChannel
+  id: RadioShow
+  name: chat-radio-radioshow
+  keycode: '6'
+  frequency: 145
+  color: "#bc1ac4"
+  longRange: true

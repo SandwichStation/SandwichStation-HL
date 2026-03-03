@@ -26346,13 +26346,11 @@ entities:
   - uid: 10375
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: -14.5,-21.5
       parent: 2
   - uid: 10378
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: -14.5,-22.5
       parent: 2
 - proto: CryoPod

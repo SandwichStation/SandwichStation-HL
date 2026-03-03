@@ -1,4 +1,5 @@
 phrase-hazard-space = spaced
+phrase-hazard-loose = loose
 phrase-hazard-low-presure = low pressure
 phrase-hazard-high-presure = high pressure
 phrase-hazard-heat = overheating

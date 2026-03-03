@@ -146,4 +146,8 @@
   id: StasisCage
 
 - type: Tag
+
   id: Cartridge127x99mm
+
+- type: Tag
+  id: VinylSleeveFit

@@ -73,7 +73,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
         // Only log if there are ships to avoid spam when no ships are saved
         if (shipCount > 0)
         {
-            Logger.Debug($"InitializeSaveLoadControls: ShipFileManagementSystem has {shipCount} ships");
+            Logger.GetSawmill("hardlight").Debug($"InitializeSaveLoadControls: ShipFileManagementSystem has {shipCount} ships");
         }
 
         _loadShipButton = _menu.FindControl<Button>("LoadShipButton");
@@ -103,7 +103,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
         // Load the currently selected ship from the saved ships list
         if (_savedShipsList == null || _selectedShipIndex < 0 || _selectedShipIndex >= _savedShipsList.Count)
         {
-            Logger.Warning("No ship selected for loading");
+            Logger.GetSawmill("hardlight").Warning("No ship selected for loading");
             return;
         }
 
@@ -118,16 +118,16 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
             {
                 // Send the load message through the console's BoundUserInterface system
                 SendMessage(new ShipyardConsoleLoadMessage(yamlData, filePath));
-                Logger.Info($"Sent ship load request for '{selectedItem.Text}' via console");
+                Logger.GetSawmill("hardlight").Info($"Sent ship load request for '{selectedItem.Text}' via console");
             }
             else
             {
-                Logger.Error($"Failed to load YAML data for ship '{selectedItem.Text}'");
+                Logger.GetSawmill("hardlight").Error($"Failed to load YAML data for ship '{selectedItem.Text}'");
             }
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error loading ship '{selectedItem.Text}': {ex.Message}");
+            Logger.GetSawmill("hardlight").Error($"Error loading ship '{selectedItem.Text}': {ex.Message}");
         }
     }
 
@@ -143,7 +143,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
     {
         // Refresh the ship list when a ship is loaded
         RefreshSavedShipList();
-        Logger.Debug($"Ship '{shipName}' was loaded - refreshed saved ship list");
+        Logger.GetSawmill("hardlight").Debug($"Ship '{shipName}' was loaded - refreshed saved ship list");
     }
 
     private void RefreshSavedShipList()
@@ -153,7 +153,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
         _savedShipsList.Clear();
 
         var savedShipFiles = _shipFileManagementSystem.GetSavedShipFiles();
-        //Logger.Info($"RefreshSavedShipList: Found {savedShipFiles.Count} ships to display");
+        //Logger.GetSawmill("hardlight").Info($"RefreshSavedShipList: Found {savedShipFiles.Count} ships to display");
 
         foreach (var filePath in savedShipFiles)
         {
@@ -161,7 +161,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
             var fileName = ExtractFileNameWithoutExtension(filePath);
             var item = _savedShipsList.AddItem(fileName);
             item.Metadata = filePath;
-            //Logger.Info($"Added ship to UI list: {fileName} (path: {filePath})");
+            //Logger.GetSawmill("hardlight").Info($"Added ship to UI list: {fileName} (path: {filePath})");
         }
 
         // Enable/disable load button based on available ships

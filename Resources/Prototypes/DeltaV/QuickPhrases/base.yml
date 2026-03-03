@@ -84,3 +84,9 @@
   group: Service
   styleClass: ServiceButton
   abstract: true
+
+- type: quickPhrase
+  id: BaseLewdPhrase
+  group: Lewd
+  styleClass: LewdButton
+  abstract: true

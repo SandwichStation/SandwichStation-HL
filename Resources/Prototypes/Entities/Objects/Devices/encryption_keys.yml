@@ -63,6 +63,10 @@
     - state: colcomm_label
 
 - type: entity
+  parent: EncryptionKeyColComm
+  id: EncryptionKeyColCom # HardLight compatibility alias
+
+- type: entity
   parent: [EncryptionKey, BaseC3ContrabandUnredeemable] # Frontier: BaseColcommCommandContraband<BaseC2ContrabandUnredeemable
   id: EncryptionKeyStationMaster
   name: station master encryption key

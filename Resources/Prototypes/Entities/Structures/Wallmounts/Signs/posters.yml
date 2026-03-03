@@ -1193,7 +1193,7 @@
   parent: PosterBase
   id: PosterLegitNoERP
   name: "No ERP"
-  description: "This poster reminds the crew that Eroticism and Pornography are allowed on this station, woah calm down put it away."
+  description: "This poster tries to remind the crew that Eroticism and Pornography are banned here. No fun allowed."
   components:
   - type: Construction # HardLight
     graph: Poster
@@ -1586,3 +1586,16 @@
     node: PosterMapOrigin
   - type: Sprite
     state: originmap
+
+# HL
+- type: entity
+  parent: PosterBase
+  id: PosterLegitYesERP
+  name: "Yes ERP"
+  description: "This poster reminds the crew that Eroticism and Pornography are allowed on this station, woah that's hot."
+  components:
+  - type: Construction
+    graph: Poster
+    node: PosterLegitYesERP
+  - type: Sprite
+    state: poster55_legit

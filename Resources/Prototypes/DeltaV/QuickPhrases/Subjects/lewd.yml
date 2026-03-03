@@ -1,0 +1,175 @@
+﻿- type: quickPhrase
+  id: BaseLewdSubjectPhrase
+  parent: [ BaseSubjectPhrase, BaseLewdPhrase ]
+  abstract: true
+
+- type: quickPhrase
+  id: PhraseFuck
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-fuck
+
+- type: quickPhrase
+  id: PhraseLove
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-love
+
+- type: quickPhrase
+  id: PhraseHorny
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-horny
+
+- type: quickPhrase
+  id: PhraseBabe
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-babe
+
+- type: quickPhrase
+  id: PhraseDaddy
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-daddy
+
+- type: quickPhrase
+  id: PhraseMommy
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-mommy
+
+- type: quickPhrase
+  id: PhraseDarling
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-darling
+
+- type: quickPhrase
+  id: PhraseCute
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-cute
+
+- type: quickPhrase
+  id: PhraseHandsome
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-handsome
+
+- type: quickPhrase
+  id: PhraseSexy
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-sexy
+
+- type: quickPhrase
+  id: PhraseHug
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-hug
+
+- type: quickPhrase
+  id: PhraseCuddle
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-cuddle
+
+- type: quickPhrase
+  id: PhraseKiss
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-kiss
+
+- type: quickPhrase
+  id: PhraseTouch
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-touch
+
+- type: quickPhrase
+  id: PhraseSex
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-sex
+
+- type: quickPhrase
+  id: PhraseWet
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-wet
+
+- type: quickPhrase
+  id: PhraseTight
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-tight
+
+- type: quickPhrase
+  id: PhraseHarder
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-harder
+
+- type: quickPhrase
+  id: PhraseSlower
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-slower
+
+- type: quickPhrase
+  id: PhraseFaster
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-faster
+
+- type: quickPhrase
+  id: PhraseSmoother
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-smoother
+
+- type: quickPhrase
+  id: PhraseLike
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-like
+
+- type: quickPhrase
+  id: PhraseDislike
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-dislike
+
+- type: quickPhrase
+  id: PhraseMaster
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-master
+
+- type: quickPhrase
+  id: PhraseMistress
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-mistress
+
+- type: quickPhrase
+  id: PhraseSlave
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-slave
+
+- type: quickPhrase
+  id: PhrasePet
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-pet
+
+- type: quickPhrase
+  id: PhraseGod
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-god
+
+- type: quickPhrase
+  id: PhraseGoddess
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-goddess
+
+#phrase-lewd-dildo = dildo
+#phrase-lewd-vibrator = vibrator
+#phrase-lewd-whip = whip
+#phrase-lewd-bondage = bondage
+#phrase-lewd-lube = lube
+
+- type: quickPhrase
+  id: PhraseDildo
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-dildo
+
+- type: quickPhrase
+  id: PhraseVibrator
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-vibrator
+
+- type: quickPhrase
+  id: PhraseWhip
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-whip
+
+- type: quickPhrase
+  id: PhraseSpank
+  parent: BaseLewdSubjectPhrase
+  text: phrase-lewd-spank

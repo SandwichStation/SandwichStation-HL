@@ -26,10 +26,17 @@ public sealed partial class RadioSpeakerComponent : Component
     [DataField("enabled")]
     public bool Enabled;
 
-    //Frontier: radio output volume
+    // Goob start
     /// <summary>
-    /// The output chat type when a message is received.
+    /// speaks normally when true whispers when false
     /// </summary>
     [DataField]
-    public InGameICChatType OutputChatType = InGameICChatType.Whisper;
+    public bool SpeakNormally;
+
+    /// <summary>
+    /// Does the radio need to be on a power grid to work?
+    /// </summary>
+    [DataField]
+    public bool PowerRequired;
+    // Goob end
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Content.Server.Administration.Systems;
@@ -187,6 +188,112 @@ namespace Content.IntegrationTests.Tests
             await server.WaitRunTicks(1);
 
             await pair.CleanReturnAsync();
+        }
+
+        [Test]
+        public async Task CryogenicSpawnerNoRotTransformTest()
+        {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+
+            var resourceManager = server.ResolveDependency<IResourceManager>();
+            var mapFolder = new ResPath("/Maps");
+            var maps = resourceManager
+                .ContentFindFiles(mapFolder)
+                .Where(filePath => filePath.Extension == "yml" && !filePath.Filename.StartsWith(".", StringComparison.Ordinal))
+                .ToArray();
+
+            var offenders = new List<string>();
+            var targetProtos = new HashSet<string>
+            {
+                "CryogenicSleepUnitSpawner",
+                "CryogenicSleepUnitSpawnerLateJoin",
+                "CryogenicSleepUnitSpawnerPrisoner"
+            };
+
+            foreach (var map in maps)
+            {
+                var rootedPath = map.ToRootedPath();
+                if (SkipTestMaps && rootedPath.ToString().StartsWith(TestMapsPath, StringComparison.Ordinal))
+                    continue;
+
+                if (!resourceManager.TryContentFileRead(rootedPath, out var fileStream))
+                    continue;
+
+                using var reader = new StreamReader(fileStream);
+                var yamlStream = new YamlStream();
+                yamlStream.Load(reader);
+
+                var root = (YamlMappingNode) yamlStream.Documents[0].RootNode;
+                if (!TryGetYamlChild(root, "entities", out var entitiesNode))
+                    continue;
+
+                foreach (var yamlEntity in (YamlSequenceNode) entitiesNode)
+                {
+                    var protoId = yamlEntity["proto"].AsString();
+                    if (!targetProtos.Contains(protoId))
+                        continue;
+
+                    if (!TryGetYamlChild((YamlMappingNode) yamlEntity, "entities", out var spawnedNode))
+                        continue;
+
+                    foreach (var spawned in (YamlSequenceNode) spawnedNode)
+                    {
+                        var spawnedMap = (YamlMappingNode) spawned;
+                        var uid = TryGetYamlChild(spawnedMap, "uid", out var uidNode)
+                            ? uidNode.AsString()
+                            : "(unknown)";
+
+                        if (!TryGetYamlChild(spawnedMap, "components", out var componentsNode))
+                            continue;
+
+                        foreach (var component in (YamlSequenceNode) componentsNode)
+                        {
+                            var componentMap = (YamlMappingNode) component;
+                            if (!TryGetYamlChild(componentMap, "type", out var typeNode) || typeNode.AsString() != "Transform")
+                                continue;
+
+                            if (!TryGetYamlChild(componentMap, "rot", out var rotNode))
+                                continue;
+
+                            var rotString = rotNode.AsString();
+                            var firstToken = rotString.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                            if (firstToken == null ||
+                                !double.TryParse(firstToken, NumberStyles.Float, CultureInfo.InvariantCulture, out var angle))
+                            {
+                                offenders.Add($"{map}: proto={protoId}, uid={uid}, rot='{rotString}'");
+                                continue;
+                            }
+
+                            var normalized = Math.Abs(angle % (Math.PI * 2));
+                            var nonZero = normalized > 0.0001 && Math.Abs(normalized - (Math.PI * 2)) > 0.0001;
+                            if (nonZero)
+                                offenders.Add($"{map}: proto={protoId}, uid={uid}, rot='{rotString}'");
+                        }
+                    }
+                }
+            }
+
+            Assert.That(offenders, Is.Empty,
+                "Cryogenic spawner entities are NoRot and must not have non-zero Transform.rot. Offenders:\n" +
+                string.Join("\n", offenders));
+
+            await pair.CleanReturnAsync();
+        }
+
+        private static bool TryGetYamlChild(YamlMappingNode node, string key, out YamlNode value)
+        {
+            foreach (var (childKey, childValue) in node.Children)
+            {
+                if (childKey is YamlScalarNode scalar && scalar.Value == key)
+                {
+                    value = childValue;
+                    return true;
+                }
+            }
+
+            value = null!;
+            return false;
         }
 
         [Test]

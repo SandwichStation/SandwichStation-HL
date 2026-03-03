@@ -102,7 +102,7 @@ public sealed partial class GatewayWindow : FancyWindow,
             var name = dest.Name;
             var locked = dest.Locked && _nextUnlock > _timing.CurTime;
 
-            Logger.Debug($"Gateway UI: Destination {name} - IsDockingArm: {dest.IsDockingArm}, Locked: {locked}");
+            Logger.GetSawmill("hardlight").Debug($"Gateway UI: Destination {name} - IsDockingArm: {dest.IsDockingArm}, Locked: {locked}");
 
             var box = new BoxContainer()
             {

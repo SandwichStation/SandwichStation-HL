@@ -204,20 +204,7 @@ entities:
     - type: GasTileOverlay
     - type: RadiationGridResistance
     - type: SalvageMobRestrictionsGrid
-      mobsToKill:
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
-      - invalid
+      mobsToKill: []
 - proto: AirlockGlassShuttleXenoborgLocked
   entities:
   - uid: 2

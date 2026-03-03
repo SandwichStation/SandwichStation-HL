@@ -1,6 +1,6 @@
 - type: entity
   name: frontier uplink coin
-  parent: [ BaseItem, BaseC3ExpeditionContraband ]
+  parent: [ BaseItem, BaseC3SyndicateContrabandUnredeemable ] # HardLight: BaseC3ExpeditionContraband<BaseC3SyndicateContrabandUnredeemable
   id: FrontierUplinkCoin
   suffix: 20 TC
   description: A token awarded to ColSec personnel for turning in contraband. It can be exchanged in an ColSec uplink device for a variety of law enforcement tools.

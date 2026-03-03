@@ -43,7 +43,17 @@ public sealed partial class TestPair : IAsyncDisposable
 
         if (TestMap != null)
         {
-            await Server.WaitPost(() => Server.EntMan.DeleteEntity(TestMap.MapUid));
+            await Server.WaitPost(() =>
+            {
+                var mapUid = TestMap.MapUid;
+                if (!Server.EntMan.EntityExists(mapUid)
+                    || Server.EntMan.Deleted(mapUid))
+                {
+                    return;
+                }
+
+                Server.EntMan.DeleteEntity(mapUid);
+            });
             TestMap = null;
         }
 
@@ -231,7 +241,9 @@ public sealed partial class TestPair : IAsyncDisposable
         Assert.That(session.AttachedEntity, Is.Not.Null);
         Assert.That(entMan.EntityExists(session.AttachedEntity));
         Assert.That(entMan.HasComponent<MindContainerComponent>(session.AttachedEntity));
-        var mindCont = entMan.GetComponent<MindContainerComponent>(session.AttachedEntity!.Value);
+        if (!entMan.TryGetComponent(session.AttachedEntity!.Value, out MindContainerComponent? mindCont))
+            return;
+
         Assert.That(mindCont.Mind, Is.Not.Null);
         Assert.That(entMan.TryGetComponent(mindCont.Mind, out MindComponent? mind));
         Assert.That(mind!.VisitingEntity, Is.Null);

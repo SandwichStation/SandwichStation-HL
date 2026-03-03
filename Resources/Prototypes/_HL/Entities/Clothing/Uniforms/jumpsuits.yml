@@ -3,7 +3,7 @@
 
 # Syndicate High Command Suit
 - type: entity
-  parent: [ClothingUniformJumpsuitSyndieFormal, BaseC3SyndicateContraband, ContrabandClothing]
+  parent: [ClothingUniformJumpsuitSyndieFormal, ContrabandClothing]
   id: ClothingUniformJumpsuitSyndicateHighCommand
   name: syndicate high command suit
   description: An elegant formal suit reserved for high-ranking Syndicate commanders. Features premium materials and distinguished styling.
@@ -18,7 +18,7 @@
 
 # Cybersun Suit
 - type: entity
-  parent: [ClothingUniformJumpsuitSyndieFormal, BaseC3SyndicateContraband, ContrabandClothing]
+  parent: [ClothingUniformJumpsuitSyndieFormal, ContrabandClothing]
   id: ClothingUniformJumpsuitCybersun
   name: cybersun suit
   description: A sophisticated corporate suit featuring Cybersun's distinctive styling and high-quality construction.
