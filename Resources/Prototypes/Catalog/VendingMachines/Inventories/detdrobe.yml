@@ -17,7 +17,6 @@
     #ClothingHeadsetSecurityCommon: 2 # Frontier: Security<SecurityCommon - Ask SR or Sheriff for keys
     ClothingHandsDetectiveWarmers: 2
     ClothingUnderSocksDetective: 2
-    ClothingUniformDetectiveThong: 2
     trayScanner: 2 # Frontier
   contrabandInventory:
     ToyFigurineDetective: 1

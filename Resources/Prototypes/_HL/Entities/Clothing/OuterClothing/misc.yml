@@ -15,7 +15,7 @@
   parent: NFClothingOuterEVASuitBase
   id: ClothingOuterEVASuitHLSec
   name: station security EVA suit
-  description: An EVA suit with a built-in helmet issued in sepecific circumstances to security officers who are less than tolerant of a station or shuttle's atmosphere.
+  description: An EVA suit with a built-in helmet issued in specific circumstances to security officers who are less than tolerant of a station or shuttle's atmosphere.
   components:
   - type: Sprite
     sprite: _NF/Clothing/OuterClothing/Suits/eva_color.rsi
@@ -23,7 +23,7 @@
     - state: icon-base
       color: "#2E2E2E"
     - state: icon-decals-01
-      color: "#00CFC6"
+      color: "#820a16"
     - state: icon-reinforced-points
       color: "#C0C0C0"
     - state: icon-breathing-gear
@@ -35,7 +35,7 @@
       - state: inhand-left-base
         color: "#2E2E2E"
       - state: inhand-left-decals-01
-        color: "#00CFC6"
+        color: "#820a16"
       - state: inhand-left-reinforced-points
         color: "#C0C0C0"
       - state: inhand-left-breathing-gear
@@ -45,7 +45,7 @@
       - state: inhand-right-base
         color: "#2E2E2E"
       - state: inhand-right-decals-01
-        color: "#00CFC6"
+        color: "#820a16"
       - state: inhand-right-reinforced-points
         color: "#C0C0C0"
       - state: inhand-right-breathing-gear
@@ -58,7 +58,7 @@
       - state: equipped-base
         color: "#2E2E2E"
       - state: equipped-decals-01
-        color: "#00CFC6"
+        color: "#820a16"
       - state: equipped-reinforced-points
         color: "#C0C0C0"
       - state: equipped-breathing-gear
@@ -81,9 +81,9 @@
     - state: icon-base
       color: "#2E2E2E"
     - state: icon-reinforced-points
-      color: "#00CFC6"
+      color: "#820a16"
     - state: icon-visor
-      color: "#110F0F"
+      color: "#96d9ff"
   - type: Clothing
     sprite: _NF/Clothing/Head/Helmets/eva_color.rsi
     clothingVisuals:
@@ -91,6 +91,6 @@
       - state: equipped-head-base
         color: "#2E2E2E"
       - state: equipped-head-reinforced-points
-        color: "#00CFC6"
+        color: "#820a16"
       - state: equipped-head-visor
-        color: "#110F0F"
+        color: "#96d9ff"

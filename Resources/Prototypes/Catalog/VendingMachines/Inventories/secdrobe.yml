@@ -40,11 +40,9 @@
     ClothingShoesBootsMagSecurity: 1 # Frontier
     ClothingHandsSecurityWarmers: 3
     ClothingUnderSocksSecurity: 3
-    ClothingUniformSecurityThong: 3
     ClothingOuterSecurityFullCoat: 3
     ClothingHandsHeadSecurityWarmers: 3
     ClothingUnderSocksHeadSecurity: 3
-    ClothingUniformHeadSecurityThong: 3
     ClothingOuterHoSFullCoat: 3
   contrabandInventory:
     ClothingUniformJumpskirtOfLife: 1 # Frontier

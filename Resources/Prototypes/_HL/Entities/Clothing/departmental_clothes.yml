@@ -747,19 +747,6 @@
     price: 80 # Frontier
 
 - type: entity
-  parent: ClothingUniformBaseThongs
-  id: ClothingUniformSecurityThong
-  name: security thong
-  description: Styled for a Security, but is this even considered a piece of clothing?
-  components:
-  - type: Sprite
-    sprite: _HL/Clothing/Departmental/Security/secthong.rsi
-  - type: Clothing
-    sprite: _HL/Clothing/Departmental/Security/secthong.rsi
-  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
-    price: 80 # Frontier
-
-- type: entity
   parent: ClothingOuterStorageFoldableBase
   id: ClothingOuterSecurityFullCoat
   name: Security Full Coat
@@ -817,19 +804,6 @@
     price: 80 # Frontier
 
 - type: entity
-  parent: ClothingUniformBaseThongs
-  id: ClothingUniformHeadSecurityThong
-  name: Head of Security thong
-  description: Styled for the HoS, but is this even considered a piece of clothing?
-  components:
-  - type: Sprite
-    sprite: _HL/Clothing/Departmental/Security/hosthong.rsi
-  - type: Clothing
-    sprite: _HL/Clothing/Departmental/Security/hosthong.rsi
-  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
-    price: 80 # Frontier
-
-- type: entity
   parent: ClothingOuterStorageFoldableBase
   id: ClothingOuterHoSFullCoat
   name: Head of Security Full Coat
@@ -883,19 +857,6 @@
     sprite: _HL/Clothing/Departmental/Security/detectsocks.rsi
   - type: ClothingSlowOnDamageModifier
     modifier: 0.5
-  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
-    price: 80 # Frontier
-
-- type: entity
-  parent: ClothingUniformBaseThongs
-  id: ClothingUniformDetectiveThong
-  name: detective's thong
-  description: Styled for a Detective, but is this even considered a piece of clothing?
-  components:
-  - type: Sprite
-    sprite: _HL/Clothing/Departmental/Security/detectthong.rsi
-  - type: Clothing
-    sprite: _HL/Clothing/Departmental/Security/detectthong.rsi
   - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
     price: 80 # Frontier
 

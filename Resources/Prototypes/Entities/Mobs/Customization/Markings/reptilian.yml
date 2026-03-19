@@ -96,55 +96,55 @@
   id: LizardHornsCurled
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian]
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_curled_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_curled_r
 
 - type: marking
   id: LizardHornsRam
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian]
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_ram_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_ram_r
 
 - type: marking
   id: LizardHornsShort
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian]
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_short_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_short_r
 
 - type: marking
   id: LizardHornsSimple
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian]
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_simple_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_simple_r
 
 - type: marking
   id: LizardHornsDouble
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian]
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_double_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_double_r
 
 - type: marking
@@ -292,44 +292,44 @@
   id: LizardHornsArgali
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian, Kobold] # Shitmed Change
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_argali_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_argali_r
 
 - type: marking
   id: LizardHornsAyrshire
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian, Kobold] # Shitmed Change
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_ayrshire_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_ayrshire_r
 
 - type: marking
   id: LizardHornsMyrsore
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian, Kobold] # Shitmed Change
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_myrsore_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_myrsore_r
 
 - type: marking
   id: LizardHornsBighorn
   bodyPart: HeadTop
   markingCategory: HeadTop
-  speciesRestriction: [Skrell, Thaven,Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid, Kitsune, Chitinid]
+  speciesRestriction: [Reptilian, Kobold] # Shitmed Change
   sprites:
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_bighorn_l
-  - sprite: Mobs/Customization/reptilian_parts.rsi
+  - sprite: _White/Mobs/Customization/reptilian_parts.rsi # WWDP-Edit
     state: horns_bighorn_r
 
 - type: marking

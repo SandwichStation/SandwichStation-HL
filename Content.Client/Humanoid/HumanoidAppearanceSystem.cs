@@ -12,6 +12,22 @@ namespace Content.Client.Humanoid;
 
 public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 {
+    private static readonly HumanoidVisualLayers[] PushUpLayers =
+    {
+        HumanoidVisualLayers.LHand, HumanoidVisualLayers.RHand,
+        HumanoidVisualLayers.LLeg, HumanoidVisualLayers.RLeg,
+        HumanoidVisualLayers.LFoot, HumanoidVisualLayers.RFoot
+    };
+
+    private static readonly string[] PushUpLayerNames = { "gloves", "shoes" };
+
+    private static readonly HumanoidVisualLayers[] PushDownLayers =
+    {
+        HumanoidVisualLayers.Head, HumanoidVisualLayers.Snout
+    };
+
+    private static readonly string[] PushDownLayerNames = { "head", "mask", "ears", "eyes" };
+
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MarkingManager _markingManager = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
@@ -52,6 +68,36 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         var width = component.Width <= 0.005f ? 1.0f : component.Width;
         var height = component.Height <= 0.005f ? 1.0f : component.Height;
         _sprite.SetScale((uid, sprite), new Vector2(width, height));
+
+        // Sub-Pixel Gap Fix (Very cheap fix, moves body parts towards torso)
+        // This is not great, hopefully someone smarter with more sanity will fix the render code at some point :P
+        var pushUpOffset = new System.Numerics.Vector2(0f, 0.004f);   // Move slightly up
+        var pushDownOffset = new System.Numerics.Vector2(0f, -0.004f); // Move slightly down
+
+        // 1. Parts that are pushed UP (+Y) (hands, legs, feet + clothing)
+        foreach (var layerEnum in PushUpLayers)
+        {
+            if (_sprite.LayerMapTryGet((uid, sprite), layerEnum, out var layerIndex, false))
+                _sprite.LayerSetOffset((uid, sprite), layerIndex, pushUpOffset);
+        }
+        foreach (var layerString in PushUpLayerNames)
+        {
+            if (_sprite.LayerMapTryGet((uid, sprite), layerString, out var layerIndex, false))
+                _sprite.LayerSetOffset((uid, sprite), layerIndex, pushUpOffset);
+        }
+
+        // 2. Parts that are pushed DOWN (-Y) (head, snout + headgear)
+        foreach (var layerEnum in PushDownLayers)
+        {
+            if (_sprite.LayerMapTryGet((uid, sprite), layerEnum, out var layerIndex, false))
+                _sprite.LayerSetOffset((uid, sprite), layerIndex, pushDownOffset);
+        }
+        foreach (var layerString in PushDownLayerNames)
+        {
+            if (_sprite.LayerMapTryGet((uid, sprite), layerString, out var layerIndex, false))
+                _sprite.LayerSetOffset((uid, sprite), layerIndex, pushDownOffset);
+        }
+        // ---------------------------------------------------------------------
     }
 
     private void OnAppearanceChange(EntityUid uid, HumanoidAppearanceComponent comp, ref AppearanceChangeEvent args)
