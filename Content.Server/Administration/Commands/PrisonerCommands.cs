@@ -68,10 +68,16 @@ public sealed class PermaBrigCommand : LocalizedCommands
                 Logger.WarningS("admin.role_ban", "Imprisonment roleban severity could not be parsed from config! Defaulting to medium.");
                 severity = NoteSeverity.Medium;
             }
-            var now = DateTimeOffset.UtcNow; // this groups bans together
             foreach (var proto in _prototypes.EnumeratePrototypes<JobPrototype>().Where(value => value.ID != "Prisoner"))
             {
-                _bans.CreateRoleBan(guid, data.Username, shell.Player?.UserId, null, data.LastHWId, proto.ID, 0, severity, "cmd-permabrig-ban-description", now);
+                var banInfo = new CreateRoleBanInfo("cmd-permabrig-ban-description");
+                banInfo.AddUser(guid, data.Username);
+                banInfo.WithBanningAdmin(shell.Player?.UserId);
+                banInfo.AddHWId(data.LastHWId);
+                banInfo.WithSeverity(severity);
+                banInfo.AddJob(new ProtoId<JobPrototype>(proto.ID));
+
+                _bans.CreateRoleBan(banInfo);
             }
             _jobWhitelist.AddWhitelist(guid, prisonerJob);
 

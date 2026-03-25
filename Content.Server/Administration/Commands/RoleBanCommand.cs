@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using Content.Server.Administration.Managers;
+﻿using Content.Server.Administration.Managers;
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
@@ -99,7 +97,17 @@ public sealed class RoleBanCommand : IConsoleCommand
         var targetUid = located.UserId;
         var targetHWid = located.LastHWId;
 
-        _bans.CreateRoleBan(targetUid, located.Username, shell.Player?.UserId, null, targetHWid, job, minutes, severity, reason, DateTimeOffset.UtcNow);
+        var banInfo = new CreateRoleBanInfo(reason);
+        if (minutes > 0)
+            banInfo.WithMinutes(minutes);
+        banInfo.AddUser(targetUid, located.Username);
+        banInfo.WithBanningAdmin(shell.Player?.UserId);
+        banInfo.AddHWId(targetHWid);
+        banInfo.WithSeverity(severity);
+
+        banInfo.AddJob(new ProtoId<JobPrototype>(job));
+
+        _bans.CreateRoleBan(banInfo);
     }
 
     public CompletionResult GetCompletion(IConsoleShell shell, string[] args)

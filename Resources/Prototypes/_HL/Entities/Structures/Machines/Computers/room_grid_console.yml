@@ -1,5 +1,5 @@
 - type: entity
-  id: ComputerRoomGridSpawner
+  id: ComputerRoomGridSpawnerBase
   parent: [BaseStructureDisableToolUse, BaseStructureIndestructible, BaseComputer]
   name: room grid console
   description: Loads and stores a personal room for its linked area.
@@ -26,3 +26,24 @@
     area_group: RoomSpawnA
   - type: UseDelay
     delay: 1.5
+    
+- type: entity
+  id: ComputerRoomGridSpawner
+  parent: [BaseStructureComputerWallmount, ComputerRoomGridSpawnerBase]
+  name: room grid console
+  description: Loads and stores a personal room for its linked area.
+  components:
+  - type: Sprite
+    drawdepth: WallMountedItems
+    sprite: _NF/Structures/Machines/computer_wallmount.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer_wallmount_apt
+    - map: ["computerLayerScreen"]
+      state: screen_vacant
+  - type: GenericVisualizer
+    visuals:
+      enum.RoomGridSpawnerVisuals.InUse:
+        computerLayerScreen:
+          True: { state: screen_occupied }
+          False: { state: screen_vacant }

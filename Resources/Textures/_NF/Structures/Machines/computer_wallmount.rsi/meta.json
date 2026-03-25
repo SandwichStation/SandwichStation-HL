@@ -3,7 +3,7 @@
     "license": "CC-BY-SA-3.0",
     "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/bd6873fd4dd6a61d7e46f1d75cd4d90f64c40894, resprited by whatston3 (GitHub)",
     "extra_copyright": [
-        "screen_mass, screen_radar by Tych0thesynth (GitHub), screen_crew, screen_records edited by dustylens (Github)"
+        "screen_mass, screen_radar by Tych0thesynth (GitHub), screen_crew, screen_records edited by dustylens (Github), apartment screens edited by Rtasva"
     ],
     "size": {
         "x": 32,
@@ -32,6 +32,10 @@
         },
         {
             "name": "computer_wallmount",
+            "directions": 4
+        },
+		{
+            "name": "computer_wallmount_apt",
             "directions": 4
         },
         {
@@ -65,6 +69,50 @@
                 [
                     0.2,
                     0.2
+                ]
+            ]
+        },
+		{
+            "name": "screen_occupied",
+            "directions": 4,
+            "delays": [
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
+                ]
+            ]
+        },
+		{
+            "name": "screen_vacant",
+            "directions": 4,
+            "delays": [
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
+                ],
+                [
+                    1.2,
+                    1.2
                 ]
             ]
         },
