@@ -1,0 +1,10 @@
+- type: entity
+  id: CrateVendingMachineRestockPassionDrobeFilled
+  parent: CrateGenericSteel
+  name: PassionDrobe restock crate
+  description: Contains two restock boxes for the PassionDrobe.
+  components:
+  - type: StorageFill
+    contents:
+    - id: VendingMachineRestockPassionDrobe
+      amount: 2

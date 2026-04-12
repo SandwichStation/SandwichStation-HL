@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseVendingMachineRestock
-  id: VendingMachineRestockLessLethalVend
-  name: LessLethalVend restock box
-  description: A box containing rubber bullets and disruptors for the LessLethalVend machine. A label reads "THE BOX IS TAMPER-PROOF AND WILL DESTROY ITS CONTENT ON HARM."
+  id: VendingMachineRestockPassionDrobe
+  name: PassionDrobe restock box
+  description: A box containing various "naughty" toys, accessories, and drugs. Can be used to restock a PassionDrobe vending machine.
   components:
   - type: VendingMachineRestock
     canRestock:
