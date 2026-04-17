@@ -122985,13 +122985,6 @@ entities:
     - type: Transform
       pos: 0.5,58.5
       parent: 2
-- proto: Quadborgendoskeleton
-  entities:
-  - uid: 16120
-    components:
-    - type: Transform
-      pos: -28.51385,23.688383
-      parent: 2
 - proto: Rack
   entities:
   - uid: 16121

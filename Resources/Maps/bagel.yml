@@ -130403,13 +130403,6 @@ entities:
     - type: Transform
       pos: -40.5,8.5
       parent: 2
-- proto: SpawnPointSalvageQuadborg
-  entities:
-  - uid: 20297
-    components:
-    - type: Transform
-      pos: -32.5,14.5
-      parent: 2
 - proto: SpawnPointSalvageSpecialist
   entities:
   - uid: 20298

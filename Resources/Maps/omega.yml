@@ -87018,18 +87018,6 @@ entities:
     - type: Transform
       pos: -25.5,31.5
       parent: 4812
-- proto: SpawnPointQuadborg
-  entities:
-  - uid: 14604
-    components:
-    - type: Transform
-      pos: 4.5,-27.5
-      parent: 4812
-  - uid: 14641
-    components:
-    - type: Transform
-      pos: 5.5,-27.5
-      parent: 4812
 - proto: SpawnPointQuartermaster
   entities:
   - uid: 3449
