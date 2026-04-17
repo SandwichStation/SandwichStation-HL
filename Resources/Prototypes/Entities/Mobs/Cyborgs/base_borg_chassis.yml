@@ -272,13 +272,19 @@
   - type: BorgSwitchableSubtype # CD change
   - type: PreventDropOnDowned # Frontier: borgs don't drop items when falling (e.g. critical/dead)
   - type: InteractionPopup   # Hardlight change should be able to pet the borgs now
-    interactSuccessString: petting-success-generic-cyborg
-    interactFailureString: petting-failure-generic-cyborg
-    interactSuccessSound:
-      path: /Audio/Ambience/Objects/periodic_beep.ogg
+  - type: BypassLock
+    openWiresPanel: true
+  - type: BypassLockRequiresMobState
+    requiredMobState:
+    - Critical
+    - Dead
   - type: Blindable
   - type: EyeProtection
   - type: Stripping
+  interactSuccessString: petting-success-generic-cyborg
+  interactFailureString: petting-failure-generic-cyborg
+  interactSuccessSound:
+    path: /Audio/Ambience/Objects/periodic_beep.ogg
 
 - type: entity
   abstract: true
