@@ -16,4 +16,4 @@ changelog-tab-title-Changelog = Wizden
 changelog-tab-title-Admin = Admin
 changelog-tab-title-HardlightChangelog = HardLight
 changelog-tab-title-Monolith = Monolith
-changelog-tab-title-Sandwich = Sandwich
+changelog-tab-title-SandwichChangelog = Sandwich
