@@ -293,9 +293,9 @@ namespace Content.IntegrationTests.Tests.Buckle
                 Assert.That(buckle.Buckled);
 
                 // With items in all hands
-                foreach (var hand in hands.Hands.Keys)
+                foreach (var hand in hands.Hands.Values)
                 {
-                    Assert.That(handsSys.GetHeldItem((human, hands), hand), Is.Not.Null);
+                    Assert.That(hand.HeldEntity, Is.Not.Null);
                 }
 
                 var bodySystem = entityManager.System<BodySystem>();
@@ -312,14 +312,16 @@ namespace Content.IntegrationTests.Tests.Buckle
 
             await server.WaitAssertion(() =>
             {
+                // Floofstation - this is no longer true. You cannot lay down while buckled, and therefore cannot drop items.
+                // I blame wizden for making this test for the sake of making a test.
                 // Still buckled
-                Assert.That(buckle.Buckled);
+                // Assert.That(buckle.Buckled);
 
                 // Now with no item in any hand
-                foreach (var hand in hands.Hands.Keys)
-                {
-                    Assert.That(handsSys.GetHeldItem((human, hands), hand), Is.Null);
-                }
+                // foreach (var hand in hands.Hands.Values)
+                // {
+                //     Assert.That(hand.HeldEntity, Is.Null);
+                // }
 
                 buckleSystem.Unbuckle(human, human);
                 Assert.That(buckle.Buckled, Is.False);

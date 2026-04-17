@@ -26,6 +26,7 @@
   - AnomalyScanner
   - AnomalyLocator
   - AnomalyLocatorWide
+  - BorgModuleAnomaly
   - APECircuitboard
   - AnomalyVesselCircuitboard
   # Goobstation R&D Console rework start
@@ -45,6 +46,7 @@
   cost: 5000
   recipeUnlocks:
   - NodeScanner
+  - BorgModuleArtifact
   - AnalysisComputerCircuitboard
   - ArtifactAnalyzerMachineCircuitboard
   - ResearchComputerCircuitboard # Frontier: add research computer

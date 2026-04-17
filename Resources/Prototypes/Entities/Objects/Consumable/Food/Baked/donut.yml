@@ -1,4 +1,4 @@
-﻿# Base
+# Base
 
 - type: entity
   parent: [VendPriceFoodBase100, FoodInjectableBase] #  Frontier - VendPriceFoodBase100
@@ -6,7 +6,7 @@
   abstract: true
   description: Goes great with robust coffee.
   components:
-  - type: Edible
+  - type: Food
   - type: Tag
     tags:
     - Donut

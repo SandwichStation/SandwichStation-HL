@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: BaseItem
   id: Crayon
@@ -22,7 +22,7 @@
         type: CrayonBoundUserInterface
   - type: Crayon
     capacity: 25
-  - type: Edible
+  - type: Food
   - type: FlavorProfile
     flavors:
     - chewy

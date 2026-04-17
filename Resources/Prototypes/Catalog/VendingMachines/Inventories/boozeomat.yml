@@ -46,14 +46,12 @@
     DrinkVermouthBottleFull: 5
     DrinkVodkaBottleFull: 5
     DrinkWhiskeyBottleFull: 5
-    DrinkJaegermisterBottleFull: 5 # Den - Jaegerminsteeeer!
     DrinkWineBottleFull: 5
     DrinkChampagneBottleFull: 2 #because the premium drink
     DrinkSakeBottleFull: 3
     DrinkBeerCan: 5
     DrinkWineCan: 5
     DrinkDisposableCup: 5 # #imp
-    DrinkAngobittersBottleFull: 3 # DeltaV - Angostura Bitters Bottle
   contrabandInventory:
     ChemistryBottleEthanol: 3
     DrinkBottleOfNothingFull: 1

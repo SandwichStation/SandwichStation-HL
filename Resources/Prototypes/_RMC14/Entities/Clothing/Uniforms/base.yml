@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: Clothing
   id: RMCUniformBase
@@ -11,7 +11,7 @@
     tags:
     - ClothMade
     - WhitelistChameleon
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

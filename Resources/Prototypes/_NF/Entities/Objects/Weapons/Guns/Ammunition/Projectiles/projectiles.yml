@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: BaseBulletRubber
   name: base bullet rubber
   parent: BaseBullet
@@ -112,8 +112,8 @@
     sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
     layers:
     - state: cleanade
-  - type: TimedDespawn # HardLight: Replaced trigger components with modern systems.
-    lifetime: 0.3
+  - type: ActiveTimerTrigger
+    timeRemaining: 0.3
   - type: SmokeOnTrigger
     duration: 3.5
     spreadAmount: 30
@@ -122,7 +122,7 @@
       reagents:
       - ReagentId: SpaceCleaner
         Quantity: 30
-  - type: EmitSoundOnTrigger
+  - type: SoundOnTrigger
     sound: /Audio/Items/smoke_grenade_smoke.ogg
   - type: ExplodeOnTrigger
   - type: Explosive

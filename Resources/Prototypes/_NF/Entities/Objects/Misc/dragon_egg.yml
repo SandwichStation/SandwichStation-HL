@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: FoodEggBase
   id: DragonEgg
   name: dragon egg
@@ -11,7 +11,7 @@
     sprite: _NF/Objects/Consumable/Food/dragon_egg.rsi
     size: Large
   - type: MultiHandedItem
-  - type: Edible
+  - type: Food
     trash:
       - DragonEggshells
   - type: DamageOnHighSpeedImpact
@@ -74,7 +74,7 @@
   - type: Sprite
     sprite: _NF/Objects/Consumable/Food/dragon_egg.rsi
     state: broken
-  - type: Edible
+  - type: Food
   - type: Item
     sprite: Objects/Consumable/Food/egg.rsi
     size: Large

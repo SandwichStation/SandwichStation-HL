@@ -75,10 +75,10 @@
         fix1:
           shape:
             !type:PhysShapeAabb
-            bounds: "-0.3,-0.3,0.3,0.3" # Mono
+            bounds: "-0.3,-0.3,0.3,0.3" # mono
           density: 190
           mask:
-          - SmallMobMask # This is so they can go under plastic flaps
+          - SmallMobMask #this is so they can go under plastic flaps
           layer:
           - MachineLayer
     - type: AtmosDevice
@@ -127,8 +127,8 @@
       - GasCanisters
     - type: Paintable
       group: Canisters
-    - type: Climbable # Mono
-    - type: FootstepModifier # Mono
+    - type: Climbable # mono
+    - type: FootstepModifier # mono
       footstepSoundCollection:
         collection: FootstepHull
 

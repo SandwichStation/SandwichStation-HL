@@ -9,7 +9,6 @@ using Content.Server.Electrocution;
 using Content.Server.Explosion.EntitySystems;
 using Content.Server.GhostKick;
 using Content.Server.Medical;
-using Content.Server.NF.Speech.Components; // Frontier
 using Content.Server.Nutrition.EntitySystems;
 using Content.Server.Pointing.Components;
 using Content.Server.Polymorph.Systems;
@@ -21,14 +20,12 @@ using Content.Server.Tabletop;
 using Content.Server.Tabletop.Components;
 using Content.Shared.Administration;
 using Content.Shared.Administration.Components;
-using Content.Shared.Bed.Sleep; // Frontier
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Part;
 using Content.Shared.Clumsy;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Cluwne;
 using Content.Shared.Damage;
-using Content.Shared.Damage.Prototypes; // Frontier
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Electrocution;
@@ -42,12 +39,9 @@ using Content.Shared.Movement.Systems;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Popups;
 using Content.Shared.Slippery;
-using Content.Shared.Stunnable;
 using Content.Shared.Tabletop.Components;
 using Content.Shared.Tools.Systems;
 using Content.Shared.Verbs;
-using Robust.Shared.Audio.Systems; // Frontier
-using Robust.Shared.Audio; // Frontier
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
@@ -55,10 +49,14 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.Prototypes;
 using Timer = Robust.Shared.Timing.Timer;
+using Robust.Shared.Audio.Systems; // Frontier
+using Robust.Shared.Audio; // Frontier
+using Content.Server.NF.Speech.Components; // Frontier
+using Content.Shared.Damage.Prototypes; // Frontier
+using Content.Shared.Bed.Sleep; // Frontier
 
 namespace Content.Server.Administration.Systems;
 
@@ -287,7 +285,7 @@ public sealed partial class AdminVerbSystem
                 Icon = new SpriteSpecifier.Rsi(new ("/Textures/Fluids/tomato_splat.rsi"), "puddle-1"),
                 Act = () =>
                 {
-                    _bloodstreamSystem.SpillAllSolutions((args.Target, bloodstream));
+                    _bloodstreamSystem.SpillAllSolutions(args.Target, bloodstream);
                     var xform = Transform(args.Target);
                     _popupSystem.PopupEntity(Loc.GetString("admin-smite-remove-blood-self"), args.Target,
                         args.Target, PopupType.LargeCaution);
@@ -894,7 +892,7 @@ public sealed partial class AdminVerbSystem
                 if (!hadSlipComponent)
                 {
                     slipComponent.SlipData.SuperSlippery = true;
-                    slipComponent.SlipData.StunTime = TimeSpan.FromSeconds(5);
+                    slipComponent.SlipData.ParalyzeTime = TimeSpan.FromSeconds(5);
                     slipComponent.SlipData.LaunchForwardsMultiplier = 20;
                 }
 
@@ -940,21 +938,6 @@ public sealed partial class AdminVerbSystem
         };
         args.Verbs.Add(omniaccent);
 
-        var crawlerName = Loc.GetString("admin-smite-crawler-name").ToLowerInvariant();
-        Verb crawler = new()
-        {
-            Text = crawlerName,
-            Category = VerbCategory.Smite,
-            Icon = new SpriteSpecifier.Rsi(new("Mobs/Animals/snake.rsi"), "icon"),
-            Act = () =>
-            {
-                EnsureComp<WormComponent>(args.Target);
-            },
-            Impact = LogImpact.Extreme,
-            Message = string.Join(": ", crawlerName, Loc.GetString("admin-smite-crawler-description"))
-        };
-        args.Verbs.Add(crawler);
-
         // Frontier
         var cavemanName = Loc.GetString("admin-smite-caveman-name").ToLowerInvariant();
         Verb caveman = new()
@@ -988,7 +971,7 @@ public sealed partial class AdminVerbSystem
                 if (!hadSlipComponent)
                 {
                     slipComponent.SlipData.SuperSlippery = true;
-                    slipComponent.SlipData.KnockdownTime = TimeSpan.FromSeconds(10);
+                    slipComponent.SlipData.ParalyzeTime = TimeSpan.FromSeconds(10);
                     slipComponent.SlipData.LaunchForwardsMultiplier = 1;
                 }
 
@@ -1011,8 +994,9 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", cavemanName, Loc.GetString("admin-smite-caveman-description"))
         };
         args.Verbs.Add(caveman);
+        // End Frontier
 
-        // Far Horizons
+        // Far Horizons - Start
         var fuelRodifyName = Loc.GetString("admin-smite-become-fuelrod-name").ToLowerInvariant();
         Verb fuelRodify = new()
         {
@@ -1024,5 +1008,6 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", fuelRodifyName, Loc.GetString("admin-smite-become-fuelrod-description"))
         };
         args.Verbs.Add(fuelRodify);
+        // Far Horizons - End
     }
 }

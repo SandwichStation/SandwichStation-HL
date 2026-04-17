@@ -16,6 +16,7 @@ using Content.Shared.StationRecords;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using System.Linq;
 
 namespace Content.Server.StationRecords.Systems;
 
@@ -383,6 +384,33 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
     }
 
     /// <summary>
+    /// Returns an id if a record with the same name exists.
+    /// </summary>
+    /// <remarks>
+    /// Linear search so O(n) time complexity.
+    /// </remarks>
+    public uint? GetRecordByName(EntityUid station, string name, StationRecordsComponent? records = null)
+    {
+        if (TryGetAuthoritativeRecords(out var authority, out var authorityRecords))
+        {
+            station = authority;
+            records = authorityRecords;
+        }
+        else if (!Resolve(station, ref records, false))
+        {
+            return null;
+        }
+
+        foreach (var (id, record) in GetRecordsOfType<GeneralStationRecord>(station, records))
+        {
+            if (record.Name == name)
+                return id;
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Get the name for a record, or an empty string if it has no record.
     /// </summary>
     public string RecordName(StationRecordKey key)
@@ -560,10 +588,13 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
     }
 
     // HardLight: Resolve lookups against authoritative records while keeping legacy station-local keys readable.
-    public new bool TryGetRecord<T>(StationRecordKey key, [NotNullWhen(true)] out T? entry, StationRecordsComponent? records = null)
+    public bool TryGetRecord<T>(StationRecordKey key, [NotNullWhen(true)] out T? entry, StationRecordsComponent? records = null)
     {
+        entry = default;
+
         // First try the provided/original key so legacy station-local keys keep working during migration.
-        if (base.TryGetRecord(key, out entry, records))
+        if (Resolve(key.OriginStation, ref records, false)
+            && records.Records.TryGetRecordEntry(key.Id, out entry))
             return true;
 
         if (!TryGetAuthoritativeRecords(out var authority, out var authorityRecords))
@@ -573,25 +604,19 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
             return false;
 
         var authoritativeKey = new StationRecordKey(key.Id, authority);
-        return base.TryGetRecord(authoritativeKey, out entry, authorityRecords);
+        return authorityRecords.Records.TryGetRecordEntry(authoritativeKey.Id, out entry);
     }
 
     // HardLight: Enumerate from authoritative records first so manifests are unified across all consumers.
-    public new IEnumerable<(uint, T)> GetRecordsOfType<T>(EntityUid station, StationRecordsComponent? records = null)
+    public IEnumerable<(uint, T)> GetRecordsOfType<T>(EntityUid station, StationRecordsComponent? records = null)
     {
         if (TryGetAuthoritativeRecords(out var authority, out var authorityRecords))
-            return base.GetRecordsOfType<T>(authority, authorityRecords);
+            return authorityRecords.Records.GetRecordsOfType<T>();
 
-        return base.GetRecordsOfType<T>(station, records);
-    }
+        if (!Resolve(station, ref records, false))
+            return Enumerable.Empty<(uint, T)>();
 
-    // HardLight: Name-based queries should target authoritative records to avoid split datasets.
-    public new uint? GetRecordByName(EntityUid station, string name, StationRecordsComponent? records = null)
-    {
-        if (TryGetAuthoritativeRecords(out var authority, out var authorityRecords))
-            return base.GetRecordByName(authority, name, authorityRecords);
-
-        return base.GetRecordByName(station, name, records);
+        return records.Records.GetRecordsOfType<T>();
     }
 
     #endregion

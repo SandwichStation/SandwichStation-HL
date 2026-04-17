@@ -24,9 +24,9 @@
         type: Add
     Alcohol:
       effects:
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectSlurred
-        time: 20.0
+      - !type:Drunk
+        slurSpeech: false
+        boozePower: 20
 
 - type: reagent
   id: Dylovene
@@ -104,8 +104,9 @@
         key: Jitter
         time: 3.0
         type: Remove
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        component: Drowsiness
         time: 1.5
         type: Add
         refresh: false
@@ -125,8 +126,8 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrunk
+      - !type:GenericStatusEffect
+        key: Drunk
         time: 6.0
         type: Remove
       - !type:HealthChange
@@ -918,8 +919,8 @@
         key: KnockedDown
         time: 3.0
         type: Remove
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectSeeingRainbow
+      - !type:GenericStatusEffect
+        key: SeeingRainbows
         time: 15.0
         type: Remove
 
@@ -1095,8 +1096,8 @@
       - !type:GenericStatusEffect
         key: Stutter
         component: StutteringAccent
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
+      - !type:GenericStatusEffect
+        key: Drowsiness
         time: 10
         type: Remove
       - !type:ResetNarcolepsy
@@ -1120,8 +1121,8 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
+      - !type:GenericStatusEffect
+        key: Drowsiness
         time: 10
         type: Remove
       - !type:ResetNarcolepsy
@@ -1505,11 +1506,12 @@
         damage:
           types:
             Poison: 2
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectSeeingRainbow
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentThreshold
           min: 30
+        key: SeeingRainbows
+        component: SeeingRainbows
         type: Add
         time: 8
         refresh: false
@@ -1517,8 +1519,8 @@
         key: Jitter
         time: 2.0
         type: Remove
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrunk
+      - !type:GenericStatusEffect
+        key: Drunk
         time: 6.0
         type: Remove
       - !type:PopupMessage # we dont have sanity/mood so this will have to do
@@ -1573,8 +1575,9 @@
         emote: Yawn
         showInChat: true
         probability: 0.1
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        component: Drowsiness
         time: 4
         type: Add
         refresh: false
@@ -1582,8 +1585,8 @@
         key: Jitter
         time: 4.0
         type: Remove
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectSeeingRainbow
+      - !type:GenericStatusEffect
+        key: SeeingRainbows
         time: 10.0
         type: Remove
       - !type:AdjustReagent

@@ -1,36 +1,73 @@
-- type: entity
-  abstract: true
-  parent: BaseItem
-  id: BaseHypospray
-  components:
-  - type: Injector
-    solutionName: hypospray
-    ignoreClosed: false
-    activeModeProtoId: HyposprayDynamicMode
-    allowedModes:
-    - HyposprayDynamicMode
-    - HyposprayInjectMode
-  - type: Spillable
-    solution: hypospray
-  - type: ExaminableSolution
-    solution: hypospray
-    exactVolume: true
-  - type: Appearance
+# SPDX-FileCopyrightText: 2021 Pieter-Jan Briers
+# SPDX-FileCopyrightText: 2021 Swept
+# SPDX-FileCopyrightText: 2021 Ygg01
+# SPDX-FileCopyrightText: 2022 CrudeWax
+# SPDX-FileCopyrightText: 2022 Emisse
+# SPDX-FileCopyrightText: 2022 Jessica M
+# SPDX-FileCopyrightText: 2022 Julian Giebel
+# SPDX-FileCopyrightText: 2022 Kai Shiba
+# SPDX-FileCopyrightText: 2022 Moony
+# SPDX-FileCopyrightText: 2022 Myctai
+# SPDX-FileCopyrightText: 2022 Peptide90
+# SPDX-FileCopyrightText: 2022 Rane
+# SPDX-FileCopyrightText: 2022 metalgearsloth
+# SPDX-FileCopyrightText: 2022 mirrorcult
+# SPDX-FileCopyrightText: 2022 rolfero
+# SPDX-FileCopyrightText: 2023 Alekshhh
+# SPDX-FileCopyrightText: 2023 Brandon Hu
+# SPDX-FileCopyrightText: 2023 Ed
+# SPDX-FileCopyrightText: 2023 GoodWheatley
+# SPDX-FileCopyrightText: 2023 Guilherme Ornel
+# SPDX-FileCopyrightText: 2023 IProduceWidgets
+# SPDX-FileCopyrightText: 2023 Interrobang01
+# SPDX-FileCopyrightText: 2023 JoeHammad1844
+# SPDX-FileCopyrightText: 2023 MisterMecky
+# SPDX-FileCopyrightText: 2023 Nemanja
+# SPDX-FileCopyrightText: 2023 Nim
+# SPDX-FileCopyrightText: 2023 Psychpsyo
+# SPDX-FileCopyrightText: 2023 Puro
+# SPDX-FileCopyrightText: 2023 Sailor
+# SPDX-FileCopyrightText: 2023 Vasilis
+# SPDX-FileCopyrightText: 2023 Vera Aguilera Puerto
+# SPDX-FileCopyrightText: 2023 crazybrain23
+# SPDX-FileCopyrightText: 2023 deltanedas
+# SPDX-FileCopyrightText: 2023 dontbetank
+# SPDX-FileCopyrightText: 2023 liltenhead
+# SPDX-FileCopyrightText: 2023 sTiKyt
+# SPDX-FileCopyrightText: 2023 vanx
+# SPDX-FileCopyrightText: 2024 Alzore
+# SPDX-FileCopyrightText: 2024 Dvir
+# SPDX-FileCopyrightText: 2024 Kara
+# SPDX-FileCopyrightText: 2024 Plykiya
+# SPDX-FileCopyrightText: 2024 ThatGuyUSA
+# SPDX-FileCopyrightText: 2024 Whatstone
+# SPDX-FileCopyrightText: 2024 dffdff2423
+# SPDX-FileCopyrightText: 2024 drteaspoon420
+# SPDX-FileCopyrightText: 2024 dustylens
+# SPDX-FileCopyrightText: 2024 lzk
+# SPDX-FileCopyrightText: 2024 themias
+# SPDX-FileCopyrightText: 2025 SupernoobTheN1
+# SPDX-FileCopyrightText: 2025 War Pigeon
+# SPDX-FileCopyrightText: 2025 ark1368
+# SPDX-FileCopyrightText: 2025 mikusssssss
+# SPDX-FileCopyrightText: 2025 starch
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
 - type: entity
-  parent: BaseHypospray # Frontier: Removed BaseGrandTheftContraband
-  id: Hypospray
   name: hypospray
+  parent: BaseItem # Frontier: remove BaseGrandTheftContraband
   description: A sterile injector for rapid administration of drugs to patients.
+  id: Hypospray
   components:
   - type: Sprite
     sprite: Objects/Specific/Medical/hypospray.rsi
     layers:
-    - state: hypo
-      map: ["enum.SolutionContainerLayers.Base"]
-    - state: hypo_fill1
-      map: ["enum.SolutionContainerLayers.Fill"]
-      visible: false
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
   - type: Item
     sprite: Objects/Specific/Medical/hypospray.rsi
   - type: SolutionContainerManager
@@ -39,6 +76,10 @@
         maxVol: 30
   - type: RefillableSolution
     solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice
@@ -48,16 +89,17 @@
     - HighRiskItem
   - type: StealTarget
     stealGroup: Hypospray
+  - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 6
     fillBaseName: hypo_fill
     solutionName: hypospray
 
 - type: entity
-  parent: [BaseHypospray, BaseC3SyndicateContraband] # HardLight: BaseSyndicateContraband<BaseC3SyndicateContraband
-  id: SyndiHypo
   name: gorlex hypospray
-  description: A sterile injector for rapid administration of drugs. Reverse-engineered from Nanotrasen designs, Cybersun produces these in limited quantities for Gorlex Marauders' corpsmen.
+  parent: [BaseItem, BaseC3SyndicateContraband] # Frontier: add BaseC3SyndicateContraband
+  description: Using reverse engineered designs from NT, Cybersun produced these in limited quantities for Gorlex Marauder operatives.
+  id: SyndiHypo
   components:
   - type: Sprite
     sprite: Objects/Specific/Medical/syndihypo.rsi
@@ -72,123 +114,81 @@
   - type: SolutionContainerManager
     solutions:
       hypospray:
-        maxVol: 20
+        maxVol: 60
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 0.5
+  - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 4
     fillBaseName: hypo_fill
     solutionName: hypospray
 
 - type: entity
-  parent: BaseHypospray
-  id: BorgHypo
   name: borghypo
-  description: A sterile injector for rapid administration of drugs to patients. This integrated model is specialized for use by medical borgs.
+  parent: BaseItem
+  description: A sterile injector for rapid administration of drugs to patients. A cheaper and more specialised version for medical borgs.
+  id: BorgHypo
+  categories: [ HideSpawnMenu ] # Hardlight change
   components:
+  # Frontier: fillable sprite
   - type: Sprite
-    sprite: Objects/Specific/Medical/hypospray.rsi
+    sprite: _NF/Objects/Specific/Medical/borghypo.rsi
     layers:
     - state: borghypo
-      map: [ "enum.SolutionContainerLayers.Base" ]
-    - state: borghypo_fill1
-      map: [ "enum.SolutionContainerLayers.Fill" ]
+      map: [ enum.SolutionContainerLayers.Base ]
+    - state: fill-1
       visible: false
+      map: [ enum.SolutionContainerLayers.Fill ]
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 7
+    fillBaseName: fill-
+  # End Frontier: fillable sprite
   - type: Item
     sprite: Objects/Specific/Medical/hypospray.rsi
   - type: SolutionContainerManager
     solutions:
       hypospray:
-        maxVol: 30 # HardLight: 10<30
+        maxVol: 30
   - type: RefillableSolution
     solution: hypospray
-  - type: SolutionContainerVisuals
-    maxFillLevels: 2
-    fillBaseName: borghypo_fill
-    solutionName: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
   - type: UseDelay
     delay: 0.5
 
 - type: entity
-  parent: BaseHypospray
-  id: JetInjector
-  name: jet injector
-  description: A sterile injector for convenient administration of drugs to patients.
-  components:
-  - type: Sprite
-    sprite: Objects/Specific/Medical/jetinjector.rsi
-    layers:
-    - state: jetinjector_base
-      map: [ "enum.SolutionContainerLayers.Base" ]
-    - state: jetinjector_filled1
-      map: [ "enum.SolutionContainerLayers.Fill" ]
-      visible: false
-  - type: Item
-    sprite: Objects/Specific/Medical/jetinjector.rsi
-  - type: UseDelay
-    delay: 1.5
-  - type: SolutionContainerManager
-    solutions:
-      hypospray:
-        maxVol: 15
-  - type: SolutionContainerVisuals
-    maxFillLevels: 3
-    fillBaseName: jetinjector_filled
-    solutionName: hypospray
-  - type: Injector
-    solutionName: hypospray
-    currentTransferAmount: null # Inject everything on injection.
-    activeModeProtoId: JetInjectorDynamicMode
-    allowedModes:
-    - JetInjectorDynamicMode
-    - JetInjectorInjectMode
-
-- type: entity
-  parent: JetInjector
-  id: AdvancedJetInjector
-  name: advanced jet injector
-  description: A pristine, fashionable, high quality injector. Allows for a faster injection, with a slightly larger capacity.
-  components:
-  - type: Sprite
-    sprite: Objects/Specific/Medical/advanced_jetinjector.rsi
-    layers:
-    - state: jetinjector_base
-      map: [ "enum.SolutionContainerLayers.Base" ]
-    - state: jetinjector_filled1
-      map: [ "enum.SolutionContainerLayers.Fill" ]
-      visible: false
-  - type: Item
-    sprite: Objects/Specific/Medical/advanced_jetinjector.rsi
-  - type: SolutionContainerManager
-    solutions:
-      hypospray:
-        maxVol: 20
-  - type: SolutionContainerVisuals
-    maxFillLevels: 4
-  - type: Injector
-    activeModeProtoId: AdvancedJetInjectorDynamicMode
-    allowedModes:
-    - AdvancedJetInjectorDynamicMode
-    - AdvancedJetInjectorInjectMode
-
-- type: entity
-  parent: SyndiHypo
-  id: AdminHypo
   name: experimental hypospray
   suffix: Admeme
+  parent: [BaseClearContraband, SyndiHypo] # Frontier: added BaseClearContraband
   description: The ultimate application of bluespace technology and rapid chemical administration.
+  id: AdminHypo
   components:
-    - type: SolutionContainerManager
-      solutions:
-        hypospray:
-          maxVol: 3000
-    - type: UseDelay
-      delay: 0.0
+  - type: Tag
+    tags:
+    - Admin
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 3000
+  - type: UseDelay
+    delay: 0.0
 
 - type: entity
-  parent: BaseHypospray
-  id: ChemicalMedipen
   name: chemical medipen
-  description: A single-dose, non-refillable medipen.
+  parent: BaseItem
+  description: A sterile injector for rapid administration of drugs to patients. This one can't be refilled.
+  id: ChemicalMedipen
   components:
+  - type: GoblinPreciousTrash # Frontier
   - type: Sprite
     sprite: Objects/Specific/Medical/medipen.rsi
     layers:
@@ -214,30 +214,35 @@
         maxVol: 15
   - type: ExaminableSolution
     solution: pen
-  - type: Injector
+  - type: Hypospray
     solutionName: pen
-    currentTransferAmount: null
-    activeModeProtoId: HyposprayInjectMode
-    allowedModes:
-    - HyposprayInjectMode
+    transferAmount: 15
+    onlyAffectsMobs: false
+    injectOnly: true
+    preventCombatInjection: true # Frontier
+    doAfterTime: 2 # Frontier
+  - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: firstaid_empty
+  - type: Tag
+    tags:
+    - Trash
   - type: PhysicalComposition
     materialComposition:
       Plastic: 50
   - type: SpaceGarbage
   - type: StaticPrice
-    price: 75 # These are limited supply items.
+    price: 35 # These are limited supply items.
   - type: TrashOnSolutionEmpty
     solution: pen
 
 - type: entity
+  name: emergency medipen
   parent: ChemicalMedipen
   id: EmergencyMedipen
-  name: emergency medipen
-  description: A single-dose, non-refillable medipen containing epinephrine and tranexamic acid, used to temporarily stabilize patients in critical condition and buy time for them to recieve proper medical treatment. Beware of overdose.
+  description: A rapid and safe way to stabilize patients in critical condition for personnel without advanced medical knowledge. Beware, as it's easy to overdose on epinephrine and tranexamic acid.
   components:
   - type: Sprite
     sprite: Objects/Specific/Medical/medipen.rsi
@@ -257,12 +262,14 @@
           Quantity: 12
         - ReagentId: TranexamicAcid
           Quantity: 3
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: poison auto-injector
   parent: ChemicalMedipen
   id: AntiPoisonMedipen
-  name: poison auto-injector
-  description: A single-dose, non-refillable medipen containing ultravasculine and epinephrine, used to quickly and easily treat toxin poisoning.
+  description: A rapid dose of anti-poison. Contains ultravasculine and epinephrine.
   components:
   - type: Item
     inhandVisuals:
@@ -294,12 +301,14 @@
           Quantity: 10
         - ReagentId: Epinephrine
           Quantity: 5
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: brute auto-injector
   parent: ChemicalMedipen
   id: BruteAutoInjector
-  name: brute auto-injector
-  description: A single-dose, non-refillable medipen containing bicaridine and tranexamic acid, used to quickly and easily treat simple physical injuries. Commonly used as a combat medicine.
+  description: A rapid dose of bicaridine and tranexamic acid, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -322,6 +331,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: bicpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 20
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -331,12 +345,14 @@
           Quantity: 15
         - ReagentId: TranexamicAcid
           Quantity: 5
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: burn auto-injector
   parent: ChemicalMedipen
   id: BurnAutoInjector
-  name: burn auto-injector
-  description: A single-dose, non-refillable medipen containing dermaline and leporazine, used to quickly and easily treat non-chemical burns. Commonly used as a combat medicine.
+  description: A rapid dose of dermaline and leporazine, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -359,6 +375,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: dermpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 20
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -368,12 +389,14 @@
           Quantity: 10
         - ReagentId: Leporazine
           Quantity: 10
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: rad auto-injector
   parent: ChemicalMedipen
   id: RadAutoInjector
-  name: rad auto-injector
-  description: A single-dose, non-refillable medipen containing arithrazine and bicaridine, used to quickly and easily treat radiation poisoning.
+  description: A rapid dose of anti-radiation. Contains arithrazine and bicaridine.
   components:
   - type: Item
     inhandVisuals:
@@ -396,6 +419,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: arithpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 20
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -405,12 +433,14 @@
           Quantity: 15
         - ReagentId: Bicaridine
           Quantity: 5
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: puncturase auto-injector
   parent: ChemicalMedipen
   id: PunctAutoInjector
-  name: puncturase auto-injector
-  description: A single-dose, non-refillable medipen containing puncturase and tranexamic acid, used to quickly and easily treat puncture wounds. Commonly used as a combat medicine.
+  description: A rapid dose of puncturase and tranexamic acid, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -433,6 +463,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: punctpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 15
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -442,12 +477,14 @@
           Quantity: 10
         - ReagentId: TranexamicAcid
           Quantity: 5
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: pyrazine auto-injector
   parent: ChemicalMedipen
   id: PyraAutoInjector
-  name: pyrazine auto-injector
-  description: A single-dose, non-refillable medipen containing pyrazine and dermaline, used to quickly and easily treat thermal burns. Commonly used as a combat medicine.
+  description: A rapid dose of pyrazine and dermaline, intended for combat applications.
   components:
   - type: Item
     inhandVisuals:
@@ -470,6 +507,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: pyrapen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 20
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -479,12 +521,14 @@
           Quantity: 10
         - ReagentId: Dermaline
           Quantity: 10
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: airloss auto-injector
   parent: ChemicalMedipen
   id: AirlossAutoInjector
-  name: airloss auto-injector
-  description: A single-dose, non-refillable medipen containing saline and dexalin plus, used to quickly and easily treat blood loss and asphyxiation.
+  description: A rapid dose of saline and dexalin plus, intended to get someone up quickly.
   components:
   - type: Item
     inhandVisuals:
@@ -507,6 +551,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: dexpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 40
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -516,12 +565,14 @@
           Quantity: 20
         - ReagentId: DexalinPlus
           Quantity: 20
+  - type: Tag
+    tags: []
 
 - type: entity
+  name: space medipen
   parent: ChemicalMedipen
   id: SpaceMedipen
-  name: space medipen
-  description: A single-dose, non-refillable medipen containing barozine and leporazine, used to protect exposed flesh from the deadly effects of space.
+  description: Contains a mix of chemicals that protect you from the deadly effects of space.
   components:
   - type: Item
     inhandVisuals:
@@ -540,10 +591,16 @@
     layers:
     - state: hypovolemic
       map: [ "enum.SolutionContainerLayers.Fill" ]
+  - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: hypovolemic_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 30
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -553,12 +610,14 @@
             Quantity: 10
           - ReagentId: Barozine
             Quantity: 20
+  - type: Tag
+    tags: []
 
 - type: entity
-  parent: [ChemicalMedipen, BaseC3SyndicateContraband] # HardLight: BaseSyndicateContraband<BaseC3SyndicateContraband
-  id: Stimpack
   name: hyperzine injector
-  description: A chemical injector containing a large shot of pure hyperzine. For when it's time to throw down. Effects last for about 60 seconds.
+  parent: [ChemicalMedipen, BaseC3SyndicateContraband] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
+  id: Stimpack
+  description: Contains enough hyperzine for you to have the chemical's effect for 30 seconds. Use it when you're sure you're ready to throw down.
   components:
   - type: Item
     inhandVisuals:
@@ -590,14 +649,21 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: stimpen_empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 30
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: StaticPrice
-    price: 1500
+    price: 500
+  - type: Tag
+    tags: []
 
 - type: entity
-  parent: [ChemicalMedipen, BaseC3SyndicateContraband] # HardLight: BaseSyndicateContraband<BaseC3SyndicateContraband
-  id: StimpackMini
   name: hyperzine microinjector
-  description: A chemical microinjector containing a small shot of pure hyperzine. Effects last for about 30 seconds.
+  parent: [ChemicalMedipen, BaseC3SyndicateContraband] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
+  id: StimpackMini
+  description: A microinjector of hyperzine that give you about 15 seconds of the chemical's effects.
   components:
   - type: Item
     inhandVisuals:
@@ -630,13 +696,15 @@
     changeColor: false
     emptySpriteName: microstimpen_empty
   - type: StaticPrice
-    price: 583 # 3500 for 6 as a freaky fraction
+    price: 100
+  - type: Tag
+    tags: []
 
 - type: entity
-  parent: ChemicalMedipen # HardLight: Removed BaseSyndicateContraband
-  id: CombatMedipen
   name: combat medipen
-  description: A single-dose, non-refillable medipen containing a chemical cocktail that treats most forms of damage.
+  parent: [ChemicalMedipen, BaseC3SyndicateContraband] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
+  id: CombatMedipen
+  description: A single-use medipen containing chemicals that regenerate most types of damage.
   components:
   - type: Item
     inhandVisuals:
@@ -668,43 +736,45 @@
           Quantity: 25
         - ReagentId: TranexamicAcid
           Quantity: 5
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 30
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: StaticPrice
-    price: 1500
+    price: 500
+  - type: Tag
+    tags: []
 
 - type: entity
-  parent: Pen # It is just like normal pen, isn't it?
-  id: Hypopen
+  name: pen
   suffix: Hypopen
+  parent: [Pen, BaseC3SyndicateContraband] # It is just like normal pen, isn't it?
+  description: A dark ink pen.
+  id: Hypopen
   components:
   - type: SolutionContainerManager
     solutions:
       hypospray:
-        maxVol: 10
+        maxVol: 30
   - type: RefillableSolution
     solution: hypospray
-    refillTime: 0.75
-    maxRefill: 5
   - type: ExaminableSolution
     solution: hypospray
     heldOnly: true # Allow examination only when held in hand.
-    exactVolume: true
-  - type: Injector
-    solutionName: hypospray
-    activeModeProtoId: HypopenDynamicMode
-    allowedModes:
-    - HyposprayInjectMode
-    - HypopenDynamicMode
+  - type: Hypospray
+    onlyAffectsMobs: false
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice # A new shitcurity meta
     price: 75
   - type: EmitSoundOnUse
-    handle: false # Don't want the sound to stop the self-inject from triggering
+    handle: false # don't want the sound to stop the self-inject from triggering
   - type: Contraband # Frontier
-    hideValues: true
+    hideValues: true # Frontier - stealthy
 
 - type: entity
-  parent: [ BaseItem, BaseC3SyndicateContraband ] # HardLight: BaseSyndicateContraband<BaseC3SyndicateContraband
+  parent: [ BaseItem, BaseC3SyndicateContraband ] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
   id: HypopenBox
   name: hypopen box
   description: A small box containing a hypopen. Packaging disintegrates when opened, leaving no evidence behind.
@@ -721,10 +791,10 @@
       path: /Audio/Effects/unwrap.ogg
 
 - type: entity
+  name: weh auto-injector
   parent: ChemicalMedipen
   id: WehMedipen
-  name: weh auto-injector
-  description: A non-refillable medipen containing multiple doses of weh.
+  description: A rapid dose of Weh. Contains juice that makes you Weh.
   components:
   - type: Sprite
     sprite: Objects/Specific/Medical/medipen.rsi
@@ -742,3 +812,10 @@
         reagents:
         - ReagentId: JuiceThatMakesYouWeh
           Quantity: 60
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 1
+    onlyAffectsMobs: false
+    injectOnly: true
+  - type: Tag
+    tags: []

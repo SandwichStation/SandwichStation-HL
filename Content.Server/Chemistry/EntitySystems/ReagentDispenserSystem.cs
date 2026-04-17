@@ -207,10 +207,10 @@ namespace Content.Server.Chemistry.EntitySystems
             {
                 // force open container, if applicable, to avoid confusing people on why it doesn't dispense
                 _openable.SetOpen(storedContainer.Value, true);
-                _solutionTransferSystem.Transfer(new SolutionTransferData(reagentDispenser,
+                _solutionTransferSystem.Transfer(reagentDispenser,
                         storedContainer.Value, src.Value,
                         outputContainer.Value, dst.Value,
-                        (int)reagentDispenser.Comp.DispenseAmount));
+                        (int)reagentDispenser.Comp.DispenseAmount);
             }
 
             UpdateUiState(reagentDispenser);
@@ -300,17 +300,17 @@ namespace Content.Server.Chemistry.EntitySystems
             if (component.StorageSlots.Count == 0)
             {
                 Logger.Info($"Dispenser {uid} has no slots (loaded from save), creating them via RefreshParts");
-
+                
                 // Create default part ratings - base parts (rating 1.0)
                 var partRatings = new Dictionary<string, float>
                 {
                     { component.SlotUpgradeMachinePart, 1.0f }
                 };
-
+                
                 // Trigger RefreshParts to create the slots
 				var ev = new RefreshPartsEvent { PartRatings = partRatings };
 				RaiseLocalEvent(uid, ev);
-
+                
                 Logger.Info($"Created {component.StorageSlots.Count} storage slots for dispenser {uid}");
             }
         }

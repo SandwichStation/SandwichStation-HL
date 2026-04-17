@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_snack.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_snack.yml
 # Base
 
 - type: entity
@@ -6,7 +6,7 @@
   id: FoodFrozenBase
   abstract: true
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/frozen.rsi
   - type: SolutionContainerManager
@@ -87,8 +87,8 @@
     - state: popsicle-base
     - state: popsicle
       color: orange
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenPopsicleTrash
 
 - type: entity
@@ -103,8 +103,8 @@
     - state: popsicle-base
     - state: popsicle
       color: red
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenPopsicleTrash
   - type: Tag
     tags:
@@ -120,8 +120,8 @@
     layers:
     - state: stick
     - state: jumbo
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenPopsicleTrash
   - type: SolutionContainerManager
     solutions:
@@ -151,8 +151,8 @@
         - state: cone
         - state: alpha-filling
     #      color: foo
-    - type: Edible
-      trash:
+    - type: Food
+      trash: 
       - FoodFrozenSnowconeTrash
     - type: SolutionContainerManager
       solutions:
@@ -190,8 +190,8 @@
     layers:
     - state: cone
     - state: berry
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenSnowconeTrash
   - type: Tag
     tags:
@@ -207,8 +207,8 @@
     layers:
     - state: cone
     - state: fruitsalad
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenSnowconeTrash
   - type: Tag
     tags:
@@ -224,8 +224,8 @@
     layers:
     - state: cone
     - state: clown
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenSnowconeTrash
 
 - type: entity
@@ -238,8 +238,8 @@
     layers:
     - state: cone
     - state: mime
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenSnowconeTrash
 
 - type: entity
@@ -252,8 +252,8 @@
     layers:
     - state: cone
     - state: rainbow
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodFrozenSnowconeTrash
 
 # Trash

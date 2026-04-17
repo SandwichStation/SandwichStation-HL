@@ -55,13 +55,12 @@ public sealed class SmartEquipSystem : EntitySystem
     {
         HandleSmartEquip(session, "belt");
     }
-
     // Frontier: smart-equip to wallet
     private void HandleSmartEquipWallet(ICommonSession? session)
     {
         HandleSmartEquip(session, "wallet");
     }
-
+    // End Frontier: smart-equip to wallet
     private void HandleSmartEquip(ICommonSession? session, string equipmentSlot)
     {
         if (session is not { } playerSession)
@@ -71,10 +70,10 @@ public sealed class SmartEquipSystem : EntitySystem
             return;
 
         // early out if we don't have any hands or a valid inventory slot
-        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHandId == null)
+        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null)
             return;
 
-        var handItem = _hands.GetActiveItem((uid, hands));
+        var handItem = hands.ActiveHand.HeldEntity;
 
         // can the user interact, and is the item interactable? e.g. virtual items
         if (!_actionBlocker.CanInteract(uid, handItem))
@@ -87,7 +86,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // early out if we have an item and cant drop it at all
-        if (handItem != null && !_hands.CanDropHeld(uid, hands.ActiveHandId))
+        if (handItem != null && !_hands.CanDropHeld(uid, hands.ActiveHand))
         {
             _popup.PopupClient(Loc.GetString("smart-equip-cant-drop"), uid, uid);
             return;
@@ -128,7 +127,7 @@ public sealed class SmartEquipSystem : EntitySystem
                 return;
             }
 
-            _hands.TryDrop((uid, hands), hands.ActiveHandId!);
+            _hands.TryDrop(uid, hands.ActiveHand, handsComp: hands);
             _inventory.TryEquip(uid, handItem.Value, equipmentSlot, predicted: true, checkDoafter:true);
             return;
         }
@@ -156,7 +155,7 @@ public sealed class SmartEquipSystem : EntitySystem
                 return;
             }
 
-            _hands.TryDrop((uid, hands), hands.ActiveHandId!);
+            _hands.TryDrop(uid, hands.ActiveHand, handsComp: hands);
             _storage.Insert(slotItem, handItem.Value, out var stacked, out _);
 
             // if the hand item stacked with the things in inventory, but there's no more space left for the rest

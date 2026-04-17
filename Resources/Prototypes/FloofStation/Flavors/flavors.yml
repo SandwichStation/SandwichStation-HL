@@ -311,26 +311,6 @@
   description: flavor-complex-yeolhandy
 
 - type: flavor
-  id: thecutecaptain
-  flavorType: Complex
-  description: flavor-complex-thecutecaptain
-
-- type: flavor
-  id: axelsale
-  flavorType: Complex
-  description: flavor-complex-axelsale
-
-- type: flavor
-  id: jenntonic
-  flavorType: Complex
-  description: flavor-complex-jenntonic
-
-- type: flavor
-  id: hallelujah
-  flavorType: Complex
-  description: flavor-complex-hallelujah
-
-- type: flavor
   id: blooddrop
   flavorType: Complex
   description: flavor-complex-blooddrop
@@ -354,29 +334,3 @@
   id: despair
   flavorType: Complex
   description: flavor-complex-despair
-
-- type: flavor
-  id: syndicate-eggnog
-  flavorType: Complex
-  description: flavor-complex-syndicate-eggnog
-
-- type: flavor
-  id: ginandpussy
-  flavorType: Complex
-  description: flavor-complex-ginandpussy
-
-- type: flavor
-  id: pussytonic
-  flavorType: Complex
-  description: flavor-complex-pussytonic
-
-- type: flavor
-  id: millermargarita
-  flavorType: Complex
-  description: flavor-complex-millermargarita
-
-- type: flavor
-  id: harpysnowfall
-  flavorType: Complex
-  description: flavor-complex-harpysnowfall
-  

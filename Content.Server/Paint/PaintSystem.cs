@@ -95,7 +95,7 @@ public sealed class PaintSystem : SharedPaintSystem
         if (args.Target is not { Valid: true } target)
             return;
 
-        if (TryComp<OpenableComponent>(entity, out var openable) && !openable.Opened) // HardLight
+        if (!_openable.IsOpen(entity))
         {
             _popup.PopupEntity(Loc.GetString("paint-closed", ("used", args.Used)), args.User, args.User, PopupType.Medium);
             return;

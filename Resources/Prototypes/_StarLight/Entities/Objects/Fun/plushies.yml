@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseAvaliPlushie
   id: PlushieNebula
   name: Nebula plushie
@@ -38,7 +38,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Reptilian/reptilian_scream.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Voice/Reptilian/reptilian_scream.ogg

@@ -21,7 +21,7 @@ namespace Content.Server.Stack
         [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
         public static readonly int[] DefaultSplitAmounts = { 1, 5, 10, 20, 50, 100, 500, 1000, 5000, 10000 };
-
+        
         private const float AutoStackRange = 2f; // 2 tiles
         private const float AutoStackUpdateInterval = 10f; // Check every 10 seconds
         private float _autoStackAccumulator;
@@ -73,7 +73,7 @@ namespace Content.Server.Stack
 
                 // Find nearby stacks within 2 tiles
                 var nearbyStacks = _lookup.GetEntitiesInRange(xform.Coordinates, AutoStackRange, LookupFlags.Dynamic | LookupFlags.Sundries);
-
+                
                 foreach (var nearbyUid in nearbyStacks)
                 {
                     if (nearbyUid == uid || processed.Contains(nearbyUid) || TerminatingOrDeleted(nearbyUid))
@@ -137,7 +137,7 @@ namespace Content.Server.Stack
             base.SetCount(uid, amount, component);
 
             // Queue delete stack if count reaches zero.
-            if (component.Count <= 0)
+            if (component.Count <= 0 && !component.Lingering)
                 QueueDel(uid);
         }
 

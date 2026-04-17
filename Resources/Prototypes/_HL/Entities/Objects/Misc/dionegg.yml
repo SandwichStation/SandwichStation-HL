@@ -11,7 +11,7 @@
     sprite: _NF/Objects/Consumable/Food/dragon_egg.rsi
     size: Large
   - type: MultiHandedItem
-  - type: Edible
+  - type: Food
     trash:
       - DinoEggshells
   - type: DamageOnHighSpeedImpact
@@ -74,7 +74,7 @@
   - type: Sprite
     sprite: _NF/Objects/Consumable/Food/dragon_egg.rsi
     state: broken
-  - type: Edible
+  - type: Food
   - type: Item
     sprite: Objects/Consumable/Food/egg.rsi
     size: Large

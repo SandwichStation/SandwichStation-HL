@@ -24,6 +24,10 @@
     containers:
       borg_brain:
         - PositronicBrain
+      borg_module:
+        - BorgModuleTool
+        - BorgModuleDiagnosis
+        - BorgModuleTreatment
   - type: SurgerySpeedModifier #shitmed
     speedModifier: 1.75
   - type: ItemSlots

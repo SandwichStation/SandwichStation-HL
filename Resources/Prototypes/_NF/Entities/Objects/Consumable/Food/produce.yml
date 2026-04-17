@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   name: pear
   parent: FoodProduceBase
   id: FoodPear
@@ -44,7 +44,7 @@
   - type: FlavorProfile
     flavors:
       - bitter
-  - type: Edible
+  - type: Food
   - type: SolutionContainerManager
     solutions:
       food:

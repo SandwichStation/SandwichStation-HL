@@ -463,7 +463,7 @@
           shouldHave: false
         walkSpeedModifier: 0.65
         sprintSpeedModifier: 0.65
-      - !type:ModifyStatusEffect
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentThreshold
           reagent: NitrousOxide
@@ -471,7 +471,8 @@
         - !type:OrganType
           type: Slime
           shouldHave: false
-        effectProto: StatusEffectForcedSleeping
+        key: ForcedSleep
+        component: ForcedSleeping
         time: 200 # This reeks, but I guess it works LMAO
         type: Add
       - !type:HealthChange
@@ -516,8 +517,9 @@
         damage:
           types:
             Cellular: 1
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectSeeingRainbow
+      - !type:GenericStatusEffect
+        key: SeeingRainbows
+        component: SeeingRainbows
         type: Add
         time: 100
         refresh: false
@@ -555,12 +557,13 @@
         damage:
           types:
             Cellular: 0.1
-      - !type:ModifyStatusEffect
+      - !type:GenericStatusEffect
         conditions:
         - !type:ReagentThreshold
           reagent: Frezon
           min: 1
-        effectProto: StatusEffectSeeingRainbow
+        key: SeeingRainbows
+        component: SeeingRainbows
         type: Add
         time: 500
         refresh: false

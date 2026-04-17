@@ -24,13 +24,8 @@ public abstract class SharedChatSystem : EntitySystem
     public const char SubtleOOCPrefix = '.';
     public const char AdminPrefix = ']';
     public const char WhisperPrefix = ',';
-    public const char TelepathicPrefix = '='; // Nyano: Adds the telepathic channel's prefix.
+    public const char TelepathicPrefix = '='; //Nyano - Summary: Adds the telepathic channel's prefix.
     public const char DefaultChannelKey = 'h';
-
-    public const int VoiceRange = 10; // how far voice goes in world units
-    public const int WhisperClearRange = 2; // how far whisper goes while still being understandable, in world units
-    public const int WhisperMuffledRange = 5; // how far whisper goes at all, in world units
-    public const string DefaultAnnouncementSound = "/Audio/Announcements/announce.ogg";
 
     public static readonly ProtoId<RadioChannelPrototype> CommonChannel = "Common";
 

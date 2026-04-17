@@ -8,21 +8,21 @@
     sprite: Mobs/Species/Slime/organs.rsi
     state: brain-slime
   - type: Stomach
-    specialDigestible: # HL
+    specialDigestible:
+      Frontier: general moth digestion
       tags:
-      - ClothMade
-      - Paper
-      - Pill
-      - Trash
+       - ClothMade
+       - Paper
+       - Pill
       components:
       - MothFood
-    isSpecialDigestibleExclusive: false
+      End Frontier: general moth digestion
   - type: Organ
     slotId: core
   - type: Brain
   - type: Metabolizer
     maxReagents: 6
-    metabolizerTypes: [ Vox, Slime, Animal, Goblin, Moth ]
+    metabolizerTypes: [ Slime, Animal, Goblin, Moth ]
     updateInterval: 0.5
     removeEmpty: true
     groups:

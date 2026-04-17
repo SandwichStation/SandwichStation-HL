@@ -55,19 +55,13 @@ public sealed class MutationChronicCoughSystem : EntitySystem
             if (!_random.Prob(comp.DropChance))
                 continue;
 
-            // HardLight start: Upstream compatibility.
-            if (!TryComp<HandsComponent>(uid, out var hands))
+            if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null)
                 continue;
 
-            var activeHand = _hands.GetActiveHand((uid, hands));
-            if (activeHand == null)
+            if (hands.ActiveHandEntity is not { } held)
                 continue;
 
-            if (!_hands.TryGetHeldItem((uid, hands), activeHand, out _))
-                continue;
-
-            _hands.DoDrop((uid, hands), activeHand, false);
-            // HardLight end
+            _hands.DoDrop(uid, hands.ActiveHand, false, hands);
             _popup.PopupEntity("You drop what you were holding", uid, uid);
         }
     }

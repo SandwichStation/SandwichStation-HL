@@ -9,8 +9,6 @@ using Robust.Shared.Audio.Systems;
 using Content.Shared.Examine;
 using Content.Server.Explosion.Components;
 using Content.Shared.Explosion.Components;
-using Content.Shared.Trigger.Components.Effects; // HardLight
-using Content.Shared.Trigger.Systems; // HardLight
 
 namespace Content.Server._Crescent.ShipShields;
 public partial class ShipShieldsSystem

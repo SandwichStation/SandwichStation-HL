@@ -10,7 +10,9 @@
   tier: 1
   cost: 7500 # Delta Price. 5000 is pre-adjustment.
   recipeUnlocks:
-  - PlantBagOfHolding #Delta V
+  - BorgModuleGardening
+  - BorgModuleHarvesting
+  - PlantBagOfHolding #DeltaV
   - SeedExtractorMachineCircuitboard
   - HydroponicsTrayMachineCircuitboard
   - ReagentGrinderIndustrialMachineCircuitboard
@@ -170,6 +172,26 @@
   - CryoPodMachineCircuitboard
   - CryostasisBeaker
   - SyringeCryostasis
+
+# Shitmed Change Start
+- type: technology
+  id: AdvancedTreatment
+  name: research-technology-advanced-treatment
+  icon:
+    sprite: _Shitmed/Objects/Specific/Medical/Surgery/e-scalpel.rsi
+    state: e-scalpel-on
+  discipline: CivilianServices
+  tier: 2
+  cost: 5000
+  recipeUnlocks:
+  # - BorgModuleAdvancedTreatment # Frontier
+  # - BorgModuleDefibrillator # Frontier
+  - BorgModuleAdvancedParamedic # Frontier
+  - MedicalTechFabCircuitboard
+  - EnergyScalpel
+  - EnergyCautery
+  - AdvancedRetractor
+  - BorgModuleAdvancedSurgery
   # Goobstation R&D Console rework start
   position: 3,6
   technologyPrerequisites:
@@ -207,7 +229,6 @@
   - AdvMopItem
   - MegaSprayBottle
   - NFBlueprintAdvMopItem # Frontier
-  - PortablePumpMachineCircuitBoard # Frontier
   - ReinforcedJug # Frontier
   # Goobstation R&D Console rework start
   position: -1,5

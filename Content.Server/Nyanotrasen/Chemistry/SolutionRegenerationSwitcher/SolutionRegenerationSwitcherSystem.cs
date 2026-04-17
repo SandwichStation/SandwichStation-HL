@@ -1,7 +1,6 @@
 using Robust.Shared.Prototypes;
 using Content.Server.Chemistry.Components;
 using Content.Server.Popups;
-using Content.Shared.Chemistry.Components; // HardLight
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Verbs;
 using Content.Server.Chemistry.Containers.EntitySystems;
@@ -91,7 +90,7 @@ namespace Content.Server.Chemistry.EntitySystems
             // Replace the generating solution with the newly selected solution.
             var generated = solutionRegenerationComponent.Generated;
             generated.RemoveAllSolution();
-
+            
             // Get the solution entity and add the new solution
             if (_solutionSystem.TryGetSolution(uid, solutionRegenerationComponent.SolutionName, out var solutionEnt))
                 _solutionSystem.TryAddSolution(solutionEnt.Value, newSolution);

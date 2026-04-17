@@ -287,26 +287,25 @@
     sprite: Clothing/Belt/janitor.rsi
   - type: Clothing
     sprite: Clothing/Belt/janitor.rsi
-  # - type: Storage # Frontier
-  #   whitelist: # Frontier: commented out whitelist
-  #   tags:
-  #   - Wrench
-  #   - Bottle
-  #   - Spray
-  #   - Soap
-  #   - Flashlight
-  #   - CigPack
-  #   - TrashBag
-  #   - WetFloorSign
-  #   - HolosignProjector
-  #   - Plunger
-  #   - WireBrush
-  #   - LightReplacer
-  #   - JanicartKeys
-  #   components:
-  #   - LightReplacer
-  #   - SmokeOnTrigger
-  #   maxItemSize: Large # Frontier
+      #- type: Storage # Frontier
+      # whitelist: # Frontier: commented out whitelist
+      # tags:
+      # - Wrench
+      # - Bottle
+      # - Spray
+      # - Soap
+      # - Flashlight
+      # - CigPack
+      # - TrashBag
+      # - WetFloorSign
+      # - HolosignProjector
+      # - Plunger
+      # - LightReplacer
+      # - JanicartKeys
+      # components:
+      # - LightReplacer
+    # - SmokeOnTrigger
+    #maxItemSize: Large # Frontier
   - type: ItemMapper
     mapLayers:
       bottle:
@@ -351,6 +350,7 @@
   #       - SurgeryTool
   #       - Dropper
   #     components:
+  #       - Hypospray
   #       - Injector
   #       - Pill
   #       - HandLabeler
@@ -363,7 +363,7 @@
           - Bottle
       hypo:
         whitelist:
-          tags:
+          components:
           - Hypospray
       pill:
         whitelist:

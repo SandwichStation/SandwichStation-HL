@@ -11,10 +11,10 @@
     rules: ghost-role-information-nonantagonist-rules
     prototype: NFBuddy
   - type: ActiveListener
-  - type: ParrotListener
-  - type: ParrotMemory
-    maxEntryLength: 40
-    learnCooldown: 30
+  - type: ParrotSpeech
+    maximumPhraseLength: 40
+    minimumWait: 30
+    maximumWait: 120
     learnChance: 0.8
 
 - type: entity

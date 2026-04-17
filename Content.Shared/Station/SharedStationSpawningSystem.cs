@@ -177,7 +177,7 @@ public abstract class SharedStationSpawningSystem : EntitySystem
             {
                 var inhandEntity = EntityManager.SpawnEntity(prototype, coords);
 
-                if (_handsSystem.TryGetEmptyHand((entity, handsComponent), out var emptyHand))
+                if (_handsSystem.TryGetEmptyHand(entity, out var emptyHand, handsComponent))
                 {
                     _handsSystem.TryPickup(entity, inhandEntity, emptyHand, checkActionBlocker: false, handsComp: handsComponent);
                 }

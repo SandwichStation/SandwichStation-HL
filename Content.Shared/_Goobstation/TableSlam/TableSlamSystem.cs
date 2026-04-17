@@ -36,7 +36,7 @@ public sealed class TableSlamSystem : EntitySystem
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-    [Dependency] private readonly SharedStaminaSystem _staminaSystem = default!; // HardLight: StaminaSystem<SharedStaminaSystem
+    [Dependency] private readonly StaminaSystem _staminaSystem = default!;
     [Dependency] private readonly SharedStunSystem _stunSystem = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly ContestsSystem _contestsSystem = default!;
@@ -54,7 +54,7 @@ public sealed class TableSlamSystem : EntitySystem
         if(!_random.Prob(ent.Comp.ParalyzeChance))
             return;
 
-        _stunSystem.TryUpdateParalyzeDuration(ent.Owner, TimeSpan.FromSeconds(3)); // HardLight: TryParalyze<TryUpdateParalyzeDuration; ent<ent.Owner; removed false
+        _stunSystem.TryParalyze(ent, TimeSpan.FromSeconds(3), false);
         RemComp<PostTabledComponent>(ent);
     }
 
@@ -138,7 +138,7 @@ public sealed class TableSlamSystem : EntitySystem
         }
 
         _staminaSystem.TakeStaminaDamage(ent, ent.Comp.TabledStaminaDamage);
-        _stunSystem.TryKnockdown(ent.Owner, TimeSpan.FromSeconds(3 * modifierOnGlassBreak), refresh: true, force: true);  // HardLight: ent<ent.Owner; added refresh: true & force: true
+        _stunSystem.TryKnockdown(ent, TimeSpan.FromSeconds(3 * modifierOnGlassBreak), false);
         var postTabledComponent = EnsureComp<PostTabledComponent>(ent);
         postTabledComponent.PostTabledShovableTime = _gameTiming.CurTime.Add(TimeSpan.FromSeconds(3));
         ent.Comp.BeingTabled = false;

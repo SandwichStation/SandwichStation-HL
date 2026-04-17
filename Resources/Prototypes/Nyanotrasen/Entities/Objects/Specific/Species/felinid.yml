@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseItem
   id: Hairball
   name: hairball
@@ -28,7 +28,7 @@
       Taco: Hairball
       Skewer: Hairball
     solution: hairball
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     solution: hairball
   # End Frontier: edible hairballs

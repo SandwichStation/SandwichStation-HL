@@ -1,13 +1,13 @@
+using Content.Server.Actions;
 using Content.Server.Bed.Components;
+using Content.Server.Body.Systems;
 using Content.Server.Construction;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Shared._EinsteinEngines.Silicon.Components;
-using Content.Shared.Actions; // HardLight
 using Content.Shared.Bed;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Body.Components;
-using Content.Shared.Body.Events;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Damage;
 using Content.Shared.Emag.Components;
@@ -22,7 +22,7 @@ namespace Content.Server.Bed
     public sealed class BedSystem : EntitySystem
     {
         [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-        [Dependency] private readonly SharedActionsSystem _actionsSystem = default!; // HardLight: ActionsSystem<SharedActionsSystem
+        [Dependency] private readonly ActionsSystem _actionsSystem = default!;
         [Dependency] private readonly EmagSystem _emag = default!;
         [Dependency] private readonly SleepingSystem _sleepingSystem = default!;
         [Dependency] private readonly SharedAppearanceSystem _appearance = default!;

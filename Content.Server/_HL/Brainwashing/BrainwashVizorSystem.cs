@@ -1,6 +1,7 @@
 using Content.Server.DoAfter;
 using Content.Server.EUI;
 using Content.Server.Popups;
+using Content.Server.Stunnable;
 using Content.Shared._HL.Brainwashing;
 using Content.Shared.Clothing;
 using Content.Shared.Coordinates;
@@ -8,7 +9,6 @@ using Content.Shared.DoAfter;
 using Content.Shared.Flash;
 using Content.Shared.Flash.Components;
 using Content.Shared.Mindshield.Components;
-using Content.Shared.Movement.Systems;
 using Content.Shared.StatusEffect;
 using Content.Shared.Verbs;
 using Robust.Server.Audio;
@@ -72,7 +72,7 @@ public sealed class BrainwashVizorSystem : SharedBrainwashVizorSystem
             _flashSystem.FlashedKey,
             TimeSpan.FromSeconds(5),
             true);
-        _movementMod.TryUpdateMovementSpeedModDuration(user, MovementModStatusSystem.FlashSlowdown, TimeSpan.FromSeconds(5), 0f, 0f);
+        _stun.TrySlowdown(user, TimeSpan.FromSeconds(5), true, 0, 0);
         TryComp<BrainwashedComponent>(user, out var newBrainwashedComponent);
         if (newBrainwashedComponent == null)
             AddComp<BrainwashedComponent>(user);

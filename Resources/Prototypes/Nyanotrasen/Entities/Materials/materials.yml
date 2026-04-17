@@ -25,7 +25,7 @@
       path: /Audio/Effects/Lightning/lightningbolt.ogg
   - type: SpawnOnTrigger
     proto: EffectFlashBluespace
-    useMapCoords: true # HardLight: mapCoords<useMapCoords
+    mapCoords: true
   - type: BluespacePulseOnTrigger
     radius: 10
     stunSeconds: 4

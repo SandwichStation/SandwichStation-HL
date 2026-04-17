@@ -1,4 +1,4 @@
-﻿#Medical implants
+#Medical implants
 
 - type: entity
   parent: BaseSubdermalImplant
@@ -30,8 +30,8 @@
       mobState:
       - Critical
       - Dead
-      preventSuicide: true # HardLight: preventVore<preventSuicide
-    - type: RattleOnTrigger
+      preventVore: true
+    - type: Rattle
       radioChannel: "Medical"
 
 - type: entity
@@ -57,8 +57,8 @@
       mobState:
       - Critical
       - Dead
-      preventSuicide: true # HardLight: preventVore<preventSuicide
-    - type: RattleOnTrigger
+      preventVore: true
+    - type: Rattle
       radioChannel: "Pirate"
 
 - type: entity
@@ -76,6 +76,7 @@
     - Critical
   - type: GibOnTrigger
     deleteItems: true
+    deleteOrgans: true
   - type: SpawnOnTrigger
     proto: Acidifier
   - type: Tag
@@ -96,6 +97,7 @@
   - type: TriggerOnBeingGibbed
   - type: GibOnTrigger
     deleteItems: true
+    deleteOrgans: true
   - type: SpawnOnTrigger
     proto: Acidifier
   - type: Tag
@@ -160,7 +162,7 @@
   - type: SubdermalImplant
     implantAction: ActionActivateDissonantWhispersImplant
     permanent: true
-  - type: TriggerOnActivateImplant
+  - type: TriggerImplantAction
   - type: EmitSoundOnTrigger
     sound:
       path: /Audio/_NF/Effects/bloodcult/whispers.ogg

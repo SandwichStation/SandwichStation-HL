@@ -4,41 +4,36 @@
   name: sentient slimes core
   description: "The source of incredible, unending gooeyness."
   components:
-  - type: Sprite
-    sprite: Mobs/Species/Slime/organs.rsi
-    state: brain-slime
-  - type: Stomach
-    specialDigestible: # HL
-      tags:
-      - ClothMade
-      - Paper
-      - Pill
-      - Trash
-      components:
-      - MothFood
-    isSpecialDigestibleExclusive: false
-  - type: Metabolizer
-    maxReagents: 3
-    metabolizerTypes: [ Vox, Slime, Animal, Goblin, Moth ]
-    removeEmpty: true
-    groups:
-    - id: Food
-    - id: Drink
-    - id: Medicine
-    - id: Cryogenic # Frontier
-    - id: Poison
-    - id: Narcotic
-    - id: Alcohol
-      rateModifier: 0.2
-  - type: SolutionContainerManager
-    solutions:
-      stomach:
-        maxVol: 30.0
-      food:
-        maxVol: 5
-        reagents:
-        - ReagentId: GreyMatter
-          Quantity: 5
+    - type: Sprite
+      sprite: Mobs/Species/Slime/organs.rsi
+      state: brain-slime
+    - type: Stomach
+      specialDigestible:
+        Frontier: general moth digestion
+        tags:
+         - ClothMade
+         - Paper
+         - Pill
+        components:
+        - MothFood
+        End Frontier: general moth digestion
+    - type: Metabolizer
+      maxReagents: 3
+      metabolizerTypes: [ Slime, Animal, Goblin, Moth ]
+      removeEmpty: true
+      groups:
+        - id: Food
+        - id: Drink
+        - id: Medicine
+        - id: Cryogenic # Frontier
+        - id: Poison
+        - id: Narcotic
+        - id: Alcohol
+          rateModifier: 0.2
+    - type: SolutionContainerManager
+      solutions:
+        stomach:
+          maxVol: 30.0
 
 - type: entity
   id: OrganSlimesLungs
@@ -70,8 +65,3 @@
         Lung:
           maxVol: 100.0
           canReact: false
-        food:
-          maxVol: 5
-          reagents:
-          - ReagentId: Slime
-            Quantity: 5

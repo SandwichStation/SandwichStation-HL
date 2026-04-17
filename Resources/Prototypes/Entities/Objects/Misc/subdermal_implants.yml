@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: BaseSubdermalImplant
   name: implant
   description: A microscopic chip that's injected under the skin.
@@ -59,18 +59,17 @@
   description: This implant lets the user honk anywhere at any time.
   categories: [ HideSpawnMenu ]
   components:
-  - type: SubdermalImplant
-    implantAction: ActionActivateHonkImplant
-  - type: TriggerOnActivateImplant
-  - type: EmitSoundOnTrigger
-    predicted: true
-    sound:
-      collection: BikeHorn
-      params:
-        variation: 0.125
-  - type: Tag
-    tags:
-    - BikeHorn
+    - type: SubdermalImplant
+      implantAction: ActionActivateHonkImplant
+    - type: TriggerImplantAction
+    - type: EmitSoundOnTrigger
+      sound:
+        collection: BikeHorn
+        params:
+          variation: 0.125
+    - type: Tag
+      tags:
+      - BikeHorn
 
 #Security implants
 
@@ -99,7 +98,7 @@
       mobState:
       - Critical
       - Dead
-    - type: RattleOnTrigger
+    - type: Rattle
       radioChannel: "ColSec" # HardLight
 
 
@@ -136,14 +135,11 @@
   description: This implant lets the user break out of hand restraints up to three times before ceasing to function anymore.
   categories: [ HideSpawnMenu ]
   components:
-  - type: SubdermalImplant
-    implantAction: ActionActivateFreedomImplant
-    whitelist:
-      components:
-      - Cuffable # useless if you cant be cuffed
-  - type: TriggerOnActivateImplant
-  - type: UncuffOnTrigger
-    targetUser: true
+    - type: SubdermalImplant
+      implantAction: ActionActivateFreedomImplant
+      whitelist:
+        components:
+        - Cuffable # useless if you cant be cuffed
 
 - type: entity
   parent: BaseSubdermalImplant
@@ -186,7 +182,7 @@
   components:
     - type: SubdermalImplant
       implantAction: ActionActivateEmpImplant
-    - type: TriggerOnActivateImplant
+    - type: TriggerImplantAction
     - type: EmpOnTrigger
       range: 2.75
       energyConsumption: 2700000 # Frontier: 50000<2700000
@@ -199,11 +195,10 @@
   description: This implant randomly teleports the user within a large radius when activated.
   categories: [ HideSpawnMenu ]
   components:
-  - type: SubdermalImplant
-    implantAction: ActionActivateScramImplant
-  - type: TriggerOnActivateImplant
-  - type: ScramOnTrigger
-    targetUser: true
+    - type: SubdermalImplant
+      implantAction: ActionActivateScramImplant
+    - type: TriggerImplantAction
+    - type: ScramImplant
 
 - type: entity
   parent: BaseSubdermalImplant
@@ -212,15 +207,11 @@
   description: This implant lets the user randomly change their appearance and name once.
   categories: [ HideSpawnMenu ]
   components:
-  - type: SubdermalImplant
-    implantAction: ActionActivateDnaScramblerImplant
-    whitelist:
-      components:
-      - HumanoidAppearance # syndies cant turn hamlet into a human
-  - type: TriggerOnActivateImplant
-  - type: DnaScrambleOnTrigger
-    targetUser: true
-  - type: DeleteOnTrigger
+    - type: SubdermalImplant
+      implantAction: ActionActivateDnaScramblerImplant
+      whitelist:
+        components:
+        - HumanoidAppearance # syndies cant turn hamlet into a human
 
 #Nuclear Operative/Special Exclusive implants
 
@@ -237,7 +228,7 @@
     - type: TriggerOnMobstateChange
       mobState:
       - Dead
-    - type: TriggerOnActivateImplant
+    - type: TriggerImplantAction
     - type: ExplodeOnTrigger
     - type: GibOnTrigger
       deleteItems: true
@@ -267,7 +258,7 @@
       mobState:
       - Dead
       preventSuicide: true
-    - type: TimerTrigger
+    - type: OnUseTimerTrigger
       delay: 7
       initialBeepDelay: 0
       beepSound:
@@ -302,7 +293,7 @@
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
-  - type: TriggerOnActivateImplant
+  - type: TriggerImplantAction
   - type: GibOnTrigger
     deleteItems: true
   - type: SpawnOnTrigger
@@ -329,8 +320,7 @@
       mobState:
       - Critical
       - Dead
-    - type: RattleOnTrigger
-      targetUser: true
+    - type: Rattle
 
 - type: entity
   parent: BaseSubdermalImplant

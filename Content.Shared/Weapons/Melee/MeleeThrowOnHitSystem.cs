@@ -3,9 +3,9 @@ using Content.Shared.Throwing;
 using Content.Shared.Timing;
 using Content.Shared.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee.Events;
-using Content.Shared.Whitelist; // Frontier
 using Robust.Shared.Physics.Components;
 using System.Numerics;
+using Content.Shared.Whitelist; // Frontier
 
 namespace Content.Shared.Weapons.Melee;
 
@@ -70,13 +70,14 @@ public sealed class MeleeThrowOnHitSystem : EntitySystem
         RaiseLocalEvent(target, ref startEvent);
 
         if (ent.Comp.StunTime != null)
-            _stun.TryAddParalyzeDuration(target, ent.Comp.StunTime.Value);
+            _stun.TryParalyze(target, ent.Comp.StunTime.Value, false);
 
         if (direction == Vector2.Zero)
             return;
 
-        // Frontier: Check that hit entity passes whitelist
+        // Frontier: check that hit entity passes whitelist
         var unanchorOnHit = ent.Comp.UnanchorOnHit && _whitelist.IsWhitelistPassOrNull(ent.Comp.Whitelist, target);
+        // End Frontier
 
         _throwing.TryThrow(target, direction.Normalized() * ent.Comp.Distance, ent.Comp.Speed, user, unanchor: unanchorOnHit); // Frontier: ent.Comp.UnanchorOnHit<unanchorOnHit
     }

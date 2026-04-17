@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   name: nutrient paste meal
   parent: FoodMealBase
   id: FoodThaSlop #tha slop
@@ -7,7 +7,7 @@
     - type: FlavorProfile
       flavors:
         - thaslop
-    - type: Edible
+    - type: Food
       trash:
         - FoodPacketMRETrash
     - type: Sprite
@@ -42,7 +42,7 @@
   id: FoodThaSlopDrink
   description: A synthetic drinkable mixture of protein, carbohydrates, vitamins, amino acids and minerals. Everything the body needs, and absolutely disgusting.
   components:
-    - type: Edible
+    - type: Food
       trash:
         - FoodThaSlopTrash
     - type: Sprite
@@ -144,15 +144,15 @@
     - type: Sprite
       layers:
       - state: meatbrick
-
+    
 - type: entity
   name: meat on a bone
   parent: FoodMeatRawBase
   id: FoodMeatOnBone
   description: A huge chunk of raw meat on a bone.
   components:
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - MaterialBones1
   - type: Sprite
     sprite: _HL/Objects/Consumable/Food/meatonbone.rsi
@@ -182,7 +182,7 @@
     damage:
       types:
         Blunt: 10
-
+    
 - type: entity
   name: cooked meat on a bone
   parent: FoodMeatBase
@@ -207,8 +207,8 @@
   - type: SliceableFood
     count: 3
     slice: FoodMeatCooked
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - MaterialBones1
   - type: Construction
     graph: MeatOnBone

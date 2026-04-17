@@ -28,25 +28,25 @@ namespace Content.Shared.Chemistry.Reaction
         public Dictionary<string, ReactantPrototype> Reactants = new();
 
         /// <summary>
-        /// The minimum temperature the reaction can occur at.
+        ///     The minimum temperature the reaction can occur at.
         /// </summary>
         [DataField("minTemp")]
         public float MinimumTemperature = 0.0f;
 
         /// <summary>
-        /// If true, this reaction will attempt to conserve thermal energy.
+        ///     If true, this reaction will attempt to conserve thermal energy.
         /// </summary>
         [DataField("conserveEnergy")]
         public bool ConserveEnergy = true;
 
         /// <summary>
-        /// The maximum temperature the reaction can occur at.
+        ///     The maximum temperature the reaction can occur at.
         /// </summary>
         [DataField("maxTemp")]
         public float MaximumTemperature = float.PositiveInfinity;
 
         /// <summary>
-        /// The required mixing categories for an entity to mix the solution with for the reaction to occur
+        ///     The required mixing categories for an entity to mix the solution with for the reaction to occur
         /// </summary>
         [DataField("requiredMixerCategories")]
         public List<ProtoId<MixingCategoryPrototype>>? MixingCategories;
@@ -60,7 +60,7 @@ namespace Content.Shared.Chemistry.Reaction
         /// <summary>
         /// Effects to be triggered when the reaction occurs.
         /// </summary>
-        [DataField("effects")] public List<EntityEffect> Effects = new();
+        [DataField("effects", serverOnly: true)] public List<EntityEffect> Effects = new();
 
         /// <summary>
         /// How dangerous is this effect? Stuff like bicaridine should be low, while things like methamphetamine
@@ -96,7 +96,7 @@ namespace Content.Shared.Chemistry.Reaction
         public bool Source;
 
         /// <summary>
-        /// Comparison for creating a sorted set of reactions. Determines the order in which reactions occur.
+        ///     Comparison for creating a sorted set of reactions. Determines the order in which reactions occur.
         /// </summary>
         public int CompareTo(ReactionPrototype? other)
         {

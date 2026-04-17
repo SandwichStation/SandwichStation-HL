@@ -42,8 +42,8 @@
     range: 10
   - type: SpawnOnTrigger
     proto: GrenadeFlashEffect
-  - type: TimedDespawn # HardLight: Replaced trigger components with modern systems.
-    lifetime: 0.3
+  - type: ActiveTimerTrigger
+    timeRemaining: 0.3
   - type: DeleteOnTrigger
 
 - type: entity

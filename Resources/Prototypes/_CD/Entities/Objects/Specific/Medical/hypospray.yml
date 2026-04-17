@@ -22,14 +22,11 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: dynamoxine_empty
-  - type: Injector
+  - type: Hypospray
     solutionName: pen
-    ignoreClosed: false
-    ignoreMobs: false
-    activeModeProtoId: HyposprayInjectMode
-    allowedModes:
-    - HyposprayInjectMode
-    currentTransferAmount: 5
+    transferAmount: 5
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: StaticPrice
     price: 500
   - type: Tag

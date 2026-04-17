@@ -1,6 +1,5 @@
 using Content.Server.Explosion.EntitySystems;
 using Content.Shared._Starlight.NullSpace;
-using Content.Shared.Trigger; // HardLight
 
 namespace Content.Server._Starlight.NullSpace;
 

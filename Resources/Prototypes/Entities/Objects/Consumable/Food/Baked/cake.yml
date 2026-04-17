@@ -9,7 +9,7 @@
   - type: FlavorProfile
     flavors:
       - sweet
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/cake.rsi
   - type: SolutionContainerManager
@@ -51,7 +51,7 @@
   - type: FlavorProfile
     flavors:
       - sweet
-  - type: Edible
+  - type: Food
   - type: SolutionContainerManager
     solutions:
       food:
@@ -115,16 +115,8 @@
   id: FoodCakePlain
   description: A plain cake, not a lie.
   components:
-  - type: Construction # Floof - Add tiered cakes
-    graph: CakeTiered
-    node: start
   - type: Sprite
     state: plain
-  # Floof section - Add tiered cakes
-  - type: Tag
-    tags:
-    - CakeBase
-  # Floof section end
   - type: SliceableFood
     slice: FoodCakePlainSlice
 
@@ -847,7 +839,7 @@
         reagents:
         - ReagentId: Flavorol # Frontier: Nutriment<Flavorol
           Quantity: 48
-  - type: Edible
+  - type: Food
     transferAmount: 12
   - type: Item
     size: Normal
@@ -871,7 +863,7 @@
         reagents:
         - ReagentId: Flavorol # Frontier: Nutriment<Flavorol
           Quantity: 4
-  - type: Edible
+  - type: Food
     transferAmount: 3
   - type: PointLight
     color: "#FFFF00"
@@ -884,119 +876,3 @@
     entries:
       Taco: Suppermatter
       Burger: SuppermatterBurger
-
-- type: entity
-  name: cotton cake
-  parent: FoodCakeBase
-  id: FoodCakeCotton
-  description: A cake with a fiber frosting and a wad of cotton on top.
-  components:
-  - type: Sprite
-    state: cotton
-  - type: SliceableFood
-    slice: FoodCakeCottonSlice
-  - type: Tag
-    tags:
-    - Cake
-    - ClothMade
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        maxVol: 55
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 30
-        - ReagentId: Vitamin
-          Quantity: 5
-        - ReagentId: Fiber
-          Quantity: 10
-  - type: Item
-    heldPrefix: cotton
-
-- type: entity
-  name: slice of cotton cake
-  parent: FoodCakeSliceBase
-  id: FoodCakeCottonSlice
-  description: A slice of cotton cake. You can just lick the frosting, it's fine.
-  components:
-  - type: Sprite
-    state: cotton-slice
-  - type: Tag
-    tags:
-    - Cake
-    - ClothMade
-    - Slice
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        maxVol: 15
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 8
-        - ReagentId: Vitamin
-          Quantity: 1
-        - ReagentId: Fiber
-          Quantity: 2
-  - type: Item
-    heldPrefix: cotton-slice
-
-- type: entity
-  name: berry delight
-  parent: FoodCakeBase
-  id: FoodCakeBerryDelight
-  description: This is a cake that is approaching.
-  components:
-  - type: Sprite
-    state: berry_delight
-  - type: FlavorProfile
-    flavors:
-    - sweet
-    - berry
-    - motivating
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        maxVol: 55
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 40
-        - ReagentId: Vitamin
-          Quantity: 10
-        - ReagentId: Milk
-          Quantity: 10
-  - type: SliceableFood
-    slice: FoodCakeBerryDelightSlice
-  - type: Tag
-    tags:
-    - Cake
-    - Fruit
-
-- type: entity
-  name: berry delight slice
-  parent: FoodCakeSliceBase
-  id: FoodCakeBerryDelightSlice
-  description: Put a fork in, your hunger in isolation.
-  components:
-  - type: Sprite
-    state: berry_delight_slice
-  - type: FlavorProfile
-    flavors:
-    - sweet
-    - berry
-    - motivating
-  - type: SolutionContainerManager
-    solutions:
-      food:
-        maxVol: 12
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 8
-        - ReagentId: Vitamin
-          Quantity: 2
-        - ReagentId: Milk
-          Quantity: 2
-  - type: Tag
-    tags:
-    - Cake
-    - Fruit
-    - Slice

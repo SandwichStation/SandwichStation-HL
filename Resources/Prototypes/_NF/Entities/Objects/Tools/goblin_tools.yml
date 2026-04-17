@@ -1,4 +1,4 @@
-﻿#region base
+#region base
 - type: entity
   id: NFBaseGoblinMadeTools
   suffix: Goblin Made
@@ -79,7 +79,7 @@
   - type: SmokeOnTrigger
     duration: 3
     spreadAmount: 1
-  - type: EmitSoundOnTrigger
+  - type: SoundOnTrigger
     sound: /Audio/Effects/smoke.ogg
   - type: TimerTriggerVisuals
     primingSound:

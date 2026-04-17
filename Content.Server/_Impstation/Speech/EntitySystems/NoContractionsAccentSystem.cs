@@ -6,7 +6,6 @@
 
 using System.Text.RegularExpressions;
 using Content.Server.Speech.Components;
-using Content.Shared.Speech; // HardLight: Upstream compatibility; PR #38948
 
 namespace Content.Server.Speech.EntitySystems;
 

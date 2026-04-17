@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
 # Base
 
 - type: entity
@@ -58,7 +58,7 @@
   id: FoodNoodlesCopy
   description: You probably shouldn't try this, you always hear people talking about how bad it is...
   components:
-  - type: Edible
+  - type: Food
     trash:
     - FoodPlateSmall
     - FoodPlateSmall

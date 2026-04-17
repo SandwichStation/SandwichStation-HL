@@ -5,13 +5,15 @@
   name: moth stomach
   components:
   - type: Stomach
-    specialDigestible: # Frontier(?)
+    specialDigestible:
+      Frontier: general moth digestion
       tags:
        - ClothMade
        - Paper
        - Pill
       components:
       - MothFood
+      End Frontier: general moth digestion
   - type: SolutionContainerManager
     solutions:
       stomach:

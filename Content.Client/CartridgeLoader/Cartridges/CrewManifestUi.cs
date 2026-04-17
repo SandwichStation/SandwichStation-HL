@@ -24,6 +24,6 @@ public sealed partial class CrewManifestUi : UIFragment
         if (state is not CrewManifestUiState crewManifestState)
             return;
 
-        _fragment?.UpdateState(crewManifestState.Entries, crewManifestState.Message);
+        _fragment?.UpdateState(crewManifestState.Entries); // coyote: remove name
     }
 }

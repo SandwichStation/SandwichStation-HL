@@ -1,10 +1,10 @@
 using System.Linq;
-using Content.Shared._NF.Silicons.Borgs; // Frontier
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
+using Content.Shared._NF.Silicons.Borgs; // Frontier
 
 namespace Content.Server.Silicons.Borgs;
 
@@ -53,7 +53,7 @@ public sealed partial class BorgSystem
 
     private void OnProvideItemStartup(EntityUid uid, ItemBorgModuleComponent component, ComponentStartup args)
     {
-        Container.EnsureContainer<Container>(uid, component.HoldingContainer);
+        component.ProvidedContainer = Container.EnsureContainer<Container>(uid, component.ProvidedContainerId);
     }
 
     private void OnSelectableInstalled(EntityUid uid, SelectableBorgModuleComponent component, ref BorgModuleInstalledEvent args)
@@ -190,54 +190,43 @@ public sealed partial class BorgSystem
         if (!TryComp<HandsComponent>(chassis, out var hands))
             return;
 
-        if (!_container.TryGetContainer(uid, component.HoldingContainer, out var container))
-            return;
-
         var xform = Transform(chassis);
-
-        for (var i = 0; i < component.Hands.Count; i++)
+        foreach (var itemProto in component.Items)
         {
-            var hand = component.Hands[i];
-            var handId = GetStableHandId(component, i); // HardLight
-            var uidScopedHandId = GetUidScopedHandId(uid, i); // HardLight
+            EntityUid item;
 
-            _hands.AddHand((chassis, hands), handId, hand.Hand);
-            EntityUid? item = null;
-
-            if (component.StoredItems is not null)
-            {
-                if (component.StoredItems.TryGetValue(handId, out var storedItem))
-                {
-                    item = storedItem;
-                    _container.Remove(storedItem, container, force: true);
-                }
-                // HardLight: Ship save would fail to correctly save items stored within modules, resulting in empty slots on load.
-                // This is a workaround.
-                else if (component.StoredItems.TryGetValue(uidScopedHandId, out var uidScopedStoredItem))
-                {
-                    // Backward compatibility for previously serialized UID-based hand IDs.
-                    item = uidScopedStoredItem;
-                    _container.Remove(uidScopedStoredItem, container, force: true);
-                    component.StoredItems.Remove(uidScopedHandId);
-                    component.StoredItems[handId] = uidScopedStoredItem;
-                }
-            }
-            else if (hand.Item is { } itemProto)
+            if (!component.ItemsCreated)
             {
                 item = Spawn(itemProto, xform.Coordinates);
             }
-
-            if (item is { } pickUp)
+            else
             {
-                _hands.DoPickup(chassis, handId, pickUp, hands);
-                if (!hand.ForceRemovable && hand.Hand.Whitelist == null && hand.Hand.Blacklist == null)
+                item = component.ProvidedContainer.ContainedEntities
+                    .FirstOrDefault(ent => Prototype(ent)?.ID == itemProto);
+                if (!item.IsValid())
                 {
-                    EnsureComp<UnremoveableComponent>(pickUp);
+                    Log.Debug($"no items found: {component.ProvidedContainer.ContainedEntities.Count}");
+                    continue;
                 }
+
+                _container.Remove(item, component.ProvidedContainer, force: true);
             }
+
+            if (!item.IsValid())
+            {
+                Log.Debug("no valid item");
+                continue;
+            }
+
+            var handId = $"{uid}-item{component.HandCounter}";
+            component.HandCounter++;
+            _hands.AddHand(chassis, handId, HandLocation.Middle, hands);
+            _hands.DoPickup(chassis, hands.Hands[handId], item, hands);
+            EnsureComp<UnremoveableComponent>(item);
+            component.ProvidedItems.Add(handId, item);
         }
 
-        Dirty(uid, component);
+        component.ItemsCreated = true;
     }
 
     private void RemoveProvidedItems(EntityUid chassis, EntityUid uid, BorgChassisComponent? chassisComponent = null, ItemBorgModuleComponent? component = null)
@@ -248,49 +237,27 @@ public sealed partial class BorgSystem
         if (!TryComp<HandsComponent>(chassis, out var hands))
             return;
 
-        if (!_container.TryGetContainer(uid, component.HoldingContainer, out var container))
-            return;
-
         if (TerminatingOrDeleted(uid))
-            return;
-
-        component.StoredItems ??= new();
-
-        for (var i = 0; i < component.Hands.Count; i++)
         {
-            var handId = GetStableHandId(component, i); // HardLight
-            var uidScopedHandId = GetUidScopedHandId(uid, i); // HardLight
-
-            if (_hands.TryGetHeldItem(chassis, handId, out var held))
+            foreach (var (hand, item) in component.ProvidedItems)
             {
-                RemComp<UnremoveableComponent>(held.Value);
-                _container.Insert(held.Value, container);
-                component.StoredItems[handId] = held.Value;
-                component.StoredItems.Remove(uidScopedHandId); // HardLight
+                QueueDel(item);
+                _hands.RemoveHand(chassis, hand, hands);
             }
-            else
-            {
-                component.StoredItems.Remove(handId);
-                component.StoredItems.Remove(uidScopedHandId); // HardLight
-            }
-
-            _hands.RemoveHand(chassis, handId);
-            _hands.RemoveHand(chassis, uidScopedHandId); // HardLight
+            component.ProvidedItems.Clear();
+            return;
         }
 
-        Dirty(uid, component);
-    }
-
-    // HardLight: Stable key used for StoredItems persistence across save/load where entity UIDs may change.
-    private static string GetStableHandId(ItemBorgModuleComponent component, int index)
-    {
-        return $"{component.ModuleId ?? "module"}-hand-{index}";
-    }
-
-    // HardLight: Backward-compatibility key for saves written before stable module-scoped hand IDs.
-    private static string GetUidScopedHandId(EntityUid uid, int index)
-    {
-        return $"{uid}-hand-{index}";
+        foreach (var (handId, item) in component.ProvidedItems)
+        {
+            if (LifeStage(item) <= EntityLifeStage.MapInitialized)
+            {
+                RemComp<UnremoveableComponent>(item);
+                _container.Insert(item, component.ProvidedContainer);
+            }
+            _hands.RemoveHand(chassis, handId, hands);
+        }
+        component.ProvidedItems.Clear();
     }
 
     /// <summary>
@@ -315,12 +282,12 @@ public sealed partial class BorgSystem
             return false;
         }
 
-        // Frontier start: Event for DroppableBorgModule to use
+        // Frontier - event for DroppableBorgModule to use
         var ev = new BorgCanInsertModuleEvent((uid, component), user);
         RaiseLocalEvent(module, ref ev);
         if (ev.Cancelled)
             return false;
-        // Frontier end
+        // End Frontier
 
         if (TryComp<ItemBorgModuleComponent>(module, out var itemModuleComp))
         {
@@ -329,8 +296,9 @@ public sealed partial class BorgSystem
                 if (!TryComp<ItemBorgModuleComponent>(containedModuleUid, out var containedItemModuleComp))
                     continue;
 
-                if (containedItemModuleComp.Hands.Count == itemModuleComp.Hands.Count &&
-                    containedItemModuleComp.Hands.All(itemModuleComp.Hands.Contains))
+                // if (containedItemModuleComp.Items.Count == itemModuleComp.Items.Count && // Frontier: no item check
+                //     containedItemModuleComp.Items.All(itemModuleComp.Items.Contains)) // Frontier
+                if (containedItemModuleComp.ModuleId == itemModuleComp.ModuleId) // Frontier: ID comparison
                 {
                     if (user != null)
                         Popup.PopupEntity(Loc.GetString("borg-module-duplicate"), uid, user.Value);

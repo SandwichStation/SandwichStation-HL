@@ -1,8 +1,8 @@
 ﻿using Content.Server.Chat.Managers;
+using Content.Server.IdentityManagement;
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.Examine;
-using Content.Shared.IdentityManagement; // HardLight
 using Content.Shared.Inventory;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
@@ -12,6 +12,7 @@ namespace Content.Server._White.Examine
     public sealed class ExaminableCharacterSystem : EntitySystem
     {
         [Dependency] private readonly InventorySystem _inventorySystem = default!;
+        [Dependency] private readonly IdentitySystem _identitySystem = default!;
         [Dependency] private readonly EntityManager _entityManager = default!;
         [Dependency] private readonly IChatManager _chatManager = default!;
         [Dependency] private readonly INetConfigurationManager _netConfigManager = default!;
@@ -35,7 +36,7 @@ namespace Content.Server._White.Examine
                 nameloc += "-selfaware";
             }
 
-            var identity = Identity.Name(uid, _entityManager, args.Examiner); // HardLight
+            var identity = _identitySystem.GetEntityIdentity(uid);
             var name = Loc.GetString(nameloc, ("name", identity));
             logLines.Add($"[color=DarkGray][font size=10]{name}[/font][/color]");
 

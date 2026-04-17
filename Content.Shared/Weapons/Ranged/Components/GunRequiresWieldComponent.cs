@@ -8,7 +8,7 @@ namespace Content.Shared.Weapons.Ranged.Components;
 /// Indicates that this gun requires wielding to be useable.
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(SharedWieldableSystem))]
+[Access(typeof(SharedWieldableSystem), typeof(SharedTraitWeaponHandlingSystem))] // HardLight: Added typeof(SharedTraitWeaponHandlingSystem)
 public sealed partial class GunRequiresWieldComponent : Component
 {
     [DataField, AutoNetworkedField]

@@ -45,10 +45,8 @@ public sealed partial class ShipRepairSystem : SharedShipRepairSystem
         }
 
         float maxRange = 0f;
-        foreach (var handId in _hands.EnumerateHands(player.Value)) // HardLight: hand<handId
-            if (_hands.TryGetHeldItem(player.Value, handId, out var held) // HardLight
-                && _toolQuery.TryComp(held.Value, out var tool) // HardLight
-                && tool.GhostRenderRadius > maxRange) // HardLight
+        foreach (var hand in _hands.EnumerateHands(player.Value))
+            if (_toolQuery.TryComp(hand.HeldEntity, out var tool) && tool.GhostRenderRadius > maxRange)
                 maxRange = tool.GhostRenderRadius;
 
         if (maxRange <= 0f)

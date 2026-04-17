@@ -1,4 +1,4 @@
-﻿# Raw
+# Raw
 - type: entity
   parent: FoodMeatRotten
   id: FoodMeatGoblin
@@ -15,7 +15,7 @@
   name: raw sheleg meat
   description: A slab of cold.. meat?
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: _NF/Objects/Consumable/Food/frozen.rsi
     state: sheleg
@@ -107,7 +107,7 @@
           Quantity: 9
         - ReagentId: Fat
           Quantity: 9
-
+  
 - type: entity
   name: battered raw fish fillet
   parent: FoodCuredCarp

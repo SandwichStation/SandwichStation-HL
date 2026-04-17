@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: [Clothing, RecyclableItemClothDevice] # Frontier: added RecyclableItemClothDevice
   id: ClothingMaskBase
@@ -39,7 +39,7 @@
     spawned:
     - id: MaterialCloth1
       amount: 1
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

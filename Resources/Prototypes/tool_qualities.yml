@@ -68,13 +68,6 @@
   spawn: RollingPin
   icon: { sprite: Objects/Tools/rolling_pin.rsi, state: icon }
 
-- type: tool
-  id: Brushing
-  name: tool-quality-brushing-name
-  toolName: tool-quality-brushing-tool-name
-  spawn: WireBrush
-  icon: { sprite: Objects/Specific/Janitorial/wirebrush.rsi, state: icon }
-
 - type: tool # HardLight: Creates a tool type for medical multitools to use (for Synths)
   id: Operating
   name: tool-quality-operating-name

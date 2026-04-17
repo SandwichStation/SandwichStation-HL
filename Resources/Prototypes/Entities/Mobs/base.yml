@@ -45,11 +45,10 @@
   - type: MovementSpeedModifier
   - type: RequireProjectileTarget
     active: False
-  - type: StunVisuals
   - type: OwnInteractionVerbs # EE interaction system
-    allowedVerbs: [] # TODO: Define something here, or don't.
-  - type: AnimatedEmotes # Goobstation: Animated emotes
-  - type: Emoting # HardLight
+    allowedVerbs: [] # TODO: define something here, or don't.
+  - type: AnimatedEmotes # goob edit - animated emotes
+  - type: Emoting #HL
 
 - type: entity
   save: false

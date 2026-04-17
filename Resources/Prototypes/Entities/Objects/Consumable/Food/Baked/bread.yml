@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_baked_whole.yml & food_baked_single.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_baked_whole.yml & food_baked_single.yml
 # Base
 
 - type: entity
@@ -9,7 +9,7 @@
   - type: FlavorProfile
     flavors:
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/bread.rsi
   - type: Tag
@@ -56,7 +56,7 @@
   id: FoodBreadVolcanic
   description: A dark loaf. Resembles pumice.
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: alpha
@@ -72,7 +72,7 @@
   id: FoodBreadVolcanicSlice
   description: A slice of dark loaf. Resembles pumice.
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: alpha-slice
@@ -92,7 +92,7 @@
     flavors:
       - banana
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: banana
@@ -114,7 +114,7 @@
     flavors:
       - banana
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: banana-slice
@@ -134,7 +134,7 @@
     flavors:
     - cotton
     - bread
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Sprite
     layers:
@@ -166,7 +166,7 @@
     flavors:
     - cotton
     - bread
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Sprite
     layers:
@@ -197,7 +197,7 @@
     flavors:
       - bread
       - corn
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: cornbread
@@ -224,7 +224,7 @@
     flavors:
       - bread
       - corn
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: cornbread-slice
@@ -249,7 +249,7 @@
       - cheesy
       - creamy
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: creamcheese
@@ -279,7 +279,7 @@
       - cheesy
       - creamy
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: creamcheese-slice
@@ -305,7 +305,7 @@
     flavors:
       - meaty
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: meat
@@ -338,7 +338,7 @@
     flavors:
       - meaty
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: meat-slice
@@ -369,7 +369,7 @@
     flavors:
       - nothing
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: mimana
@@ -402,7 +402,7 @@
     flavors:
       - nothing
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: mimana-slice
@@ -428,7 +428,7 @@
   id: FoodBreadPlain
   description: Some plain old earthen bread.
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: plain
@@ -441,7 +441,7 @@
   id: FoodBreadPlainSlice
   description: A slice of home.
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: plain-slice
@@ -456,7 +456,7 @@
     flavors:
       - meaty
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: sausage
@@ -490,7 +490,7 @@
     flavors:
       - meaty
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: sausage-slice
@@ -523,7 +523,7 @@
     flavors:
       - cobwebs
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: spidermeat
@@ -558,7 +558,7 @@
     flavors:
       - cobwebs
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: spidermeat-slice
@@ -591,7 +591,7 @@
     flavors:
       - tofu
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: tofu
@@ -620,7 +620,7 @@
     flavors:
       - tofu
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: tofu-slice
@@ -646,7 +646,7 @@
     flavors:
       - acid
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: xenomeat
@@ -679,7 +679,7 @@
     flavors:
       - acid
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     layers:
     - state: xenomeat-slice
@@ -755,7 +755,7 @@
     state: baguette-cotton
   - type: SliceableFood
     slice: FoodBreadBaguetteCottonSlice
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Tag
     tags:
@@ -816,7 +816,7 @@
   components:
   - type: Sprite
     state: crostini-cotton
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Tag
     tags:

@@ -23,13 +23,13 @@ public sealed class HandsFillSystem : EntitySystem
         var coords = Transform(ent).Coordinates;
         foreach (var (name, fill) in ent.Comp.Hands)
         {
-            _hands.AddHand((ent.Owner, hands), name, HandLocation.Middle); // HardLight: ent<ent.Owner; moved hands
+            _hands.AddHand(ent, name, HandLocation.Middle, hands);
 
             if (fill is not {} id)
                 continue;
 
             var uid = Spawn(id, coords);
-            if (!_hands.TryPickup(ent.Owner, uid, name, animate: false, handsComp: hands)) // HardLight: ent<ent.Owner
+            if (!_hands.TryPickup(ent, uid, name, animate: false, handsComp: hands))
             {
                 Log.Error($"Entity {ToPrettyString(ent)} couldn't pick up item {id} into its '{name}' hand!");
                 Del(uid);

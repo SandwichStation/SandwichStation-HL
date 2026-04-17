@@ -7,14 +7,6 @@
   - type: ConfirmableAction
     popup: suicide-action-popup
 
-- type: entity
-  abstract: true
-  # parent: BaseAction
-  id: BaseImplantAction
-  components:
-  - type: InstantAction
-    event: !type:ActivateImplantEvent
-
 # actions
 
 - type: entity
@@ -97,7 +89,6 @@
     event: !type:ActivateImplantEvent
 
 - type: entity
-  parent: BaseImplantAction
   id: ActionActivateFreedomImplant
   name: Break Free
   description: Activating your freedom implant will free you from any hand restraints
@@ -111,7 +102,7 @@
     icon:
       sprite: Actions/Implants/implants.rsi
       state: freedom
-    event: !type:ActivateImplantEvent
+    event: !type:UseFreedomImplantEvent
 
 - type: entity
   id: ActionOpenUplinkImplant
@@ -144,7 +135,6 @@
     event: !type:ActivateImplantEvent
 
 - type: entity
-  parent: BaseImplantAction
   id: ActionActivateScramImplant
   name: SCRAM!
   description: Randomly teleports you within a large distance.
@@ -159,10 +149,9 @@
     icon:
       sprite: Structures/Specific/anomaly.rsi
       state: anom4
-    event: !type:ActivateImplantEvent
+    event: !type:UseScramImplantEvent
 
 - type: entity
-  parent: BaseImplantAction
   id: ActionActivateDnaScramblerImplant
   name: Scramble DNA
   description:  Randomly changes your name and appearance.
@@ -177,7 +166,7 @@
     icon:
       sprite: Clothing/OuterClothing/Hardsuits/lingspacesuit.rsi
       state: icon
-    event: !type:ActivateImplantEvent
+    event: !type:UseDnaScramblerImplantEvent
 
 - type: entity
   id: ActionToggleSuitPiece
@@ -230,6 +219,18 @@
   - type: InstantAction
     useDelay: 30
     event: !type:VendingMachineSelfDispenseEvent
+
+- type: entity
+  id: ActionArtifactActivate
+  name: Activate Artifact
+  description: Immediately activates your current artifact node.
+  components:
+  - type: InstantAction
+    icon:
+      sprite: Objects/Specific/Xenoarchaeology/xeno_artifacts.rsi
+      state: ano01
+    useDelay: 60
+    event: !type:ArtifactSelfActivateEvent
 
 - type: entity
   id: ActionToggleBlock

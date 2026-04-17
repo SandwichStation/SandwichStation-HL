@@ -1,7 +1,7 @@
 using Robust.Shared.Audio;
 using Robust.Shared.Player;
+using Content.Server.Body.Components;
 using Content.Server.Body.Systems;
-using Content.Shared.Body.Components; // HardLight
 using Content.Server.DoAfter;
 using Content.Shared.Abilities.Psionics;
 using Content.Shared.Nyanotrasen.Abilities.Psionics;
@@ -89,7 +89,7 @@ namespace Content.Server.Abilities.Psionics
 
             var solution = new Solution();
             solution.AddReagent("PsionicRegenerationEssence", FixedPoint2.New(component.EssenceAmount * percentageComplete));
-            _bloodstreamSystem.TryAddToChemicals((uid, stream), solution); // HardLight: Moved stream
+            _bloodstreamSystem.TryAddToChemicals(uid, solution, stream);
         }
     }
 }

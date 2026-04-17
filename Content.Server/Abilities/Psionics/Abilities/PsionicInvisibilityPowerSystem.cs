@@ -78,7 +78,7 @@ namespace Content.Server.Abilities.Psionics
             //Pretty sure this DOESN'T work as intended.
             _actions.RemoveAction(uid, component.PsionicInvisibilityUsedActionEntity);
 
-            _stunSystem.TryUpdateParalyzeDuration(uid, TimeSpan.FromSeconds(8)); // HardLight: TryParalyze<TryUpdateParalyzeDuration; removed false
+            _stunSystem.TryParalyze(uid, TimeSpan.FromSeconds(8), false);
             DirtyEntity(uid);
         }
 

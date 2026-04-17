@@ -1,4 +1,4 @@
-using Content.Shared.Trigger.Systems; // HardLight
+using Content.Server.Explosion.EntitySystems;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._NF.Explosion.Components;

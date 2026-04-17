@@ -3,8 +3,8 @@ using Robust.Shared.GameStates;
 namespace Content.Shared.Drugs;
 
 /// <summary>
-///  Adds a subtle dark overlay to the client that scales with the effect duration.
-///  Use only in conjunction with <see cref="StatusEffectComponent"/>, on the status effect entity.
+///     Exists for use as a status effect. Adds a subtle dark overlay to the client that provides atmospheric enhancement without combat impairment.
+///     Used by the Widow narcotic for immersive abyssal power effects.
 /// </summary>
 [RegisterComponent, NetworkedComponent]
-public sealed partial class AbyssalWhispersStatusEffectComponent : Component;
+public sealed partial class AbyssalWhispersComponent : Component { }

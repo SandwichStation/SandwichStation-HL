@@ -4,7 +4,6 @@ using Content.Server.Body.Systems;
 using Content.Server.Mobs.Components;
 using Content.Server.Polymorph.Systems;
 using Content.Shared._HL.Mobs;
-using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.DoAfter;
@@ -207,7 +206,7 @@ public sealed class HLLivyathanSystem : EntitySystem
 
         if (delta > 0)
         {
-            _bloodstream.TryModifyBloodLevel((newEntity, newBloodstream), delta);
+            _bloodstream.TryModifyBloodLevel(newEntity, delta, newBloodstream);
             return;
         }
 
@@ -253,7 +252,7 @@ public sealed class HLLivyathanSystem : EntitySystem
         var targetBleed = Math.Clamp(oldBleedPercent * newBloodstream.MaxBleedAmount, 0f, newBloodstream.MaxBleedAmount);
         var delta = targetBleed - newBloodstream.BleedAmount;
 
-        _bloodstream.TryModifyBleedAmount((newEntity, newBloodstream), delta);
+        _bloodstream.TryModifyBleedAmount(newEntity, delta, newBloodstream);
     }
 
     private void CleanupPortal(Entity<HLLivyathanComponent> ent)

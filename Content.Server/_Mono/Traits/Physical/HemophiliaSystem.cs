@@ -1,4 +1,4 @@
-using Content.Shared.Body.Components; // HardLight
+using Content.Server.Body.Components;
 using Content.Shared._Mono.Traits.Physical;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
@@ -52,7 +52,7 @@ public sealed class HemophiliaSystem : EntitySystem
         if (extra <= 0f)
             return;
 
-        _bloodstream.TryModifyBleedAmount((ent, blood), extra); // HardLight: Moved extra
+        _bloodstream.TryModifyBleedAmount(ent, extra, blood);
     }
 }
 

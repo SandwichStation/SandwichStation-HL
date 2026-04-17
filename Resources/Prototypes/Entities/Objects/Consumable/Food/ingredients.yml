@@ -1,4 +1,4 @@
-﻿# Lots of misc stuff in here, hard to parent it.
+# Lots of misc stuff in here, hard to parent it.
 # ^ Yeah, this stuff should probably get split into different files but not my fight today.
 
 # Powder (For when you throw stuff like flour and it explodes)
@@ -450,7 +450,7 @@
     tags:
     - Ingredient
     - ClothMade
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: SolutionContainerManager
     solutions:
@@ -490,7 +490,7 @@
           Quantity: 1.5
         - ReagentId: Fiber
           Quantity: 3.5
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: MothFood # Frontier
 
@@ -518,7 +518,7 @@
           Quantity: 1.5
         - ReagentId: Fiber
           Quantity: 3.5
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: MothFood # Frontier
 
@@ -582,7 +582,7 @@
   - type: SliceableFood
     count: 3
     slice: FoodCroissantRawCotton
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: MothFood # Frontier
 
@@ -739,17 +739,12 @@
     entries:
       Taco: CheeseTaco
       Burger: CheeseBurger
-  # Floofstation cheese slice addition start
-  - type: SliceableFood
-    count: 3
-    slice: FoodSliceOfCheese
-  # Floofstation cheese slice addition end
 
 - type: entity
-  name: chÃ¨vre log
+  name: chèvre log
   parent: FoodBakingBase
   id: FoodChevre
-  description: A soft log of creamy ChÃ¨vre.
+  description: A soft log of creamy Chèvre.
   components:
   - type: FlavorProfile
     flavors:
@@ -771,10 +766,10 @@
           Quantity: 0.6
 
 - type: entity
-  name: chÃ¨vre disk
+  name: chèvre disk
   parent: FoodBakingBase
   id: FoodChevreSlice
-  description: A small disk of creamy ChÃ¨vre. An ideal adornment for French side dishes.
+  description: A small disk of creamy Chèvre. An ideal adornment for French side dishes.
   components:
   - type: FlavorProfile
     flavors:
@@ -930,6 +925,6 @@
     - cotton
   - type: Sprite
     state: croissant-raw-cotton
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: MothFood # Frontier

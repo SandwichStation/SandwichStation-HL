@@ -15,7 +15,6 @@
   - type: Tag
     tags:
     - Sheet
-    - ConstructionMaterial
     - NoPaint
     - TiderAnvilParts
   - type: Material
@@ -135,6 +134,15 @@
   - type: Stack
     stackType: Glass
     count: 1
+
+- type: entity
+  parent: SheetGlass
+  id: SheetGlassLingering0
+  suffix: Lingering, 0
+  components:
+  - type: Stack
+    lingering: true
+    count: 0
 
 - type: entity
   parent: SheetGlassBase

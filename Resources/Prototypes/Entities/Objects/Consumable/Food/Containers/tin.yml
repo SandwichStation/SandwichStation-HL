@@ -1,4 +1,4 @@
-﻿# Base
+# Base
 
 # uses "icon" and "icon-open" states for the main item.
 # trash prototypes use "trash" state
@@ -91,8 +91,8 @@
     flavors:
     - sweet
     - funny
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodTinPeachesTrash
   - type: Tag
     tags:
@@ -114,8 +114,8 @@
   components:
   - type: Sprite
     sprite: Objects/Consumable/Food/Tins/maint_peaches.rsi
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodTinPeachesMaintTrash
 
 # only exists for backwards compatibility with a few maps, nothing else uses it
@@ -152,8 +152,8 @@
     - savory
     - salty
     - cheap
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodTinBeansTrash
 
 - type: entity
@@ -182,8 +182,8 @@
     - meaty
     - salty
     - cheap
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodTinMRETrash
   - type: Tag
     tags:
@@ -196,3 +196,4 @@
   components:
   - type: Sprite
     sprite: Objects/Consumable/Food/Tins/meat.rsi
+

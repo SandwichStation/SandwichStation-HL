@@ -74,6 +74,14 @@
             Caustic: 2
       - !type:ChemRerollPsionic
         bonusMultiplier: 2
+  reactiveEffects:
+    Acidic:
+      methods: [ Touch ]
+      effects:
+      - !type:ActivateArtifact
+        conditions:
+        - !type:ReagentThreshold
+          min: 5
 
 - type: reagent
   id: Benzene

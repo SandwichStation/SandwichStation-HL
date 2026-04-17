@@ -152,7 +152,7 @@ public sealed class EtherealSystem : SharedEtherealSystem
 
             _audio.PlayPvs(NullSpaceCutoffSound, ent);
             RemComp<NullSpaceComponent>(ent);
-            _stun.TryUpdateParalyzeDuration(ent, stunTime); // HardLight: TryParalyze<TryUpdateParalyzeDuration; removed true
+            _stun.TryParalyze(ent, stunTime, true);
         }
 
         args.Handled = true;

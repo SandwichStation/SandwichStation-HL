@@ -1,6 +1,5 @@
 using Content.Server.Explosion.EntitySystems;
 using Content.Server.Lightning;
-using Content.Shared.Trigger; // HardLight
 using Robust.Shared.Random;
 
 namespace Content.Server._Mono.Trigger;

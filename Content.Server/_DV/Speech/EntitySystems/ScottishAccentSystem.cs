@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using Content.Server._DV.Speech.Components;
+using Content.Server.Speech;
 using Content.Server.Speech.EntitySystems;
-using Content.Shared.Speech; // HardLight: Upstream compatibility; PR #38948
+using System.Text.RegularExpressions;
 
 namespace Content.Server._DV.Speech.EntitySystems;
 

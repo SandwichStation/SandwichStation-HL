@@ -10,13 +10,8 @@ borg-slot-documents-empty = Books and papers
 borg-slot-soap-empty = Soap
 borg-slot-instruments-empty = Instruments
 borg-slot-beakers-empty = Beakers
-## Frontier
 borg-slot-brains-empty = Brains and MMIs
 borg-slot-modules-empty = Modules
 borg-slot-powercell-empty = Powercells
 borg-slot-inflatable-door-empty = Inflatable Door
 borg-slot-inflatable-wall-empty = Inflatable Wall
-## HardLight
-borg-slot-bag-empty = Bag
-borg-slot-handcuffs-empty = Handcuffs
-borg-slot-jetpack-empty = Jetpack

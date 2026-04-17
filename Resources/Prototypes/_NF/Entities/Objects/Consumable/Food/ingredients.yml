@@ -1,4 +1,4 @@
-﻿# Lots of misc stuff in here, hard to parent it.
+# Lots of misc stuff in here, hard to parent it.
 
 # Powder (For when you throw stuff like flour and it explodes)
 
@@ -84,7 +84,7 @@
   - type: FlavorProfile
     flavors:
       - bitter
-  - type: Edible
+  - type: Food
   - type: SolutionContainerManager
     solutions:
       food:
@@ -122,7 +122,7 @@
   - type: FlavorProfile
     flavors:
       - bitter
-  - type: Edible
+  - type: Food
   - type: SolutionContainerManager
     solutions:
       food:

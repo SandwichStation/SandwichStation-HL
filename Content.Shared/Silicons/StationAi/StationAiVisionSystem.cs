@@ -1,6 +1,4 @@
 using Content.Shared.StationAi;
-using Content.Shared.Power.EntitySystems; // HardLight
-using Content.Shared.SurveillanceCamera.Components; // HardLight
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Threading;
@@ -19,7 +17,6 @@ public sealed class StationAiVisionSystem : EntitySystem
     [Dependency] private readonly IParallelManager _parallel = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedMapSystem _maps = default!;
-    [Dependency] private readonly SharedPowerReceiverSystem _power = default!; // HardLight
     [Dependency] private readonly SharedTransformSystem _xforms = default!;
 
     private SeedJob _seedJob;
@@ -85,14 +82,6 @@ public sealed class StationAiVisionSystem : EntitySystem
         {
             if (!seed.Comp.Enabled)
                 continue;
-
-            // HardLight: Cameras can provide AI vision seeds, but unpowered cameras should not.
-            if (TryComp<CameraActiveOnCollideComponent>(seed.Owner, out var cameraCollide)
-                && cameraCollide.RequiresPower
-                && !_power.IsPowered(seed.Owner))
-            {
-                continue;
-            }
 
             _job.Data.Add(seed);
         }
@@ -174,14 +163,6 @@ public sealed class StationAiVisionSystem : EntitySystem
         {
             if (!seed.Comp.Enabled)
                 continue;
-
-            // HardLight: Cameras can provide AI vision seeds, but unpowered cameras should not.
-            if (TryComp<CameraActiveOnCollideComponent>(seed.Owner, out var cameraCollide)
-                && cameraCollide.RequiresPower
-                && !_power.IsPowered(seed.Owner))
-            {
-                continue;
-            }
 
             _job.Data.Add(seed);
         }

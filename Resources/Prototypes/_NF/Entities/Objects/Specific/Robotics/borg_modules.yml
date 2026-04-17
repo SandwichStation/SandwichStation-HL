@@ -1,4 +1,32 @@
 - type: entity
+  id: BorgModuleAdvancedMining
+  parent: [ BaseBorgModuleCargo, BaseProviderBorgModule ]
+  name: advanced mining cyborg module
+  components:
+  - type: Sprite
+    layers:
+    - state: cargo
+    - state: icon-advancedmining
+      sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
+  - type: ItemBorgModule
+    moduleId: NFAdvancedMining
+    items:
+    - MiningDrillDiamond
+    - Shovel
+    - AdvancedMineralScannerUnpowered
+    - JawsOfLife
+    - RadioHandheldNF
+  - type: DroppableBorgModule
+    moduleId: NFAdvancedMining
+    items:
+    - id: OreBagOfHolding
+      whitelist:
+        components:
+        - NFOreBag
+  - type: BorgModuleIcon
+    icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: adv-drill-module }
+
+- type: entity
   id: BorgModuleAdvancedParamedic
   parent: [ BaseBorgModuleMedical, BaseProviderBorgModule ]
   name: chemical recovery cyborg module
@@ -8,11 +36,12 @@
     - state: medical
     - state: icon-paramedic
       sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
-  - type: ItemBorgModule # HardLight: Edited to use the new system.
-    hands:
-    - item: HandheldHealthAnalyzerUnpowered
-    - item: BorgHypoTricordrazine
-    - item: BorgHypoInaprovaline
+  - type: ItemBorgModule
+    moduleId: NFAdvancedParamedic
+    items:
+    - HandheldHealthAnalyzerUnpowered
+    - BorgHypoTricordrazine
+    - BorgHypoInaprovaline
   - type: BorgModuleIcon
     icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: adv-paramed-module }
 
@@ -26,22 +55,108 @@
     - state: generic
     - state: icon-jetpack
       sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
-  - type: ItemBorgModule # HardLight: Edited to use the new system.
-    hands:
-    - item: HandheldGPSBasic
-    - item: HandHeldMassScannerBorg
-    - item: HandheldStationMapUnpowered # Hardlight
-    - item: BorgClock
-    - item: JetpackMiniFilled
-      hand:
-        emptyRepresentative: JetpackMini
-        emptyLabel: borg-slot-jetpack-empty
-        whitelist:
-          components:
-          - Jetpack
-    - item: RadioHandheldNF # Hardlight
+  - type: ItemBorgModule
+    moduleId: NFJetpack
+    items:
+    - HandheldGPSBasic
+    - HandHeldMassScannerBorg
+    - BorgClock
+  - type: DroppableBorgModule
+    moduleId: NFJetpack
+    items:
+    - id: JetpackMiniFilled
+      whitelist:
+        components:
+        - Jetpack
+      displayName: borg-placeholder-display-name-jetpack
+    placeholders:
+    - id: SpaceCash1000
+      whitelist:
+        components:
+        - Cash
+    - id: FuelPlasma
+      whitelist:
+        components:
+        - NFFuel
+      displayName: borg-placeholder-display-name-fuel
   - type: BorgModuleIcon
     icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: jetpack-module }
+
+- type: entity
+  id: BorgModuleRCDShipyard
+  parent: [ BaseBorgModuleEngineering, BaseProviderBorgModule ]
+  name: shipyard RCD cyborg module
+  components:
+  - type: Sprite
+    layers:
+    - state: engineering
+    - state: icon-rcd-shipyard
+      sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
+  - type: DroppableBorgModule
+    moduleId: RCD
+    items:
+    - id: ShipyardRCD
+      whitelist:
+        components:
+        - RCD
+      displayName: borg-placeholder-display-name-rcd
+    placeholders:
+    - id: ShipyardRCDAmmo
+      whitelist:
+        components:
+        - RCDAmmo
+      displayName: borg-placeholder-display-name-compressed-matter
+  - type: BorgModuleIcon
+    icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: shipyard-rcd-module }
+
+# Service modules
+- type: entity
+  id: BorgModuleNFService
+  parent: [ BaseBorgModuleService, BaseProviderBorgModule ]
+  name: lounge cyborg module
+  components:
+  - type: Sprite
+    layers:
+    - state: service
+    - state: icon-martini
+      sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
+  - type: ItemBorgModule
+    moduleId: NFService
+    items:
+    - BarSpoon
+  - type: DroppableBorgModule
+    moduleId: NFService
+    items:
+    - id: DrinkShaker
+      whitelist:
+        components:
+        - NFShaker
+    - id: Lighter
+      whitelist:
+        components:
+        - NFLighter
+      displayName: borg-placeholder-display-name-lighter
+    placeholders:
+    - id: CigPackRed
+      whitelist:
+        components:
+        - NFSmokeableContainer
+        tags:
+        - Cigar
+        - Cigarette
+      displayName: borg-placeholder-display-name-smokes
+    - id: DrinkGlass
+      whitelist:
+        tags:
+        - DrinkGlass
+      displayName: borg-placeholder-display-name-glassware
+    - id: DrinkGlass
+      whitelist:
+        tags:
+        - DrinkGlass
+      displayName: borg-placeholder-display-name-glassware
+  - type: BorgModuleIcon
+    icon: { sprite: Interface/Actions/actions_borg.rsi, state: service-module }
 
 - type: entity
   id: BorgModuleBureaucracy
@@ -52,38 +167,34 @@
     layers:
     - state: service
     - state: icon-pen
-  - type: ItemBorgModule # HardLight: Edited to use the new system.
-    hands:
-    - item: Pen
-    - item: HandLabeler
-    - item: BooksBag
-      hand:
-        emptyRepresentative: BooksBag
-        emptyLabel: borg-slot-bag-empty
-        whitelist:
-          components:
-          - NFBookBag
-    - item: Pen
-      hand:
-        emptyRepresentative: Pen
-        whitelist:
-          tags:
-          - Write
-        blacklist:
-          components:
-          - EnergyWeapon
-    - item: Paper
-      hand:
-        emptyRepresentative: Paper
-        whitelist:
-          components:
-          - Paper
-    - item: RubberStampApproved
-      hand:
-        emptyRepresentative: RubberStampBase
-        whitelist:
-          components:
-          - Stamp
+  - type: ItemBorgModule
+    moduleId: Bureaucracy
+    items:
+    - HandLabeler
+  - type: DroppableBorgModule
+    moduleId: Bureaucracy
+    items:
+    - id: BooksBag
+      whitelist:
+        components:
+        - NFBookBag
+    - id: Pen
+      whitelist:
+        tags:
+        - Write
+      blacklist:
+        components:
+        - EnergyWeapon
+    placeholders:
+    - id: Paper
+      whitelist:
+        components:
+        - Paper
+    - id: RubberStampApproved
+      whitelist:
+        components:
+        - Stamp
+      displayName: borg-placeholder-display-name-rubber-stamp
   - type: BorgModuleIcon
     icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: bureaucracy-module }
 
@@ -97,49 +208,50 @@
     - state: service
     - state: icon-burger
       sprite: _NF/Objects/Specific/Robotics/borgmodule.rsi
-  - type: ItemBorgModule # HardLight: Edited to use the new system.
-    hands:
-    - item: RollingPin
-    - item: KitchenKnife
-    - item: LargeBeaker
-      hand:
-        emptyRepresentative: Beaker
-        whitelist:
-          tags:
-          - GlassBeaker
-          - DrinkGlass
-          components:
-          - Utensil
-          - NFCookware
-    - item: FoodPlateTin
-      hand:
-        emptyRepresentative: FoodPlateTin
-        whitelist:
-          tags:
-          - GlassBeaker
-          - DrinkGlass
-          components:
-          - Utensil
-          - NFCookware
-    - item: ReagentContainerFlour
-      hand:
-        emptyRepresentative: ReagentContainerFlour
-        whitelist:
-          tags:
-          - Ingredient
-          components:
-          - Food
-          - Produce
-          - NFIngredient
-    - item: FoodApple
-      hand:
-        emptyRepresentative: FoodApple
-        whitelist:
-          tags:
-          - Ingredient
-          components:
-          - Food
-          - Produce
-          - NFIngredient
+  - type: ItemBorgModule
+    moduleId: Chef
+    items:
+    - RollingPin
+    - KitchenKnife
+  - type: DroppableBorgModule
+    moduleId: Chef
+    items:
+    - id: LargeBeaker
+      whitelist:
+        tags:
+        - GlassBeaker
+        - DrinkGlass
+        components:
+        - Utensil
+        - NFCookware
+      displayName: borg-placeholder-display-name-cookware
+    - id: FoodPlateTin
+      whitelist:
+        tags:
+        - GlassBeaker
+        - DrinkGlass
+        components:
+        - Utensil
+        - NFCookware
+      displayName: borg-placeholder-display-name-cookware
+    placeholders:
+    - id: ReagentContainerFlour
+      whitelist:
+        components:
+        - Food
+        - Produce
+        - NFIngredient
+        tags:
+        - Ingredient
+      displayName: borg-placeholder-display-name-food-or-ingredients
+    - id: FoodApple
+      whitelist:
+        components:
+        - Food
+        - Produce
+        - NFIngredient
+        tags:
+        - Ingredient
+      displayName: borg-placeholder-display-name-food-or-ingredients
   - type: BorgModuleIcon
     icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: chef-module }

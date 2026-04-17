@@ -65,7 +65,7 @@ public abstract partial class SharedOfferItemSystem : EntitySystem
     /// </summary>
     protected void UnOffer(EntityUid uid, OfferItemComponent component)
     {
-        if (!TryComp<HandsComponent>(uid, out var hands) || _hands.GetActiveHand((uid, hands)) == null) // HardLight
+        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null)
             return;
 
 
@@ -122,7 +122,7 @@ public abstract partial class SharedOfferItemSystem : EntitySystem
         if (offerItem == null && !TryComp(component.Target, out offerItem))
             return;
 
-        if (!TryComp<HandsComponent>(uid, out var hands) || _hands.GetActiveHand((uid, hands)) == null || // HardLight
+        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null ||
             component.Target == null)
             return;
 

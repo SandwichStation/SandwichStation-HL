@@ -205,6 +205,7 @@
     cosmeticOnly: false
   - type: CritThresholdModifier
     critThresholdDelta: 25
+  - type: BigWeaponHandling
   - type: MeleeDamageModifier
     flatBonus: 2
     damageType: Blunt
@@ -243,6 +244,7 @@
     pseudoItem: true
   - type: CritThresholdModifier
     critThresholdDelta: -15
+  - type: SmallWeaponHandling
   - type: MeleeDamageModifier
     flatBonus: -2
     damageType: Blunt
@@ -282,6 +284,7 @@
     - 3,0,4,3
   - type: CritThresholdModifier
     critThresholdDelta: -30
+  - type: TinyWeaponHandling
   - type: MeleeDamageModifier
     flatBonus: -3.5
     damageType: Blunt

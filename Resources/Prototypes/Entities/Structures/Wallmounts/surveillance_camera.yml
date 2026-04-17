@@ -11,7 +11,7 @@
       light:
         shape:
           !type:PhysShapeCircle
-          radius: 0.5
+          radius: 5
         hard: false
         mask:
         - GhostImpassable
@@ -24,8 +24,7 @@
         - None
         layer:
         - TabletopMachineLayer
-  - type: CameraActiveOnCollide
-    requiresPower: true # HardLight: false<true; upstream took too long.
+  - type: LightOnCollide
   - type: PointLight
     enabled: false
     radius: 5

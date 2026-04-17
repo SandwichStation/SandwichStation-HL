@@ -19,10 +19,10 @@ public abstract class SharedFelinidSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<FelinidFoodComponent, FullyEatenEvent>(OnMouseEaten); // HardLight: BeforeFullyEatenEvent<FullyEatenEvent
+        SubscribeLocalEvent<FelinidFoodComponent, BeforeFullyEatenEvent>(OnMouseEaten);
     }
 
-    private void OnMouseEaten(Entity<FelinidFoodComponent> ent, ref FullyEatenEvent args) // HardLight: BeforeFullyEatenEvent<FullyEatenEvent
+    private void OnMouseEaten(Entity<FelinidFoodComponent> ent, ref BeforeFullyEatenEvent args)
     {
         var user = args.User;
         if (!HasComp<FelinidComponent>(user) || !TryComp<HungerComponent>(user, out var hunger))

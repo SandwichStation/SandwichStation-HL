@@ -18,8 +18,7 @@
       behaviors:
       - !type:TriggerBehavior
   - type: ScatteringGrenade
-  - type: TriggerOnUse
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     delay: 3
   - type: Tag
     tags:
@@ -72,8 +71,6 @@
           Primed: { state: primed }
           Unprimed: { state: icon }
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Machines/door_lock_off.ogg"
 
@@ -91,7 +88,7 @@
   - type: ScatteringGrenade
     fillPrototype: ExGrenade
     distance: 4
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     beepSound:
       path: "/Audio/Effects/beep1.ogg"
       params:
@@ -99,8 +96,6 @@
     initialBeepDelay: 0
     beepInterval: 0.5
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Machines/door_lock_off.ogg"
 
@@ -123,8 +118,6 @@
       types:
         Blunt: 10
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Items/bikehorn.ogg"
 
@@ -151,8 +144,6 @@
       types:
         Blunt: 10
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Effects/flash_bang.ogg"
 
@@ -173,7 +164,7 @@
     fillPrototype: NFBulletFoam # Frontier: use NF variant
     capacity: 30
     velocity: 30
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     beepSound:
       path: "/Audio/Effects/beep1.ogg"
       params:
@@ -181,7 +172,5 @@
     initialBeepDelay: 0
     beepInterval: 2
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Weapons/Guns/Gunshots/batrifle.ogg"

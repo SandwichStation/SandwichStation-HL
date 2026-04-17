@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   name: breaching charge
   description: A breaching explosive for security officers to break through walls.
   parent: [SeismicCharge, BaseC2ContrabandUnredeemable] # Frontier: added BaseC2ContrabandUnredeemable
@@ -10,7 +10,7 @@
     layers:
     - state: icon
       map: ["base"]
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     delay: 10
     delayOptions: [10, 15, 20, 25]
     initialBeepDelay: 0
@@ -18,6 +18,8 @@
       path: /Audio/Effects/Cargo/buzz_two.ogg
       params:
         volume: -6
+    startOnStick: true
+    canToggleStartOnStick: true
   - type: Explosive
     explosionType: DemolitionCharge
     totalIntensity: 10

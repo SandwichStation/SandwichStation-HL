@@ -182,27 +182,3 @@ reagent-desc-yeolhandy = The loner's choice, cold as their bed.
 
 reagent-name-the-cute-captain = The Cute Captain
 reagent-desc-the-cute-captain = Light blue liquid with a sweet floral scent and a hint of pomegranate
-
-reagent-name-axels-ale = Axel's Ale
-reagent-desc-axels-ale = Red like the color of a setting sun on a beach
-
-reagent-name-jenn-tonic = Jenn in Tonic
-reagent-desc-jenn-tonic = Light golden and bubbly, what could go wrong?
-
-reagent-name-hallelujah = Hallelujah
-reagent-desc-hallelujah = Exactly what you need.
-
-reagent-name-syndicate-eggnog = Syndicate Eggnog
-reagent-desc-syndicate-eggnog = creamy, pale yellow and topped with a sprinkle of cinnamon and strongly alcoholic.
-
-reagent-name-gin-and-pussy = Gin and Pussy
-reagent-desc-gin-and-pussy = A Sapphic twist on the classic Gin and Tonic, featuring locally sourced Natural Lubricant as a replacement for Tonic, A favorite of Maintenance Bars everywhere.
-
-reagent-name-pussytonic = Pussy Tonic
-reagent-desc-pussytonic = Natural Lubrican with some tonic, for pussy lovers.
-
-reagent-name-millermargarita = Miller Margarita
-reagent-desc-millermargarita = A self-made spin on a classic by a popular bartender, emphasis on "self-made".
-
-reagent-name-harpysnowfall = Harpy's Snowfall
-reagent-desc-harpysnowfall = A chilled drink with a splash of booze, preferred by harpies on a hot day.

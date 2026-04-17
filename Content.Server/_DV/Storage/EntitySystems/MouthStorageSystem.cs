@@ -1,9 +1,9 @@
 using Content.Server.Nutrition;
+using Content.Server.Speech;
 using Content.Server.Speech.EntitySystems;
 using Content.Shared._DV.Storage.Components;
 using Content.Shared._DV.Storage.EntitySystems;
 using Content.Shared.Nutrition;
-using Content.Shared.Speech; // HardLight: Upstream compatibility; PR #38948
 using Content.Shared.Storage;
 
 namespace Content.Server._DV.Storage.EntitySystems;
@@ -27,7 +27,7 @@ public sealed class MouthStorageSystem : SharedMouthStorageSystem
     }
 
     // Attempting to eat or drink anything with items in your mouth won't work
-    private void OnIngestAttempt(EntityUid uid, MouthStorageComponent component, ref IngestionAttemptEvent args) // HardLight: Added ref
+    private void OnIngestAttempt(EntityUid uid, MouthStorageComponent component, IngestionAttemptEvent args)
     {
         if (!IsMouthBlocked(component))
             return;
@@ -37,6 +37,6 @@ public sealed class MouthStorageSystem : SharedMouthStorageSystem
 
         var firstItem = storage.Container.ContainedEntities[0];
         args.Blocker = firstItem;
-        args.Cancelled = true; // HardLight: Cancel()<Cancelled
+        args.Cancel();
     }
 }

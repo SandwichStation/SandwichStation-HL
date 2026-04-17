@@ -170,16 +170,11 @@ public sealed class DNASequenceInjectorSystem : EntitySystem
 
         var empty = Spawn("DNAInjectorEmpty", Transform(injector).Coordinates);
 
-        // HardLight start: Upstream compatibility.
-        if (TryComp<HandsComponent>(user, out var hands)
-            && _hands.GetActiveHand((user, hands)) is { } activeHand
-            && _hands.TryGetActiveItem((user, hands), out var activeItem)
-            && activeItem == injector)
+        if (TryComp<HandsComponent>(user, out var hands) && hands.ActiveHandEntity == injector)
         {
-            _hands.DoDrop((user, hands), activeHand, false);
-            _hands.DoPickup(user, activeHand, empty, hands);
+            _hands.DoDrop(user, hands.ActiveHand!, false, hands);
+            _hands.DoPickup(user, hands.ActiveHand!, empty);
         }
-        // HardLight end
 
         Del(injector);
         return true;

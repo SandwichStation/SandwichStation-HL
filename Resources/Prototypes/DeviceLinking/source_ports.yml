@@ -158,12 +158,6 @@
   description: signal-port-description-power-discharging
 
 - type: sourcePort
-  id: Trigger
-  name: signal-port-name-trigger-sender
-  description: signal-port-description-trigger-sender
-  defaultLinks: [ AutoClose, On, Open, Forward, Trigger, Timer ]
-
-- type: sourcePort
   id: OperatingTable
   name: signal-port-name-operating-table
   description: signal-port-description-operating-table

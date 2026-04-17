@@ -1,5 +1,5 @@
+using Content.Server.Body.Components;
 using Content.Server.Body.Systems;
-using Content.Shared.Body.Components;
 using Content.Shared._HL.Damage;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
@@ -60,7 +60,7 @@ public sealed class HLBloodLevelPassiveDamageSystem : EntitySystem
             if (!hasDamage)
                 continue;
 
-            var bloodLevelPercentage = _bloodstream.GetBloodLevelPercentage((uid, bloodstream));
+            var bloodLevelPercentage = _bloodstream.GetBloodLevelPercentage(uid, bloodstream);
 
             // Can't heal with no blood
             if (bloodLevelPercentage <= 0)
@@ -81,7 +81,7 @@ public sealed class HLBloodLevelPassiveDamageSystem : EntitySystem
                 var damageToGive = comp.Damage * multiplier;
 
                 if (bloodstream.BleedAmount < comp.MinimumBleedAmount && bloodLevelPercentage > comp.MaximumBloodPercentage)
-                    _bloodstream.TryModifyBloodLevel((uid, bloodstream), -comp.BloodLevelDecrease);
+                    _bloodstream.TryModifyBloodLevel(uid, -comp.BloodLevelDecrease, bloodstream);
 
                 _damageable.TryChangeDamage(uid, damageToGive, true, false, damage);
 

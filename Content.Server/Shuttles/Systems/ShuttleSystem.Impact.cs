@@ -131,7 +131,7 @@ public sealed partial class ShuttleSystem
                 continue;
 
             // Apply knockdown to unbuckled entities
-                _stuns.TryCrawling(uid, knockdownTime);
+            _stuns.TryKnockdown(uid, knockdownTime, true);
         }
     }
 

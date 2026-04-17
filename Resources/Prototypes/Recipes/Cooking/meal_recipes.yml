@@ -1866,19 +1866,6 @@
   recipeType: Assembler # Frontier
 
 - type: microwaveMealRecipe
-  id: RecipeBerryDelight
-  name: berry delight recipe
-  result: FoodCakeBerryDelight
-  time: 5
-  group: Cake
-  solids:
-    FoodCakePlain: 1
-    FoodBerries: 5
-  reagents:
-    Milk: 10
-  recipeType: Assembler # Frontier
-
-- type: microwaveMealRecipe
   id: RecipeBreadDog
   name: bread dog recipe
   result: MobBreadDog
@@ -2565,18 +2552,6 @@
   - Oven # Frontier
 
 - type: microwaveMealRecipe
-  id: RecipeTacoDragon
-  name: draco recipe
-  result: FoodTacoDragon
-  time: 10
-  group: Savory
-  solids:
-    FoodTacoShell: 1
-    FoodMeatDragonCutlet: 2
-    FoodChiliPepper: 1
-  recipeType: Oven
-
-- type: microwaveMealRecipe
   id: RecipeCroissant
   name: croissant recipe
   result: FoodBakedCroissant
@@ -2670,43 +2645,3 @@
     FoodCheeseSlice: 1
     FoodButterSlice: 1
   recipeType: Oven # Frontier
-
-- type: microwaveMealRecipe
-  id: RecipeBreakfastAmerican
-  name: full american breakfast recipe
-  result: FoodBreakfastAmerican
-  time: 30
-  group: Savory
-  reagents:
-    Egg: 12
-  solids:
-    FoodMeatBacon: 2
-    FoodPotato: 1
-    FoodBakedPancake: 2
-  recipeType: Oven # Frontier
-
-- type: microwaveMealRecipe
-  id: RecipeBreakfastEnglish
-  name: full english breakfast recipe
-  result: FoodBreakfastEnglish
-  time: 30
-  group: Savory
-  reagents:
-    Egg: 12
-  solids:
-    FoodMeatBacon: 1
-    FoodMeat: 1
-    FoodTomato: 1
-    FoodSoybeans: 2 # replace these with green beans once those become a thing
-  recipeType: Oven # Frontier
-
-- type: microwaveMealRecipe
-  id: RecipeCottonCake
-  name: cotton cake recipe
-  result: FoodCakeCotton
-  time: 5
-  group: Moth
-  solids:
-    FoodCakePlain: 1
-    CottonBol: 2
-  recipeType: Assembler # Frontier

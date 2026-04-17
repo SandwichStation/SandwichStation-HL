@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
 # A bunch of different meals. This stuff doesn't come off their plates because
 # it's assembled on them. Or they just don't have plates.
 
@@ -12,7 +12,7 @@
   components:
   - type: Item
     storedRotation: -90
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/meals.rsi
   - type: SolutionContainerManager
@@ -99,7 +99,7 @@
   id: FoodMealNachos
   description: Chips from Space Mexico.
   components:
-  - type: Edible
+  - type: Food
     trash:
     - FoodPlateSmall
   - type: FlavorProfile
@@ -126,7 +126,7 @@
   id: FoodMealNachosCheesy
   description: The delicious combination of nachos and melting cheese.
   components:
-  - type: Edible
+  - type: Food
     trash:
     - FoodPlateSmall
   - type: FlavorProfile
@@ -156,7 +156,7 @@
   id: FoodMealNachosCuban
   description: That's some dangerously spicy nachos.
   components:
-  - type: Edible
+  - type: Food
     trash:
     - FoodPlateSmall
   - type: FlavorProfile
@@ -362,8 +362,8 @@
   id: FoodMealRibs
   description: BBQ ribs, slathered in a healthy coating of BBQ sauce. The least vegan thing to ever exist.
   components:
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodKebabSkewer
   - type: FlavorProfile
     flavors:
@@ -634,8 +634,8 @@
   id: FoodMealCornInButter
   description: Buttery.
   components:
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodPlate
   - type: FlavorProfile
     flavors:

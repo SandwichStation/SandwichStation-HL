@@ -1,1 +1,0 @@
-food-sequence-content-scrambled-eggs = scrambled

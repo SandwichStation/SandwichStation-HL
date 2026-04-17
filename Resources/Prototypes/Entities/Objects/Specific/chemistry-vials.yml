@@ -40,7 +40,6 @@
     solution: beaker
   - type: ExaminableSolution
     solution: beaker
-    exactVolume: true
   - type: DrawableSolution
     solution: beaker
   - type: SolutionTransfer
@@ -101,13 +100,22 @@
     solution: beaker
   - type: DnaSubstanceTrace
 
+# Lidded version of the above, pretend the lid is what stops reactions.
 - type: entity
+  name: lidded vial
   parent: BaseItem
-  id: BorgVial
-  name: integrated vial
-  description: An internal compartment installed into a cyborg. Rated for 30 units of any liquid.
+  id: LiddedVial
+  description: A small vial with a screwtop lid.
   components:
-  # All this shit is here to avoid inheriting breakable, since borgs can't replace broken vials.
+  - type: Tag
+    tags:
+    - CentrifugeCompatible
+  - type: PhysicalComposition
+    materialComposition:
+      Glass: 25
+  - type: FitsInDispenser
+    solution: beaker
+  - type: SpaceGarbage
   - type: Sprite
     sprite: Objects/Specific/Chemistry/vial.rsi
     layers:
@@ -127,6 +135,7 @@
     solutions:
       beaker:
         maxVol: 30
+        canReact: false
   - type: MixableSolution
     solution: beaker
   - type: RefillableSolution
@@ -157,6 +166,49 @@
     damage:
       types:
         Blunt: 0
+  - type: TrashOnSolutionEmpty
+    solution: beaker
+  - type: StaticPrice
+    price: 100
+  - type: DamageOnLand
+    damage:
+      types:
+        Blunt: 15
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Blunt: 2
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 15
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+          params:
+            volume: -4
+      - !type:SpillBehavior { }
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlass:
+            min: 0
+            max: 1
+        transferForensics: true
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Spillable
+    solution: beaker
+  - type: DnaSubstanceTrace
+  - type: Openable
+    sound:
+      collection: bottleOpenSounds
+    closeable: true
+    closeSound:
+      collection: bottleCloseSounds
 
 - type: entity
   id: VestineChemistryVial

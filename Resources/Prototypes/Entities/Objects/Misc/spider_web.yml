@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: SpiderWeb
   name: spider web
   description: It's stringy and sticky.
@@ -156,7 +156,7 @@
     - type: FlavorProfile
       flavors:
         - sweet
-    - type: Edible
+    - type: Food
       delay: 2
     - type: SolutionContainerManager
       solutions:

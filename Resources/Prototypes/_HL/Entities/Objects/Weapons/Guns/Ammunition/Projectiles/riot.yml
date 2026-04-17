@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseBulletTrigger
   id: BulletRiotGunTearGas
   name: Tear Gas Round
@@ -8,8 +8,8 @@
     sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
     layers:
     - state: cleanade
-  - type: TimedDespawn
-    lifetime: 0.3
+  - type: ActiveTimerTrigger
+    timeRemaining: 0.3
   - type: SmokeOnTrigger
     duration: 10
     spreadAmount: 30
@@ -18,7 +18,7 @@
       reagents:
       - ReagentId: TearGas
         Quantity: 50
-  - type: EmitSoundOnTrigger
+  - type: SoundOnTrigger
     sound: /Audio/Items/smoke_grenade_smoke.ogg
 
 - type: entity

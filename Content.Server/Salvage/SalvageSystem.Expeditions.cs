@@ -13,7 +13,7 @@ using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components; // For MapGridComponent
 using Content.Server._NF.Salvage.Expeditions; // Frontier
-using Content.Shared.Station.Components; // HardLight
+using Content.Server.Station.Components; // Frontier
 using Content.Shared.Procedural; // Frontier
 using Content.Shared.Salvage; // Frontier
 using Robust.Shared.Prototypes; // Frontier
@@ -198,7 +198,7 @@ public sealed partial class SalvageSystem
             if (TryComp(uid, out StationDataComponent? stationData))
             {
                 // Normal case: station has StationDataComponent
-                largestGrid = _station.GetLargestGrid((uid, stationData)); // HardLight: Added uid
+                largestGrid = _station.GetLargestGrid(stationData);
             }
             else if (TryComp(uid, out MapGridComponent? _))
             {
@@ -317,7 +317,7 @@ public sealed partial class SalvageSystem
 
         if (TryComp(expeditionComp.Station, out StationDataComponent? stationData))
         {
-            var largestGrid = _station.GetLargestGrid((expeditionComp.Station, stationData)); // Added expeditionComp.Station
+            var largestGrid = _station.GetLargestGrid(stationData);
             if (largestGrid != null && Exists(largestGrid.Value) && TryComp(largestGrid.Value, out TransformComponent? gridXform))
             {
                 coordinates = gridXform.Coordinates;

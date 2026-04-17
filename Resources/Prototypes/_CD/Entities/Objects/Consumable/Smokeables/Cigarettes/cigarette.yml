@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: Cigarette
   id: CigaretteOlive
   name: cigarette
@@ -23,7 +23,7 @@
   description: Sugar sticks designed to look like a roll of nicotine and tobacco.
   components:
   - type: Appearance
-  - type: Edible
+  - type: Food
   - type: Tag
     tags:
       - FoodSnack

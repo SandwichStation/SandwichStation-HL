@@ -13,13 +13,9 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: stasipen_empty
-  - type: Injector
+  - type: Hypospray
     solutionName: pen
-    ignoreClosed: false
-    activeModeProtoId: HyposprayInjectMode
-    allowedModes:
-    - HyposprayInjectMode
-    currentTransferAmount: 10
+    transferAmount: 10
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -29,3 +25,4 @@
           Quantity: 10
   - type: Tag
     tags: []
+  

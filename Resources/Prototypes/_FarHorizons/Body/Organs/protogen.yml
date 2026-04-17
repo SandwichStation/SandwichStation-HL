@@ -1,4 +1,4 @@
-﻿# TODO - Sprite Avali Protogen organs. Basically the same as the blue ones but darker and yellow- 100% a cosmetic thing.
+# TODO - Sprite Avali Protogen organs. Basically the same as the blue ones but darker and yellow- 100% a cosmetic thing.
 
 - type: entity
   id: BaseProtogenUnGibbable
@@ -8,7 +8,7 @@
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/organs.rsi
   - type: Organ
-  - type: Edible
+  - type: Food
   - type: Extractable
     grindableSolutionName: organ
   - type: SolutionContainerManager

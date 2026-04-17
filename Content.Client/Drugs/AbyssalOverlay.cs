@@ -1,6 +1,6 @@
 using Content.Shared.CCVar;
 using Content.Shared.Drugs;
-using Content.Shared.StatusEffectNew;
+using Content.Shared.StatusEffect;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Configuration;
@@ -17,8 +17,6 @@ public sealed class AbyssalOverlay : Overlay
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IEntitySystemManager _sysMan = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    private readonly StatusEffectsSystem _statusEffects = default!;
 
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
     public override bool RequestScreenTexture => true;
@@ -36,9 +34,6 @@ public sealed class AbyssalOverlay : Overlay
     public AbyssalOverlay()
     {
         IoCManager.InjectDependencies(this);
-
-        _statusEffects = _sysMan.GetEntitySystem<StatusEffectsSystem>();
-
         _abyssalShader = _prototypeManager.Index(AbyssalShaderId).InstanceUnique();
     }
 
@@ -49,11 +44,15 @@ public sealed class AbyssalOverlay : Overlay
         if (playerEntity == null)
             return;
 
-        if (!_statusEffects.TryGetEffectsEndTimeWithComp<AbyssalWhispersStatusEffectComponent>(playerEntity, out var endTime))
+        if (!_entityManager.HasComponent<AbyssalWhispersComponent>(playerEntity)
+            || !_entityManager.TryGetComponent<StatusEffectsComponent>(playerEntity, out var status))
             return;
 
-        endTime ??= TimeSpan.MaxValue;
-        var timeLeft = (float)(endTime - _timing.CurTime).Value.TotalSeconds;
+        var statusSys = _sysMan.GetEntitySystem<StatusEffectsSystem>();
+        if (!statusSys.TryGetTime(playerEntity.Value, DrugOverlaySystem.AbyssalKey, out var time, status))
+            return;
+
+        var timeLeft = (float) (time.Value.Item2 - time.Value.Item1).TotalSeconds;
 
         TimeTicker += args.DeltaSeconds;
 

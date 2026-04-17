@@ -7,7 +7,7 @@ using Content.Shared.Shuttles.UI.MapObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;
-using Content.Shared.Station.Components; // HardLight
+using Content.Server.Station.Components;
 using System.Linq;
 
 namespace Content.Server.Shuttles.Systems;

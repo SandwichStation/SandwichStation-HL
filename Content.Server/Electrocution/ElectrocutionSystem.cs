@@ -58,7 +58,7 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
 
-    private static readonly ProtoId<StatusEffectPrototype> StatusKeyIn = new("Electrocution");
+    private static readonly ProtoId<StatusEffectPrototype> StatusEffectKey = new("Electrocution");
 
     private static readonly ProtoId<DamageTypePrototype> DamageType = new("Shock");
 
@@ -389,22 +389,18 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
         }
 
         if (!Resolve(uid, ref statusEffects, false) ||
-            !_statusEffects.CanApplyEffect(uid, StatusKeyIn, statusEffects))
+            !_statusEffects.CanApplyEffect(uid, StatusEffectKey, statusEffects))
         {
             return false;
         }
 
-        if (!_statusEffects.TryAddStatusEffect<ElectrocutedComponent>(uid, StatusKeyIn, time, refresh, statusEffects))
+        if (!_statusEffects.TryAddStatusEffect<ElectrocutedComponent>(uid, StatusEffectKey, time, refresh, statusEffects))
             return false;
 
         var shouldStun = siemensCoefficient > 0.5f;
 
         if (shouldStun)
-        {
-            _ = refresh
-                ? _stun.TryUpdateParalyzeDuration(uid, time * ParalyzeTimeMultiplier)
-                : _stun.TryAddParalyzeDuration(uid, time * ParalyzeTimeMultiplier);
-        }
+            _stun.TryParalyze(uid, time * ParalyzeTimeMultiplier, refresh, statusEffects);
 
         // TODO: Sparks here.
 
@@ -420,7 +416,7 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
             }
         }
 
-        _stuttering.DoStutter(uid, time * StutteringTimeMultiplier, refresh);
+        _stuttering.DoStutter(uid, time * StutteringTimeMultiplier, refresh, statusEffects);
         _jittering.DoJitter(uid, time * JitterTimeMultiplier, refresh, JitterAmplitude, JitterFrequency, true, statusEffects);
 
         _popup.PopupEntity(Loc.GetString("electrocuted-component-mob-shocked-popup-player"), uid, uid);

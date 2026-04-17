@@ -63,8 +63,9 @@
       - !type:MovespeedModifier
         walkSpeedModifier: 0.65
         sprintSpeedModifier: 0.65
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        component: Drowsiness
         time: 4
         type: Add
         refresh: false
@@ -614,7 +615,6 @@
       - !type:Emote
         emote: Honk
         showInChat: true
-        showInGuidebook: true
         force: true
         probability: 0.2
       - !type:HealthChange

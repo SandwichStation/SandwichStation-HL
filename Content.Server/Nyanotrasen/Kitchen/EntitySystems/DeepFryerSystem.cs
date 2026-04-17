@@ -36,7 +36,6 @@ using Content.Shared.Item;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
-using Content.Shared.Nutrition.Components; // HardLight
 using Content.Shared.Nyanotrasen.Kitchen;
 using Content.Shared.Nyanotrasen.Kitchen.Components;
 using Content.Shared.Nyanotrasen.Kitchen.Prototypes;
@@ -226,7 +225,7 @@ public sealed partial class DeepFryerSystem : SharedDeepfryerSystem
         }
 
         // Damage non-food items and mobs.
-        if ((!HasComp<EdibleComponent>(item) || HasComp<MobStateComponent>(item)) && // HardLight: FoodComponent<EdibleComponent
+        if ((!HasComp<FoodComponent>(item) || HasComp<MobStateComponent>(item)) &&
             TryComp<DamageableComponent>(item, out var damageableComponent))
         {
             var damage = new DamageSpecifier(_prototypeManager.Index<DamageTypePrototype>(CookingDamageType),
@@ -245,7 +244,7 @@ public sealed partial class DeepFryerSystem : SharedDeepfryerSystem
     /// </summary>
     private void BurnItem(EntityUid uid, DeepFryerComponent component, EntityUid item)
     {
-        if (HasComp<EdibleComponent>(item) && // HardLight: FoodComponent<EdibleComponent
+        if (HasComp<FoodComponent>(item) &&
             !HasComp<MobStateComponent>(item) &&
             MetaData(item).EntityPrototype?.ID != component.CharredPrototype)
         {
@@ -625,7 +624,7 @@ public sealed partial class DeepFryerSystem : SharedDeepfryerSystem
         if (!TryComp<HandsComponent>(user, out var handsComponent))
             return false;
 
-        _handsSystem.TryGetActiveItem((user, handsComponent), out heldItem); // HardLight
+        heldItem = handsComponent.ActiveHandEntity;
 
         if (heldItem == null ||
             !TryComp<SolutionTransferComponent>(heldItem, out var solutionTransferComponent) ||
@@ -657,12 +656,12 @@ public sealed partial class DeepFryerSystem : SharedDeepfryerSystem
         if (!_solutionContainerSystem.TryGetSolution(uid, component.Solution.Name, out var solution))
             return;
 
-        _solutionTransferSystem.Transfer(new SolutionTransferData(user, // HardLight: Added new SolutionTransferData
+        _solutionTransferSystem.Transfer(user,
             uid,
             solution.Value,
             heldItem.Value,
             heldSolution.Value,
-            transferAmount)); // HardLight: Added second )
+            transferAmount);
 
         // UI update is not necessary here, because the solution change event handles it.
     }

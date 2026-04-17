@@ -1,6 +1,7 @@
 using System.Linq;
+using Content.Server.Medical;
+using Content.Server.Medical.Components;
 using Content.Shared._FarHorizons.Medical.ConditionalHealing;
-using Content.Shared.Medical.Healing; // HardLight
 using Content.Shared._Shitmed.Medical.Surgery;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
@@ -28,7 +29,7 @@ public sealed class ConditionalHealingSystem : EntitySystem
             SelectBestMatch((ent, ent.Comp), args.User) is not ConditionalHealingData healing)
             return;
 
-        args.Handled = _healing.TryHeal((ent.Owner, MakeComponent(healing)), args.User, args.User); // HardLight
+        args.Handled = _healing.TryHeal(ent, args.User, args.User, MakeComponent(healing));
     }
 
     private void OnAfterInteract(Entity<ConditionalHealingComponent> ent, ref AfterInteractEvent args)
@@ -40,7 +41,7 @@ public sealed class ConditionalHealingSystem : EntitySystem
             SelectBestMatch((ent, ent.Comp), args.Target.Value) is not ConditionalHealingData healing)
             return;
 
-        args.Handled = _healing.TryHeal((ent.Owner, MakeComponent(healing)), args.Target.Value, args.User); // HardLight
+        args.Handled = _healing.TryHeal(ent, args.User, args.Target.Value, MakeComponent(healing));
     }
 
     public ConditionalHealingData? SelectBestMatch(Entity<ConditionalHealingComponent?> item, EntityUid target) =>
@@ -62,5 +63,6 @@ public sealed class ConditionalHealingSystem : EntitySystem
             SelfHealPenaltyMultiplier = data.SelfHealPenaltyMultiplier,
             HealingBeginSound = data.HealingBeginSound,
             HealingEndSound = data.HealingEndSound,
+            AdjustEyeDamage = data.AdjustEyeDamage,
         };
 }

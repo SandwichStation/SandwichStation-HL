@@ -1,5 +1,6 @@
 using Content.Server._Funkystation.Genetics.Mutations.Components;
-using Content.Shared.Body.Components; // HardLight
+using Content.Server.Body.Components;
+using Content.Server.Body.Systems;
 using Content.Shared.Body.Systems;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;

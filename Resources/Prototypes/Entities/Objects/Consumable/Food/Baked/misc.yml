@@ -1,4 +1,4 @@
-﻿# When adding new food also add to the appropriate random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\
+# When adding new food also add to the appropriate random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\
 # Base
 
 - type: entity
@@ -6,7 +6,7 @@
   id: FoodBakedBase
   abstract: true
   components:
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/misc.rsi
   - type: SolutionContainerManager
@@ -27,7 +27,7 @@
   id: FoodBakedMuffin
   description: A delicious and spongy little cake.
   components:
-  - type: Edible
+  - type: Food
     trash:
     - FoodPlateMuffinTin
   - type: Sprite
@@ -643,7 +643,7 @@
     - cotton
   - type: Sprite
     state: chevrechaud-cotton
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Tag
     tags:
@@ -837,7 +837,7 @@
     - cotton
   - type: Sprite
     state: croissant-cotton
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Tag
     tags:
@@ -896,7 +896,7 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/misc.rsi
     state: grilled-cheese-cotton
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: Tag
     tags:

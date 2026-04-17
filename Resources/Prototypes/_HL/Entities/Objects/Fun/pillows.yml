@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseItem
   id: BasePillow
   abstract: true
@@ -31,7 +31,7 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 100
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: ToyFall
@@ -755,7 +755,7 @@
   id: PillowNeatZebra
   parent: BasePillow
   name: neat zebra pillow
-  description: Is it white with black stripes, or black with white stripes? Youâ€™ll have plenty of time to ponder that mystery while you nap?
+  description: Is it white with black stripes, or black with white stripes? You’ll have plenty of time to ponder that mystery while you nap?
   components:
   - type: Item
     heldPrefix: whitepillow

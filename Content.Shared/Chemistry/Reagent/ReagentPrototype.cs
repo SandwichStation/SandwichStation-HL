@@ -60,38 +60,32 @@ namespace Content.Shared.Chemistry.Reagent
         public string LocalizedPhysicalDescription => Loc.GetString(PhysicalDescription);
 
         /// <summary>
-        /// The degree of contraband severity this reagent is considered to have.
-        /// If AllowedDepartments or AllowedJobs are set, they take precedent and override this value.
+        ///     The degree of contraband severity this reagent is considered to have.
+        ///     If AllowedDepartments or AllowedJobs are set, they take precedent and override this value.
         /// </summary>
         [DataField]
         public ProtoId<ContrabandSeverityPrototype>? ContrabandSeverity = null;
 
         /// <summary>
-        /// Which departments is this reagent restricted to, if any?
+        ///     Which departments is this reagent restricted to, if any?
         /// </summary>
         [DataField]
         public HashSet<ProtoId<DepartmentPrototype>> AllowedDepartments = new();
 
         /// <summary>
-        /// Which jobs is this reagent restricted to, if any?
+        ///     Which jobs is this reagent restricted to, if any?
         /// </summary>
         [DataField]
         public HashSet<ProtoId<JobPrototype>> AllowedJobs = new();
 
         /// <summary>
-        /// Is this reagent recognizable to the average spaceman (water, welding fuel, ketchup, etc)?
+        ///     Is this reagent recognizable to the average spaceman (water, welding fuel, ketchup, etc)?
         /// </summary>
         [DataField]
         public bool Recognizable;
 
         [DataField]
         public ProtoId<FlavorPrototype>? Flavor;
-
-        /// <summary>
-        /// Whether this reagent stands out (blood, slime).
-        /// </summary>
-        [DataField]
-        public bool Standsout;
 
         /// <summary>
         /// There must be at least this much quantity in a solution to be tasted.
@@ -103,8 +97,8 @@ namespace Content.Shared.Chemistry.Reagent
         public Color SubstanceColor { get; private set; } = Color.White;
 
         /// <summary>
-        /// The specific heat of the reagent.
-        /// How much energy it takes to heat one unit of this reagent by one Kelvin.
+        ///     The specific heat of the reagent.
+        ///     How much energy it takes to heat one unit of this reagent by one Kelvin.
         /// </summary>
         [DataField]
         public float SpecificHeat { get; private set; } = 1.0f;
@@ -172,16 +166,16 @@ namespace Content.Shared.Chemistry.Reagent
         [DataField]
         public bool WorksOnTheDead;
 
-        [DataField]
+        [DataField(serverOnly: true)]
         public FrozenDictionary<ProtoId<MetabolismGroupPrototype>, ReagentEffectsEntry>? Metabolisms;
 
-        [DataField]
+        [DataField(serverOnly: true)]
         public Dictionary<ProtoId<ReactiveGroupPrototype>, ReactiveReagentEffectEntry>? ReactiveEffects;
 
         [DataField(serverOnly: true)]
         public List<ITileReaction> TileReactions = new(0);
 
-        [DataField("plantMetabolism")]
+        [DataField("plantMetabolism", serverOnly: true)]
         public List<EntityEffect> PlantMetabolisms = new(0);
 
         [DataField]
@@ -267,14 +261,14 @@ namespace Content.Shared.Chemistry.Reagent
     public sealed partial class ReagentEffectsEntry
     {
         /// <summary>
-        /// Amount of reagent to metabolize, per metabolism cycle.
+        ///     Amount of reagent to metabolize, per metabolism cycle.
         /// </summary>
         [JsonPropertyName("rate")]
         [DataField("metabolismRate")]
         public FixedPoint2 MetabolismRate = FixedPoint2.New(0.5f);
 
         /// <summary>
-        /// A list of effects to apply when these reagents are metabolized.
+        ///     A list of effects to apply when these reagents are metabolized.
         /// </summary>
         [JsonPropertyName("effects")]
         [DataField("effects", required: true)]

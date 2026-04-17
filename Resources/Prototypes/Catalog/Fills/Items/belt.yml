@@ -79,14 +79,14 @@
   components:
   - type: StorageFill
     contents:
-      - id: Soap # Make a soap group and pick between when I'm not lazy
+      - id: Soap #Make a soap group and pick between when i'm not lazy
       - id: SprayBottleSpaceCleaner
       - id: CleanerGrenade
         amount: 2
       - id: FlashlightLantern
+#      - id: TrashBag # Frontier - Not used, too large.
       - id: Holoprojector # Frontier
       - id: LightReplacer
-      - id: WireBrush
 
 - type: entity
   id: ClothingBeltMedicalFilled
@@ -102,7 +102,7 @@
       - id: Bloodpack
         amount: 1
       - id: Gauze
-      - id: EmergencyMedipen # You never know what people are going to latejoin into
+      - id: EmergencyMedipen #You never know what people are going to latejoin into
 
 - type: entity
   id: ClothingBeltMedicalEMTFilled
@@ -115,7 +115,7 @@
       - id: Ointment
       - id: Bloodpack
       - id: Gauze
-      - id: EmergencyMedipen # You never know what people are going to latejoin into
+      - id: EmergencyMedipen #You never know what people are going to latejoin into
         amount: 3
 
 - type: entity

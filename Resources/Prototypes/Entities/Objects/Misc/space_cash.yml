@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseItem
   id: SpaceCash
   name: spesos
@@ -64,7 +64,7 @@
   - type: CargoSellBlacklist
   - type: ShipyardSellCondition # Frontier: Teleport to shipyard console on sale
     preserveOnSale: true
-  - type: Edible
+  - type: Food
     solution: food
     delay: 1
     forceFeedDelay: 3

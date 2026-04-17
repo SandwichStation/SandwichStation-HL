@@ -15,12 +15,12 @@ using Content.Server.Screens.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
 using Content.Server.Shuttles.Systems;
+using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
 using Content.Server.GameTicking.Presets;
 using Content.Server.GameTicking.Rules;
 using Content.Server.GameTicking.Events;
 using Content.Server._NF.GameTicking.Events;
-using Content.Shared.Station.Components; // HardLight
 using Content.Shared.GameTicking;
 using Content.Shared._NF.CCVar;
 using Content.Shared._NF.PublicTransit;
@@ -541,7 +541,7 @@ public sealed class PublicTransitSystem : EntitySystem
                 continue;
 
             // Assuming the largest grid is the depot.
-            var depotGrid = _station.GetLargestGrid((depotStation, stationData)); // HardLight: Added depotStation
+            var depotGrid = _station.GetLargestGrid(stationData);
             if (depotGrid == null)
                 continue;
 

@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: BaseItem
   id: SheetOtherBase
@@ -12,7 +12,6 @@
   - type: Tag
     tags:
     - Sheet
-    - ConstructionMaterial
     - NoPaint
   - type: Damageable
     damageContainer: Inorganic
@@ -112,7 +111,6 @@
   - type: Tag
     tags:
     - Sheet
-    - ConstructionMaterial
   - type: NFFuel # Frontier
   # FH Start - Protogen Healing
   - type: ConditionalHealing
@@ -230,7 +228,7 @@
   suffix: Full
   components:
   - type: Material
-  - type: Edible
+  - type: Food
     transferAmount: 10
   - type: BadFood
   - type: PhysicalComposition

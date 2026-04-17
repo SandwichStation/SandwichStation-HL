@@ -7,8 +7,6 @@
   - type: Damageable
     damageContainer: Inorganic
   - type: DeleteOnTrigger
-    keysIn:
-    - timer
   - type: Destructible
     thresholds:
     - trigger:
@@ -16,7 +14,6 @@
         damage: 10
       behaviors:
       - !type:TriggerBehavior
-        keyOut: timer # explode immediately
   - type: ContainerContainer
     containers:
       cluster-payload: !type:Container
@@ -47,17 +44,11 @@
     fillPrototype: NFPelletClusterRubber # Frontier: use NF variant
     capacity: 30
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Effects/flash_bang.ogg"
   - type: SpawnOnTrigger
-    keysIn:
-    - timer
     proto: GrenadeFlashEffect
-    predicted: true
-  - type: TriggerOnUse
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     initialBeepDelay: 0
     beepInterval: 2
     delay: 3.5
@@ -79,8 +70,7 @@
   - type: ProjectileGrenade
     fillPrototype: NFPelletClusterIncendiary # Frontier: use NF variant
     capacity: 30
-  - type: TriggerOnUse
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     beepSound:
       path: "/Audio/Effects/beep1.ogg"
       params:
@@ -89,8 +79,6 @@
     beepInterval: 2
     delay: 3.5
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Weapons/Guns/Gunshots/batrifle.ogg"
 
@@ -108,8 +96,7 @@
   - type: ProjectileGrenade
     fillPrototype: NFPelletClusterLethal # Frontier: use NF variant
     capacity: 30
-  - type: TriggerOnUse
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     beepSound:
       path: "/Audio/Effects/beep1.ogg"
       params:
@@ -118,7 +105,5 @@
     beepInterval: 2
     delay: 3.5
   - type: EmitSoundOnTrigger
-    keysIn:
-    - timer
     sound:
       path: "/Audio/Weapons/Guns/Gunshots/batrifle.ogg"

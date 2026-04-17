@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: [Clothing, RecyclableItemClothBasic, ClothingConcealsBody] # Frontier: added RecyclableItemClothBasic; # HardLight: Conceals full body
   id: UnsensoredClothingUniformBase
@@ -14,7 +14,7 @@
     spawned:
     - id: MaterialCloth1
       amount: 3
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

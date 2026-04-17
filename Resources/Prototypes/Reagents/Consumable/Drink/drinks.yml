@@ -12,9 +12,9 @@
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
-        time: 2
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        time: 2.0
         type: Remove
       - !type:AdjustReagent
         reagent: Theobromine
@@ -105,9 +105,9 @@
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
-        time: 2
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        time: 2.0
         type: Remove
 
 - type: reagent
@@ -163,9 +163,9 @@
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
-        time: 2
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        time: 2.0
         type: Remove
 
 - type: reagent
@@ -344,9 +344,9 @@
       effects:
       - !type:SatiateThirst
         factor: 6
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
-        time: 3
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        time: 3.0
         type: Remove
     Poison:
       effects:
@@ -385,9 +385,9 @@
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:ModifyStatusEffect
-        effectProto: StatusEffectDrowsiness
-        time: 2
+      - !type:GenericStatusEffect
+        key: Drowsiness
+        time: 2.0
         type: Remove
 
 - type: reagent
@@ -566,20 +566,12 @@
   desc: reagent-desc-pilk
   physicalDesc: reagent-physical-desc-creamy
   flavor: pilk
-  color: "#ecd0aa" # DeltaV: Color changed
-  # Begin DeltaV additions
-  metamorphicSprite: # DeltaV: Sprite changed
-    sprite: _DV/Objects/Consumable/Drinks/pilk.rsi
-    state: icon_empty
-  metamorphicMaxFillLevels: 6
-  metamorphicFillBaseName: fill-
-  metamorphicChangeColor: false
-  # End DeltaV additions
+  color: "#e7c69f"
   metabolisms:
     Drink:
       effects:
-      - !type:SatiateThirst
-        factor: 3 # DeltaV: Factor changed from 1 to 3
+        - !type:SatiateThirst
+          factor: 1
   fizziness: 0.3
 
 - type: reagent
@@ -588,16 +580,8 @@
   parent: BaseDrink
   desc: reagent-desc-posca
   physicalDesc: reagent-physical-desc-sour
-  flavor: sour # DeltaV: Flavor changed
-  color: "#8f6764" # DeltaV: Color changed
-  # Begin DeltaV additions
-  metamorphicSprite:
-    sprite: _DV/Objects/Consumable/Drinks/posca.rsi # DeltaV: Sprite changed
-    state: icon_empty
-  metamorphicMaxFillLevels: 4
-  metamorphicFillBaseName: fill-
-  metamorphicChangeColor: false
-  # End DeltaV additions
+  flavor: bitter
+  color: "#B3B599"
 
 - type: reagent
   id: KiraSpecial

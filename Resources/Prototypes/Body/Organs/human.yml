@@ -6,7 +6,8 @@
   - type: Sprite
     sprite: Mobs/Species/Human/organs.rsi
   - type: Organ
-  - type: Edible
+  - type: Food
+  #    quality: Nasty # Frontier
   - type: Extractable
     grindableSolutionName: organ
   - type: SolutionContainerManager
@@ -69,7 +70,7 @@
   - type: Sprite
     state: brain
   - type: Organ
-    slotId: brain # Shitmed
+    slotId: brain # Shitmed Change
   - type: Input
     context: "ghost"
   - type: Brain

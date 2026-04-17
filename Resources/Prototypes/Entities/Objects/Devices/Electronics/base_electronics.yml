@@ -17,5 +17,4 @@
       Glass: 200
     chemicalComposition:
       Silicon: 20
-  - type: Circuitboard
-  - type: Electronics # Delta V
+  - type: Electronics # DeltaV

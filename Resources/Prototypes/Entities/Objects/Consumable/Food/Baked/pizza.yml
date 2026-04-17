@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml & food_single.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml & food_single.yml
 # Base
 
 - type: entity
@@ -10,7 +10,7 @@
     flavors:
       - oily
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/pizza.rsi
   - type: SolutionContainerManager
@@ -44,7 +44,7 @@
     flavors:
       - oily
       - bread
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Consumable/Food/Baked/pizza.rsi
   - type: SolutionContainerManager
@@ -652,7 +652,7 @@
   - type: Sprite
     layers:
     - state: cotton-pizza
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SliceableFood
     slice: FoodPizzaCottonSlice
@@ -691,7 +691,7 @@
     - ClothMade
     - Pizza
     - Slice
-  - type: Edible # Frontier
+  - type: Food # Frontier
     requiresSpecialDigestion: true # Frontier
   - type: SolutionContainerManager
     solutions:

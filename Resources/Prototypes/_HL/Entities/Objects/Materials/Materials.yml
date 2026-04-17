@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: MaterialBase
   id: MaterialResin
   name: Resin
@@ -15,7 +15,7 @@
   - type: Stack
     count: 50
     stackType: Resin
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: FlavorProfile
     flavors:
@@ -76,7 +76,7 @@
   - type: Stack
     count: 50
     stackType: RoyalResin
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: FlavorProfile
     flavors:
@@ -638,7 +638,7 @@
       Brass: 10
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing45_ACP
@@ -657,7 +657,7 @@
       Brass: 10
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing46x30mm
@@ -676,7 +676,7 @@
       Brass: 10
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing45_magnum
@@ -695,7 +695,7 @@
       Brass: 30
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing556x45mm
@@ -714,7 +714,7 @@
       Brass: 10
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing57x28mm
@@ -733,7 +733,7 @@
       Brass: 10
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing762x39mm
@@ -752,7 +752,7 @@
       Brass: 20
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing762x51mm
@@ -771,7 +771,7 @@
       Brass: 20
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing762x54mmR
@@ -790,7 +790,7 @@
       Brass: 30
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing8x65mmSKR
@@ -809,7 +809,7 @@
       Brass: 30
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing23x75mm
@@ -828,7 +828,7 @@
       Brass: 100
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletCasing12_gauge
@@ -847,7 +847,7 @@
       Brass: 50
   - type: Item
     size: Tiny
-
+    
 - type: entity
   parent: MaterialBase
   id: MaterialBulletFlechette

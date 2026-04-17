@@ -1,4 +1,4 @@
-﻿# Plushies!!!!
+# Plushies!!!!
 - type: entity
   id: PlushieStoneRengault
   parent: BasePlushie
@@ -25,7 +25,7 @@
   - type: EmitSoundOnCollide
     sound:
       collection: VulpkaninScreams
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: VulpkaninBarks
@@ -97,7 +97,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Reptilian/reptilian_scream.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: Weh
@@ -215,7 +215,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -280,7 +280,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -345,7 +345,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -410,7 +410,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -475,7 +475,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -540,7 +540,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -605,7 +605,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -670,7 +670,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -735,7 +735,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -943,7 +943,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg

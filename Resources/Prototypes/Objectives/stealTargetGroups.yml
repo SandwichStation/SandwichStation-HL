@@ -62,13 +62,13 @@
   sprite:
     sprite: Objects/Consumable/Food/meat.rsi
     state: corgi
-
+    #
 - type: stealTargetGroup
   id: CaptainIDCard
   name: steal-target-groups-captain-id-card
   sprite:
     sprite: Objects/Misc/id_cards.rsi
-    state: ert_commander # No one will know the difference.
+    state: ert_commander #no one will know the difference.
 
 - type: stealTargetGroup
   id: JetpackCaptainFilled
@@ -163,7 +163,7 @@
     sprite: Objects/Tools/lantern.rsi
     state: lantern
 
-# Thief Single Item
+# Thief single item
 
 - type: stealTargetGroup
   id: ForensicScanner
@@ -284,7 +284,7 @@
     sprite: Objects/Devices/cartridge.rsi
     state: cart-sec
 
-# Thief Structures
+#Thief structures
 
 - type: stealTargetGroup
   id: NuclearBomb
@@ -308,7 +308,7 @@
     state: industrial-working
 
 - type: stealTargetGroup
-  id: XenoArtifact
+  id: Artifact
   name: steal-target-groups-xeno-artifact
   sprite:
     sprite: Objects/Specific/Xenoarchaeology/xeno_artifacts.rsi

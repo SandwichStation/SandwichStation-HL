@@ -129,7 +129,7 @@ public partial class SharedMartialArtsSystem
         if (downed)
         {
             if (TryComp<StaminaComponent>(target, out var stamina) && stamina.Critical)
-                _status.TryAddStatusEffect<ForcedSleepingStatusEffectComponent>(target, "ForcedSleep", TimeSpan.FromSeconds(10), true); // HardLight: ForcedSleepingComponent<ForcedSleepingStatusEffectComponent
+                _status.TryAddStatusEffect<ForcedSleepingComponent>(target, "ForcedSleep", TimeSpan.FromSeconds(10), true);
             DoDamage(ent, target, proto.DamageType, proto.ExtraDamage, out _, TargetBodyPart.Head);
             _stamina.TakeStaminaDamage(target, proto.StaminaDamage * 2 + 5, source: ent);
         }
@@ -171,7 +171,7 @@ public partial class SharedMartialArtsSystem
             return;
         if(!_hands.TryPickupAnyHand(ent, activeItem.Value))
             return;
-        _hands.SetActiveHand(target, emptyHand); // HardLight: ent<target
+        _hands.SetActiveHand(ent, emptyHand);
         ComboPopup(ent, target, proto.Name);
     }
 

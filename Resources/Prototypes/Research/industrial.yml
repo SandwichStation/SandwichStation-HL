@@ -35,7 +35,7 @@
   recipeUnlocks:
   - RadarConsoleCircuitboard
   - HandHeldMassScanner
-  # - BorgModuleGPS # Frontier: useless
+  - BorgModuleGPS # Frontier: useless
   # Goobstation R&D Console rework start
   position: 0,-3
   technologyPrerequisites:
@@ -264,6 +264,7 @@
   - NFBlueprintOreBagOfHolding # Frontier
   - NFBlueprintMiningDrillDiamond # Frontier
   - NFBlueprintAdvancedMineralScannerEmpty # Frontier
+  - BorgModuleAdvancedMining # Frontier
   - MechEquipmentDrillDiamond
   # Goobstation R&D Console rework start
   position: 0,-7

@@ -131,23 +131,46 @@
 
 - type: latheRecipe
   parent: BaseBorgModuleRecipe
+  id: BorgModuleCable
+  result: BorgModuleCable
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleFireExtinguisher
+  result: BorgModuleFireExtinguisher
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleGPS
+  result: BorgModuleGPS
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleRadiationDetection
+  result: BorgModuleRadiationDetection
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
   id: BorgModuleTool
   result: BorgModuleTool
-
-# Hardlight start: Jetpack module is better than Thruster module
-# - type: latheRecipe
-#   parent: BaseBorgModuleRecipe
-#   id: BorgModuleFireExtinguisher
-#   result: BorgModuleFireExtinguisher
-# Hardlight end
-
-# Cargo Modules
+# Hardlight start quadborgs still need these TODO make quadborgs switchable
+# Mining Modules
 
 - type: latheRecipe
   parent: BaseBorgModuleRecipe
   id: BorgModuleAppraisal
   result: BorgModuleAppraisal
 
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleMining
+  result: BorgModuleMining
+
+- type: latheRecipe
+  parent: BaseGoldBorgModuleRecipe
+  id: BorgModuleGrapplingGun
+  result: BorgModuleGrapplingGun
+# Hardlight end
 # Engineering Modules
 
 - type: latheRecipe
@@ -155,7 +178,24 @@
   id: BorgModuleAdvancedTool
   result: BorgModuleAdvancedTool
 
+- type: latheRecipe # Hardlight quadborgs still need these TODO make quadborgs switchable
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleConstruction
+  result: BorgModuleConstruction
+
 # Janitor Modules
+
+# Hardlight start quadborgs still need these todo make quadborgs switchable
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleLightReplacer
+  result: BorgModuleLightReplacer
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleCleaning
+  result: BorgModuleCleaning
+# #Hardlight end
 
 - type: latheRecipe
   parent: BaseGoldBorgModuleRecipe
@@ -164,29 +204,33 @@
 
 # Medical Modules
 
-#- type: latheRecipe
-#  parent: BaseBorgModuleRecipe
-#  id: BorgModuleTreatment
-#  result: BorgModuleTreatment
+# Hardlight start quadborgs still need these TODO make quadborgs switchable
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleDiagnosis
+  result: BorgModuleDiagnosis
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleTreatment
+  result: BorgModuleTreatment
+# Hardlight end
 
 # Frontier: base modules for a medical cyborg
 
 - type: latheRecipe
   parent: BaseGoldBorgModuleRecipe
-  id: BorgModuleChemical
-  result: BorgModuleChemical
+  id: BorgModuleAdvancedTreatment
+  result: BorgModuleAdvancedTreatment
 
 - type: latheRecipe
   parent: BaseGoldBorgModuleRecipe
-  id: BorgModuleAdvancedChemical
-  result: BorgModuleAdvancedChemical
+  id: BorgModuleDefibrillator
+  result: BorgModuleDefibrillator
 
-- type: latheRecipe
-  parent: BaseGoldBorgModuleRecipe
-  id: BorgModuleRescue
-  result: BorgModuleRescue
+# End Frontier
 
-# Science Modules (if we add a advanced sci module that requires crafting)
+# Science Modules
 
 - type: latheRecipe
   parent: BaseBorgModuleRecipe
@@ -200,6 +244,23 @@
 
 # Service Modules
 
+# Hardlight start quadborgs still need these TODO make quadborgs switchable
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleService
+  result: BorgModuleService
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleMusique
+  result: BorgModuleMusique
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleClowning
+  result: BorgModuleClowning
+# Hardlight end
+
 - type: latheRecipe
   parent: BaseBorgModuleRecipe
   id: BorgModuleGardening
@@ -209,8 +270,39 @@
   parent: BaseBorgModuleRecipe
   id: BorgModuleHarvesting
   result: BorgModuleHarvesting
+# Security Recipes
 
-# Shitmed Modules
+- type: latheRecipe
+  id: BorgModuleStun
+  result: BorgModuleStun
+#  category: Weapons
+  completetime: 5
+  materials:
+    Steel: 700
+    Glass: 500
+    Plastic: 200
+
+- type: latheRecipe
+  id: BorgModuleKill
+  result: BorgModuleKill
+#  category: Weapons
+  completetime: 5
+  materials:
+    Steel: 1500
+    Glass: 1000
+    Gold: 850
+
+- type: latheRecipe
+  id: BorgModuleInvestigation
+  result: BorgModuleInvestigation
+#  category: Weapons
+  completetime: 5
+  materials:
+    Steel: 1500
+    Glass: 1000
+    Gold: 850
+
+# Shitmed Recipes
 
 - type: latheRecipe
   id: BorgModuleSurgery
@@ -230,8 +322,6 @@
     Glass: 500
     Plastic: 250
     Gold: 50
-
-# Cybernetics
 
 - type: latheRecipe
   id: JawsOfLifeLeftArm
@@ -374,7 +464,7 @@
     Silver: 400
     Diamond: 100
 
-# Starlight Cybernetics
+# Starlight Recipes
 
 - type: latheRecipe
   id: EyeImplantNightVision

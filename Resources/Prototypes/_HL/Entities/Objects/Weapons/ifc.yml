@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   name: Internal-Fusion Charge
   description: Used to decommission heavy shuttles and structures. Stick it to a surface, set the timer, and get to a safe distance.
   parent: [BasePlasticExplosive, BaseC3SyndicateContraband] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
@@ -10,13 +10,14 @@
     layers:
     - state: icon
       map: ["base"]
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     delay: 10
     delayOptions: [10, 30, 60, 120, 300]
     initialBeepDelay: 0
     beepSound: /Audio/Machines/Nuke/general_beep.ogg
-  - type: TriggerOnSignal
-    port: Timer
+    startOnStick: false
+    canToggleStartOnStick: false
+  - type: TimerStartOnSignal
   - type: DeviceLinkSink
     ports:
       - Timer

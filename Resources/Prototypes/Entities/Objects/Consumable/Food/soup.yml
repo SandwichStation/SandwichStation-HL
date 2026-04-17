@@ -1,4 +1,4 @@
-﻿# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
+# When adding new food also add to random spawner located in Resources\Prototypes\Entities\Markers\Spawners\Random\Food_Drinks\food_meal.yml
 
 - type: entity
   parent: FoodInjectableBase
@@ -7,8 +7,8 @@
   components:
   - type: Item
     storedRotation: -90
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodBowlBig
     utensil: Spoon
   - type: SolutionContainerManager
@@ -1027,8 +1027,8 @@
   - type: FlavorProfile
     flavors:
       - miso
-  - type: Edible
-    trash:
+  - type: Food
+    trash: 
     - FoodBowlFancy
   - type: Sprite
     layers:
@@ -1221,7 +1221,7 @@
   name: bisque
   parent: FoodBowlBase
   id: FoodSoupBisque
-  description: A classic entrÃ©e from Space France.
+  description: A classic entrée from Space France.
   components:
   - type: FlavorProfile
     flavors:

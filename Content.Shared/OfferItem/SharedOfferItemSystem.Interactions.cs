@@ -38,10 +38,10 @@ public abstract partial class SharedOfferItemSystem
         if (!TryComp<OfferItemComponent>(uid, out var offerItem))
             return;
 
-        if (!TryComp<HandsComponent>(uid, out var hands)) // HardLight: Removed hands.ActiveHand == null
+        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null)
             return;
 
-        offerItem.Item = _hands.GetActiveItem((uid, hands)); // HardLight
+        offerItem.Item = hands.ActiveHand.HeldEntity;
 
         if (offerItem.IsInOfferMode == false)
         {
@@ -54,7 +54,7 @@ public abstract partial class SharedOfferItemSystem
             if (offerItem.Hand == null || offerItem.Target == null)
             {
                 offerItem.IsInOfferMode = true;
-                offerItem.Hand = _hands.GetActiveHand((uid, hands)); // HardLight
+                offerItem.Hand = hands.ActiveHand.Name;
 
                 Dirty(uid, offerItem);
                 return;

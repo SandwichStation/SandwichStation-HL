@@ -6,7 +6,6 @@ using Content.Shared._DV.CCVars;
 using Content.Shared.Explosion.Components;
 using Content.Shared.Flash.Components;
 using Content.Shared.Store.Components;
-using Content.Shared.Trigger.Components.Triggers; // HardLight
 using Robust.Shared.Configuration;
 
 namespace Content.Server._DV.RoundEnd;
@@ -41,10 +40,10 @@ public sealed class PacifiedRoundEnd : EntitySystem
             RemComp<ExplosiveComponent>(uid);
         }
 
-        var grenadeQuery = EntityQueryEnumerator<TriggerOnUseComponent>(); // HardLight: OnUseTimerTriggerComponent<TriggerOnUseComponent
+        var grenadeQuery = EntityQueryEnumerator<OnUseTimerTriggerComponent>();
         while (grenadeQuery.MoveNext(out var uid, out _))
         {
-            RemComp<TriggerOnUseComponent>(uid); // HardLight: OnUseTimerTriggerComponent<TriggerOnUseComponent
+            RemComp<OnUseTimerTriggerComponent>(uid);
         }
 
         var flashQuery = EntityQueryEnumerator<FlashComponent>();

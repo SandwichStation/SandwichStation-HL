@@ -16,8 +16,20 @@ public sealed partial class AutomatedHand : AutomationSlot
 
     private SharedHandsSystem _hands;
 
+    private Hand? _hand;
+
     [ViewVariables]
-    public bool HasHand => _hands.TryGetHand(Owner, HandName, out _); // HardLight
+    public Hand? Hand
+    {
+        get
+        {
+            if (_hand != null)
+                return _hand;
+
+            _hands.TryGetHand(Owner, HandName, out _hand);
+            return _hand;
+        }
+    }
 
     public override void Initialize()
     {
@@ -28,27 +40,24 @@ public sealed partial class AutomatedHand : AutomationSlot
 
     public override bool Insert(EntityUid item)
     {
-        return HasHand // HardLight
+        return Hand is { } hand
             && base.Insert(item)
-            && _hands.TryPickup(Owner, item, HandName); // HardLight: hand<HandName
+            && _hands.TryPickup(Owner, item, hand);
     }
 
     public override bool CanInsert(EntityUid item)
     {
-        return HasHand // HardLight
+        return Hand is { } hand
             && base.CanInsert(item)
-            && _hands.CanPickupToHand(Owner, item, HandName); // HardLight: hand<HandName
+            && _hands.CanPickupToHand(Owner, item, hand);
     }
 
     public override EntityUid? GetItem(EntityUid? filter)
     {
-        // HardLight start
-        var item = _hands.GetHeldItem(Owner, HandName);
-        if (item is not EntityUid heldItem
-            || _filter.IsBlocked(filter, heldItem))
+        if (Hand?.HeldEntity is not { } item
+            || _filter.IsBlocked(filter, item))
             return null;
 
-        return heldItem;
-        // HardLight end
+        return item;
     }
 }

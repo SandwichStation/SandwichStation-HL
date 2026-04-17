@@ -36,4 +36,4 @@
 
   # Visual
   inventoryTemplateId: borgShortHL
-  spritePath: _HL/Mobs/Silicon/Borg/Security/default.rsi # TODO fix this 
+  spritePath: _HL/Mobs/Silicon/Chassis/Security/security.rsi # TODO fix this 

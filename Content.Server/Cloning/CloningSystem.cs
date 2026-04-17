@@ -74,7 +74,6 @@ using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.NameModifier.EntitySystems;
 using Content.Shared.StatusEffect;
-using Content.Shared.StatusEffectNew.Components;
 using Content.Shared.Storage;
 using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Whitelist;
@@ -104,7 +103,6 @@ public sealed partial class CloningSystem : EntitySystem
     [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly SharedSubdermalImplantSystem _subdermalImplant = default!;
     [Dependency] private readonly NameModifierSystem _nameMod = default!;
-    [Dependency] private readonly Shared.StatusEffectNew.StatusEffectsSystem _statusEffects = default!; // TODO: This system has to support both the old and new status effect systems, until the old is able to be fully removed.
 
     /// <summary>
     ///     Spawns a clone of the given humanoid mob at the specified location or in nullspace.
@@ -146,10 +144,6 @@ public sealed partial class CloningSystem : EntitySystem
         // copy implants and their storage contents
         if (settings.CopyImplants)
             CopyImplants(original, clone.Value, settings.CopyInternalStorage, settings.Whitelist, settings.Blacklist);
-
-        // Copy permanent status effects
-        if (settings.CopyStatusEffects)
-            CopyStatusEffects(original, clone.Value);
 
         var originalName = _nameMod.GetBaseName(original);
 
@@ -284,7 +278,7 @@ public sealed partial class CloningSystem : EntitySystem
             var mob = Spawn(speciesPrototype.Prototype, Transform(uid).MapPosition);
             _humanoidSystem.CloneAppearance(bodyToClone, mob);
 
-            ///Nyano - Summary: adds the potential psionic trait to the reanimated mob.
+            ///Nyano - Summary: adds the potential psionic trait to the reanimated mob. 
             EnsureComp<PotentialPsionicComponent>(mob);
 
             var ev = new CloningEvent(bodyToClone, mob);
@@ -489,34 +483,6 @@ public sealed partial class CloningSystem : EntitySystem
             if (copyStorage)
                 CopyStorage(originalImplant, targetImplant.Value, whitelist, blacklist); // only needed for storage implants
         }
-    }
 
-    /// <summary>
-    ///    Scans all permanent status effects applied to the original entity and transfers them to the clone.
-    /// </summary>
-    public void CopyStatusEffects(Entity<StatusEffectContainerComponent?> original, Entity<StatusEffectContainerComponent?> target)
-    {
-        if (!Resolve(original, ref original.Comp, false))
-            return;
-
-        if (original.Comp.ActiveStatusEffects is null)
-            return;
-
-        foreach (var effect in original.Comp.ActiveStatusEffects.ContainedEntities)
-        {
-            if (!TryComp<StatusEffectComponent>(effect, out var effectComp))
-                continue;
-
-            //We are not interested in temporary effects, only permanent ones.
-            if (effectComp.EndEffectTime is not null)
-                continue;
-
-            var effectProto = Prototype(effect);
-
-            if (effectProto is null)
-                continue;
-
-            _statusEffects.TrySetStatusEffectDuration(target, effectProto);
-        }
     }
 }

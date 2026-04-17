@@ -106,7 +106,7 @@
     - Soap
   - type: Slippery
     slipData:
-      stunTime: 0.7 # HardLight: paralyzeTime<stunTime
+      paralyzeTime: 0.7
       launchForwardsMultiplier: 0.5
   - type: StepTrigger
     intersectRatio: 0.2

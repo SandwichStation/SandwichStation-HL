@@ -586,7 +586,7 @@
   name: taser
   parent: [ BaseWeaponBatterySmall, BaseC2ContrabandUnredeemable ] # Frontier: BaseSecurityContraband<BaseC2ContrabandUnredeemable
   id: WeaponTaser
-  description: A low-capacity, energy-based stun gun used by security teams to subdue targets at close range. On the handle is a label that says 'for authorized use only.'
+  description: A low-capacity, energy-based stun gun used by security teams to subdue targets at range. On the handle is a label that says 'for authorized use only.'
   components:
   - type: Tag
     tags:
@@ -617,23 +617,6 @@
     steps: 5
     zeroVisible: true
   - type: Appearance
-
-- type: entity
-  name: elite taser
-  parent: [ BaseCentcommContraband, WeaponTaser ]
-  id: WeaponTaserSuper
-  suffix: ADMEME
-  description: A low-capacity, energy-based stun gun used by elite security teams to disable even the toughest of targets.
-  components:
-  - type: Gun
-    fireRate: 0.5
-    soundGunshot:
-      path: /Audio/Effects/tesla_collapse.ogg # The wrath of god...
-      params:
-        volume: -6
-  - type: ProjectileBatteryAmmoProvider
-    proto: BulletTaserSuper
-    fireCost: 200
 
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier

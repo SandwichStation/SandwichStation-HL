@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: ClothingOuterStorageBase
   id: ClothingOuterWinterCoat
   name: winter coat
@@ -21,7 +21,7 @@
     priceMultiplier: 0
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.55
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

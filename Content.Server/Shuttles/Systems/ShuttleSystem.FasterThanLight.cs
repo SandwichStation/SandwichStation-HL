@@ -89,7 +89,6 @@ public sealed partial class ShuttleSystem
 
     private EntityQuery<BodyComponent> _bodyQuery;
     private EntityQuery<BuckleComponent> _buckleQuery;
-    private EntityQuery<FTLKnockdownImmuneComponent> _knockdownImmuneQuery;
     private EntityQuery<FTLSmashImmuneComponent> _immuneQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<StatusEffectsComponent> _statusQuery;
@@ -102,7 +101,6 @@ public sealed partial class ShuttleSystem
 
         _bodyQuery = GetEntityQuery<BodyComponent>();
         _buckleQuery = GetEntityQuery<BuckleComponent>();
-        _knockdownImmuneQuery = GetEntityQuery<FTLKnockdownImmuneComponent>();
         _immuneQuery = GetEntityQuery<FTLSmashImmuneComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
         _statusQuery = GetEntityQuery<StatusEffectsComponent>();
@@ -665,26 +663,23 @@ public sealed partial class ShuttleSystem
         // Get enumeration exceptions from people dropping things if we just paralyze as we go
         var toKnock = new ValueList<EntityUid>();
         KnockOverKids(xform, ref toKnock);
-        if (xform.GridUid is not { } gridUid) // HardLight
-            return;
+        TryComp<MapGridComponent>(xform.GridUid, out var grid);
 
-        TryComp<MapGridComponent>(gridUid, out var grid);
-        var hasShuttleBody = TryComp<PhysicsComponent>(gridUid, out var shuttleBody); // HardLight
-
-        // HardLight start
-        foreach (var child in toKnock)
+        if (TryComp<PhysicsComponent>(xform.GridUid, out var shuttleBody))
         {
-            // Preserve Frontier's FTL knockdown immunity while keeping upstream's direct paralyze update flow.
-            if (_knockdownImmuneQuery.HasComponent(child))
-                continue;
+            foreach (var child in toKnock)
+            {
+                if (!_statusQuery.TryGetComponent(child, out var status))
+                    continue;
 
-            _stuns.TryUpdateParalyzeDuration(child, _hyperspaceKnockdownTime);
+                if (!HasComp<FTLKnockdownImmuneComponent>(child)) // Frontier: FTL knockdown immunity
+                    _stuns.TryParalyze(child, _hyperspaceKnockdownTime, true, status);
 
-            // If the guy we knocked down is on a spaced tile, throw them too
-            if (grid is { } shuttleGrid && hasShuttleBody && shuttleBody is { } body)
-                TossIfSpaced((gridUid, shuttleGrid, body), child);
+                // If the guy we knocked down is on a spaced tile, throw them too
+                if (grid != null)
+                    TossIfSpaced((xform.GridUid.Value, grid, shuttleBody), child);
+            }
         }
-        // HardLight end
     }
 
     private void LeaveNoFTLBehind(Entity<TransformComponent> grid, Matrix3x2 oldGridMatrix, EntityUid? oldMapUid)

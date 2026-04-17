@@ -1,23 +1,19 @@
-using Robust.Shared.GameStates;
-
 namespace Content.Shared.Flash.Components;
 
 /// <summary>
-/// Makes the entity immune to being flashed.
-/// When given to clothes in the "head", "eyes" or "mask" slot it protects the wearer.
+///     Makes the entity immune to being flashed.
+///     When given to clothes in the "head", "eyes" or "mask" slot it protects the wearer.
 /// </summary>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, AutoGenerateComponentState]
 [Access(typeof(SharedFlashSystem))]
 public sealed partial class FlashImmunityComponent : Component
 {
-    /// <summary>
-    /// Is this component currently enabled?
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool Enabled = true;
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("enabled")]
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// Starlight: If true, will affect night vision, thermal vision, and cyclorite vision.
+    ///     Starlight: If true, will affect night vision, thermal vision, and cyclorite vision.
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
     [AutoNetworkedField]

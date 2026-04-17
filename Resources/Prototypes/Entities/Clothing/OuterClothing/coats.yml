@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: ClothingOuterStorageBase
   id: ClothingOuterCoatBomber
   name: bomber jacket
@@ -131,7 +131,7 @@
     modifiers:
       coefficients:
         Slash: 0.95
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

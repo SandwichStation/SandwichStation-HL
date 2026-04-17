@@ -16,12 +16,11 @@ using Content.Shared.Damage.Systems; // Goobstation
 using Content.Shared.Database;
 using Content.Shared.Effects; // Goobstation
 using Content.Shared.Hands;
-using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Input;
 using Content.Shared.Interaction;
-using Content.Shared.Inventory.VirtualItem;
+using Content.Shared.Inventory.VirtualItem; // Goobstation
 using Content.Shared.Item;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components; // Goobstation
@@ -48,7 +47,6 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Random; // Goobstation
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 
 namespace Content.Shared.Movement.Pulling.Systems;
 
@@ -69,14 +67,13 @@ public sealed class PullingSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly HeldSpeedModifierSystem _clothingMoveSpeed = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedVirtualItemSystem _virtual = default!;
-
     // Goobstation start
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedStaminaSystem _stamina = default!; // HardLight: StaminaSystem<SharedStaminaSystem
+    [Dependency] private readonly StaminaSystem _stamina = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private readonly SharedVirtualItemSystem _virtualSystem = default!;
     [Dependency] private readonly GrabThrownSystem _grabThrown = default!;
     [Dependency] private readonly SharedCombatModeSystem _combatMode = default!;
     [Dependency] private readonly ThrowingSystem _throwing = default!;
@@ -111,9 +108,6 @@ public sealed class PullingSystem : EntitySystem
         SubscribeLocalEvent<PullerComponent, VirtualItemThrownEvent>(OnVirtualItemThrown); // Goobstation - Grab Intent
         SubscribeLocalEvent<PullerComponent, AddCuffDoAfterEvent>(OnAddCuffDoAfterEvent); // Goobstation - Grab Intent
 
-        SubscribeLocalEvent<HandsComponent, PullStartedMessage>(HandlePullStarted);
-        SubscribeLocalEvent<HandsComponent, PullStoppedMessage>(HandlePullStopped);
-
         SubscribeLocalEvent<PullableComponent, StrappedEvent>(OnBuckled);
         SubscribeLocalEvent<PullableComponent, BuckledEvent>(OnGotBuckled);
 
@@ -137,37 +131,6 @@ public sealed class PullingSystem : EntitySystem
         }
     }
     // Goobstation
-
-    private void HandlePullStarted(EntityUid uid, HandsComponent component, PullStartedMessage args)
-    {
-        if (args.PullerUid != uid)
-            return;
-
-        if (TryComp(args.PullerUid, out PullerComponent? pullerComp) && !pullerComp.NeedsHands)
-            return;
-
-        if (!_virtual.TrySpawnVirtualItemInHand(args.PulledUid, uid))
-        {
-            DebugTools.Assert("Unable to find available hand when starting pulling??");
-        }
-    }
-
-    private void HandlePullStopped(EntityUid uid, HandsComponent component, PullStoppedMessage args)
-    {
-        if (args.PullerUid != uid)
-            return;
-
-        // Try find hand that is doing this pull.
-        // and clear it.
-        foreach (var held in _handsSystem.EnumerateHeld((uid, component)))
-        {
-            if (!TryComp(held, out VirtualItemComponent? virtualItem) || virtualItem.BlockingEntity != args.PulledUid)
-                continue;
-
-            _handsSystem.TryDrop((args.PullerUid, component), held);
-            break;
-        }
-    }
 
     private void OnStateChanged(EntityUid uid, PullerComponent component, ref UpdateMobStateEvent args)
     {
@@ -289,8 +252,8 @@ public sealed class PullingSystem : EntitySystem
 
         foreach (var item in ent.Comp.GrabVirtualItems)
         {
-            if (TryComp<VirtualItemComponent>(item, out var virtualItemComponent)) // HardLight: ent<item
-                _virtual.DeleteVirtualItem((item, virtualItemComponent), ent.Owner); // HardLight: ent<ent.Owner
+            if(TryComp<VirtualItemComponent>(ent, out var virtualItemComponent))
+                _virtualSystem.DeleteVirtualItem((item,virtualItemComponent), ent);
         }
         ent.Comp.GrabVirtualItems.Clear();
     }
@@ -986,7 +949,7 @@ public sealed class PullingSystem : EntitySystem
         {
             for (var i = 0; i < delta; i++)
             {
-                var emptyHand = _handsSystem.TryGetEmptyHand((puller.Owner, CompOrNull<HandsComponent>(puller.Owner)), out _); // HardLight
+                var emptyHand = _handsSystem.TryGetEmptyHand(puller, out _);
                 if (!emptyHand)
                 {
                     if (_netManager.IsServer)
@@ -995,7 +958,7 @@ public sealed class PullingSystem : EntitySystem
                     return false;
                 }
 
-                if (!_virtual.TrySpawnVirtualItemInHand(pullable, puller.Owner, out var item, true)) // HardLight: _virtualSystem<_virtual
+                if (!_virtualSystem.TrySpawnVirtualItemInHand(pullable, puller.Owner, out var item, true))
                 {
                     // I'm lazy write client code
                     if (_netManager.IsServer)
@@ -1017,8 +980,8 @@ public sealed class PullingSystem : EntitySystem
 
             var item = puller.Comp.GrabVirtualItems[i];
             puller.Comp.GrabVirtualItems.Remove(item);
-            if (TryComp<VirtualItemComponent>(item, out var virtualItemComponent)) // HardLight: Added space
-                _virtual.DeleteVirtualItem((item, virtualItemComponent), puller.Owner); // HardLight: puller<puller.Owner
+            if(TryComp<VirtualItemComponent>(item, out var virtualItemComponent))
+                _virtualSystem.DeleteVirtualItem((item,virtualItemComponent), puller);
         }
 
         return true;

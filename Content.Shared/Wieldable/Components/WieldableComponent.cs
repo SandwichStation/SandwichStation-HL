@@ -1,13 +1,14 @@
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
+using Content.Shared._HL.Traits.Physical.Systems; // HardLight
 
 namespace Content.Shared.Wieldable.Components;
 
 /// <summary>
 ///     Used for objects that can be wielded in two or more hands,
 /// </summary>
-[RegisterComponent, NetworkedComponent, Access(typeof(SharedWieldableSystem)), AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, Access(typeof(SharedWieldableSystem), typeof(SharedTraitWeaponHandlingSystem)), AutoGenerateComponentState] // HardLight: Added typeof(SharedTraitWeaponHandlingSystem)
 public sealed partial class WieldableComponent : Component
 {
     [DataField("wieldSound")]
@@ -43,6 +44,14 @@ public sealed partial class WieldableComponent : Component
     public string? WieldedInhandPrefix = "wielded";
 
     public string? OldInhandPrefix = null;
+
+    // HardLight start
+    [DataField, AutoNetworkedField]
+    public TimeSpan WieldFailLastPopup;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan WieldFailPopupCooldown = TimeSpan.FromSeconds(1);
+    // HardLight end
 }
 
 [Serializable, NetSerializable]

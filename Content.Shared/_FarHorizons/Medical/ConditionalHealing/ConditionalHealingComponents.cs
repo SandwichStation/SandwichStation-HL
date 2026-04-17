@@ -18,7 +18,7 @@ public sealed partial class ConditionalHealingData
     [DataField]
     public float ModifyBloodLevel = 0.0f;
     [DataField]
-    public List<ProtoId<DamageContainerPrototype>>? DamageContainers; // HardLight: string<ProtoId<DamageContainerPrototype>
+    public List<string>? DamageContainers;
     [DataField]
     public float Delay = 2f;
     [DataField]

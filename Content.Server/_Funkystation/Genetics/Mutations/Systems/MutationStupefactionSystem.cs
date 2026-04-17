@@ -10,7 +10,7 @@ public sealed class MutationStupefactionSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedStaminaSystem _stamina = default!; // HardLight: StaminaSystem<SharedStaminaSystem
+    [Dependency] private readonly StaminaSystem _stamina = default!;
 
     public override void Initialize()
     {

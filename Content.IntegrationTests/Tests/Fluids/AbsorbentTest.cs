@@ -3,8 +3,6 @@ using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
-using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Inventory;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
 using System.Collections.Generic;
@@ -35,7 +33,6 @@ public sealed class AbsorbentTest
   id: {AbsorbentDummyId}
   components:
   - type: Absorbent
-    useAbsorberSolution: true
   - type: SolutionContainerManager
     solutions:
       absorbed:
@@ -97,7 +94,7 @@ public sealed class AbsorbentTest
             refillable = entityManager.SpawnEntity(RefillableDummyId, coordinates);
 
             entityManager.TryGetComponent(absorbent, out component);
-            solutionContainerSystem.TryGetSolution(absorbent, component.SolutionName, out var absorbentSoln, out var absorbentSolution);
+            solutionContainerSystem.TryGetSolution(absorbent, AbsorbentComponent.SolutionName, out var absorbentSoln, out var absorbentSolution);
             solutionContainerSystem.TryGetRefillableSolution(refillable, out var refillableSoln, out var refillableSolution);
 
             // Arrange
@@ -112,7 +109,7 @@ public sealed class AbsorbentTest
                 solutionContainerSystem.AddSolution(refillableSoln.Value, new Solution(NonEvaporablePrototypeId, testCase.InitialRefillableSolution.VolumeOfNonEvaporable));
 
             // Act
-            absorbentSystem.Mop((absorbent, component), user, refillable);
+            absorbentSystem.Mop(user, refillable, absorbent, component);
 
             // Assert
             var absorbentComposition = absorbentSolution.GetReagentPrototypes(prototypeManager).ToDictionary(r => r.Key.ID, r => r.Value);
@@ -155,7 +152,7 @@ public sealed class AbsorbentTest
             refillable = entityManager.SpawnEntity(SmallRefillableDummyId, coordinates);
 
             entityManager.TryGetComponent(absorbent, out component);
-            solutionContainerSystem.TryGetSolution(absorbent, component.SolutionName, out var absorbentSoln, out var absorbentSolution);
+            solutionContainerSystem.TryGetSolution(absorbent, AbsorbentComponent.SolutionName, out var absorbentSoln, out var absorbentSolution);
             solutionContainerSystem.TryGetRefillableSolution(refillable, out var refillableSoln, out var refillableSolution);
 
             // Arrange
@@ -169,7 +166,7 @@ public sealed class AbsorbentTest
                 solutionContainerSystem.AddSolution(refillableSoln.Value, new Solution(NonEvaporablePrototypeId, testCase.InitialRefillableSolution.VolumeOfNonEvaporable));
 
             // Act
-            absorbentSystem.Mop((absorbent, component), user, refillable);
+            absorbentSystem.Mop(user, refillable, absorbent, component);
 
             // Assert
             var absorbentComposition = absorbentSolution.GetReagentPrototypes(prototypeManager).ToDictionary(r => r.Key.ID, r => r.Value);
@@ -183,59 +180,6 @@ public sealed class AbsorbentTest
             });
         });
         await pair.RunTicksSync(5);
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task SprayNozzleCanAbsorbWaterPuddleIntoBackTank()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        var testMap = await pair.CreateTestMap();
-        var coordinates = testMap.GridCoords;
-
-        var entityManager = server.ResolveDependency<IEntityManager>();
-        var absorbentSystem = entityManager.System<AbsorbentSystem>();
-        var solutionContainerSystem = entityManager.System<SharedSolutionContainerSystem>();
-        var inventorySystem = entityManager.System<InventorySystem>();
-        var handsSystem = entityManager.System<SharedHandsSystem>();
-        var puddleSystem = entityManager.System<PuddleSystem>();
-
-        EntityUid user = default;
-        EntityUid tank = default;
-        EntityUid nozzle = default;
-        EntityUid puddle = default;
-
-        await server.WaitAssertion(() =>
-        {
-            user = entityManager.SpawnEntity("MobHuman", coordinates);
-            tank = entityManager.SpawnEntity("ClothingBackpackWaterTank", coordinates);
-            nozzle = entityManager.SpawnEntity("WeaponSprayNozzle", coordinates);
-
-            Assert.That(inventorySystem.TryEquip(user, tank, "back"), Is.True, "Failed to equip the backpack tank.");
-            Assert.That(handsSystem.TryPickupAnyHand(user, nozzle), Is.True, "Failed to pick up the spray nozzle.");
-
-            var puddleSolution = new Solution(EvaporablePrototypeId, FixedPoint2.New(20));
-            Assert.That(puddleSystem.TrySpillAt(coordinates, puddleSolution, out var puddleUid), Is.True, "Failed to create the puddle.");
-            puddle = puddleUid;
-
-            var absorbent = entityManager.GetComponent<AbsorbentComponent>(nozzle);
-            absorbentSystem.Mop((nozzle, absorbent), user, puddle);
-        });
-
-        await pair.RunTicksSync(5);
-
-        await server.WaitAssertion(() =>
-        {
-            Assert.That(entityManager.EntityExists(puddle), Is.False, "The puddle should be removed after being fully absorbed.");
-
-            Assert.That(solutionContainerSystem.TryGetSolution(tank, "tank", out _, out var tankSolution), Is.True,
-                "Failed to resolve the backpack tank solution.");
-            Assert.That(tankSolution.Volume, Is.EqualTo(FixedPoint2.New(20)),
-                "Absorbed puddle volume should end up in the backpack tank.");
-        });
 
         await pair.CleanReturnAsync();
     }

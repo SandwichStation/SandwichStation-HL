@@ -41,7 +41,7 @@
       Cloth: 100
   - type: StaticPrice
     price: 5
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: ToySqueak
@@ -216,7 +216,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/mousesqueek.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/mousesqueek.ogg
@@ -317,7 +317,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Arachnid/arachnid_laugh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Voice/Arachnid/arachnid_laugh.ogg
@@ -355,7 +355,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -427,7 +427,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/arf.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/arf.ogg
@@ -515,7 +515,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/muffled_weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/muffled_weh.ogg
@@ -571,7 +571,7 @@
   - type: EmitSoundOnTrigger
     sound:
       path: /Audio/Items/Toys/hew.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/hew.ogg
@@ -635,7 +635,7 @@
       wideAnimationRotation: 180
       soundHit:
         path: /Audio/Items/Toys/toy_rustle.ogg
-    - type: Edible
+    - type: Food
       requiresSpecialDigestion: true
       useSound:
         path: /Audio/Items/Toys/toy_rustle.ogg
@@ -817,7 +817,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Effects/bite.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Effects/bite.ogg
@@ -935,7 +935,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/rattle.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/rattle.ogg
@@ -977,7 +977,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/mousesqueek.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/mousesqueek.ogg
@@ -1026,7 +1026,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/quack.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/mousesqueek.ogg
@@ -1057,7 +1057,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Vox/shriek1.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Voice/Vox/shriek1.ogg
@@ -1106,7 +1106,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Weapons/Xeno/alien_spitacid.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/mousesqueek.ogg
@@ -1150,7 +1150,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Human/malescream_4.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Voice/Human/malescream_1.ogg
@@ -1220,7 +1220,7 @@
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Voice/Moth/moth_chitter.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Voice/Moth/moth_chitter.ogg
@@ -1317,7 +1317,7 @@
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Items/Toys/ian.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/ian.ogg
@@ -1475,22 +1475,6 @@
   - type: Sprite
     sprite: Objects/Fun/toys.rsi
     state: basketball
-  # Upstream start: Placeholder; port upstream PR #37189
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PhysShapeCircle
-          radius: 0.25
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.8 # bouncy
-        friction: 0.2
-  - type: Catchable
-    catchChance: 0.8
-    catchSuccessSound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  # Upstream end
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Effects/Footsteps/bounce.ogg
@@ -1510,70 +1494,10 @@
   - type: Sprite
     sprite: Objects/Fun/toys.rsi
     state: football
-  # Upstream start: Placeholder; port upstream PR #37189
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PhysShapeCircle
-          radius: 0.25
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.5 # a little bouncy
-        friction: 0.2
-  - type: Catchable
-    catchChance: 0.8
-    catchSuccessSound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  - type: EmitSoundOnCollide
-    sound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  # Upstream end
   - type: Item
     size: Small
     sprite: Objects/Fun/toys.rsi
     heldPrefix: footb
-
-- type: entity
-  parent: BaseItem
-  id: TennisBall
-  name: tennis ball
-  description: A fuzzy orb of endless betrayal.
-  components:
-  - type: Sprite
-    sprite: Objects/Fun/Balls/tennisball.rsi
-    state: icon
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PhysShapeCircle
-          radius: 0.25
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.5 # a little bouncy
-        friction: 0.2
-  - type: Catchable
-    catchChance: 0.8
-    catchSuccessSound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  - type: EmitSoundOnCollide
-    sound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  - type: Item
-    size: Small
-    sprite: Objects/Fun/Balls/tennisball.rsi
-  - type: EmitSoundOnUse
-    sound:
-      collection: ToySqueak
-      params:
-        volume: -4
-  - type: UseDelay
-  - type: Clothing
-    slots: [mask]
-  - type: Tag
-    tags:
-    - PetWearable
 
 - type: entity
   parent: BaseItem
@@ -1584,23 +1508,6 @@
   - type: Sprite
     sprite: Objects/Fun/toys.rsi
     state: beachball
-  # Upstream start: Placeholder; port upstream PR #37189
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape: !type:PhysShapeCircle
-          radius: 0.3
-          position: "0,-0.2"
-        density: 20
-        mask:
-        - ItemMask
-        restitution: 0.1 # not bouncy
-        friction: 0.2
-  - type: Catchable
-    catchChance: 0.8
-    catchSuccessSound:
-      path: /Audio/Effects/Footsteps/bounce.ogg
-  # Upstream end
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Effects/Footsteps/bounce.ogg
@@ -2005,10 +1912,8 @@
   - type: UseDelay
     delay: 0.8
   - type: Slippery
-    staminaDamage: 0
     slipData:
-      stunTime: 0
-      knockdownTime: 0
+      paralyzeTime: 0
     slipSound:
       collection: Parp
       params:
@@ -2024,7 +1929,7 @@
   - type: StepTrigger
     intersectRatio: 0.2
     requiredTriggeredSpeed: 1
-  - type: TriggerOnStepTrigger # for payloads
+  - type: TriggerOnStepTrigger
   - type: EmitSoundOnTrigger
     sound:
       collection: Parp
@@ -2066,7 +1971,7 @@
   - type: FlavorProfile
     flavors:
       - plastic
-  - type: Edible
+  - type: Food
   - type: Sprite
     sprite: Objects/Specific/Hydroponics/banana.rsi
   - type: SolutionContainerManager
@@ -2180,7 +2085,7 @@
       collection: RubberChicken
       params:
         variation: 0.125
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: RubberChicken

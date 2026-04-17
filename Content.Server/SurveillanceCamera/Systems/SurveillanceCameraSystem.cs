@@ -1,4 +1,5 @@
 using Content.Server.DeviceNetwork.Systems;
+//using Content.Server.Emp; // Frontier: Upstream - #28984
 using Content.Server.Power.Components; // Frontier
 using Content.Shared.ActionBlocker;
 using Content.Shared.DeviceNetwork;
@@ -13,7 +14,7 @@ using Content.Shared.DeviceNetwork.Components;
 
 namespace Content.Server.SurveillanceCamera;
 
-public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight: SharedSurveillanceCameraSystem<EntitySystem; revert when Predict EMP #39802 is ported.
+public sealed class SurveillanceCameraSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
@@ -60,7 +61,8 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
         SubscribeLocalEvent<SurveillanceCameraComponent, SurveillanceCameraSetupSetNetwork>(OnSetNetwork);
         SubscribeLocalEvent<SurveillanceCameraComponent, GetVerbsEvent<AlternativeVerb>>(AddVerbs);
 
-       InitializeCollide();
+        //SubscribeLocalEvent<SurveillanceCameraComponent, EmpPulseEvent>(OnEmpPulse); // Frontier: Upstream - #28984
+        //SubscribeLocalEvent<SurveillanceCameraComponent, EmpDisabledRemoved>(OnEmpDisabledRemoved); // Frontier: Upstream - #28984
     }
 
     private void OnPacketReceived(EntityUid uid, SurveillanceCameraComponent component, DeviceNetworkPacketEvent args)
@@ -251,7 +253,7 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
 
         var ev = new SurveillanceCameraDeactivateEvent(camera);
 
-        RemoveActiveViewers(camera, new(component.ActivePvsViewers), null, component);
+        RemoveActiveViewers(camera, new(component.ActiveViewers), null, component);
         component.Active = false;
 
         // Send a targetted event to all monitors.
@@ -266,25 +268,6 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
         RaiseLocalEvent(ev);
 
         UpdateVisuals(camera, component);
-    }
-
-    /// <summary>
-    /// Checks whether the camera is being viewed through by anyone at all.
-    /// </summary>
-    /// <param name="ent">The camera to check</param>
-    /// <returns>True if the camera is looked through, otherwise False.</returns>
-    public bool IsGettingViewed(Entity<SurveillanceCameraComponent?> ent)
-    {
-        if (!Resolve(ent, ref ent.Comp))
-            return false;
-
-        if (ent.Comp.ActivePvsViewers.Count > 0 || ent.Comp.ActiveMonitors.Count > 0)
-            return true;
-
-        var ev = new SurveillanceCameraGetIsViewedExternallyEvent();
-        RaiseLocalEvent(ent, ref ev);
-
-        return ev.Viewed;
     }
 
     public void SetActive(EntityUid camera, bool setting, SurveillanceCameraComponent? component = null)
@@ -320,7 +303,7 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
         }
 
         _viewSubscriberSystem.AddViewSubscriber(camera, actor.PlayerSession);
-        component.ActivePvsViewers.Add(player);
+        component.ActiveViewers.Add(player);
 
         if (monitor != null)
         {
@@ -382,7 +365,7 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
         if (Resolve(player, ref actor))
             _viewSubscriberSystem.RemoveViewSubscriber(camera, actor.PlayerSession);
 
-        component.ActivePvsViewers.Remove(player);
+        component.ActiveViewers.Remove(player);
 
         if (monitor != null)
         {
@@ -427,13 +410,28 @@ public sealed partial class SurveillanceCameraSystem : EntitySystem // HardLight
             key = SurveillanceCameraVisuals.Active;
         }
 
-        if (IsGettingViewed((uid, component)))
+        if (component.ActiveViewers.Count > 0 || component.ActiveMonitors.Count > 0)
         {
             key = SurveillanceCameraVisuals.InUse;
         }
 
         _appearance.SetData(uid, SurveillanceCameraVisualsKey.Key, key, appearance);
     }
+
+    //private void OnEmpPulse(EntityUid uid, SurveillanceCameraComponent component, ref EmpPulseEvent args) // Frontier: Upstream - #28984
+    //{
+    //    if (component.Active)
+    //    {
+    //        args.Affected = true;
+    //        args.Disabled = true;
+    //        SetActive(uid, false);
+    //    }
+    //}
+
+    //private void OnEmpDisabledRemoved(EntityUid uid, SurveillanceCameraComponent component, ref EmpDisabledRemoved args)
+    //{
+    //    SetActive(uid, true);
+    //}
 }
 
 public sealed class SurveillanceCameraAlternativeVerbsEvent(GetVerbsEvent<AlternativeVerb> args) : EntityEventArgs

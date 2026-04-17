@@ -56,6 +56,8 @@ public sealed class BorgSystem : SharedBorgSystem
         if (!Resolve(uid, ref component, ref appearance, ref sprite))
             return;
 
+        ApplyQuadborgOffset(uid, sprite); // HardLight
+
         if (_appearance.TryGetData<MobState>(uid, MobStateVisuals.State, out var state, appearance))
         {
             if (state != MobState.Alive)
@@ -71,6 +73,34 @@ public sealed class BorgSystem : SharedBorgSystem
         _sprite.LayerSetVisible((uid, sprite), BorgVisualLayers.Light, component.BrainEntity != null || hasPlayer);
         _sprite.LayerSetRsiState((uid, sprite), BorgVisualLayers.Light, hasPlayer ? component.HasMindState : component.NoMindState);
     }
+
+    // HardLight start
+    private void ApplyQuadborgOffset(EntityUid uid, SpriteComponent sprite)
+    {
+        if (!TryComp<QuadborgSpriteOffsetComponent>(uid, out var offsetComp))
+            return;
+
+        var desired = GetQuadborgOffset(uid, offsetComp);
+        if (sprite.Offset == desired)
+            return;
+
+        _sprite.SetOffset((uid, sprite), desired);
+    }
+
+    private Vector2 GetQuadborgOffset(EntityUid uid, QuadborgSpriteOffsetComponent offsetComp)
+    {
+        if (HasComp<TinyWeaponHandlingComponent>(uid))
+            return offsetComp.TinyOffset;
+
+        if (HasComp<SmallWeaponHandlingComponent>(uid))
+            return offsetComp.SmallOffset;
+
+        if (HasComp<BigWeaponHandlingComponent>(uid))
+            return offsetComp.BigOffset;
+
+        return offsetComp.DefaultOffset;
+    }
+    // HardLight end
 
     private void OnMMIAppearanceChanged(EntityUid uid, MMIComponent component, ref AppearanceChangeEvent args)
     {

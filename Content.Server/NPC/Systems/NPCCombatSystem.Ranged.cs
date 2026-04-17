@@ -124,7 +124,7 @@ public sealed partial class NPCCombatSystem
 
             var worldPos = _transform.GetWorldPosition(xform);
             var targetPos = _transform.GetWorldPosition(targetXform);
-
+            
             // Frontier -- Ranged NPC miss chance
             if (_random.Prob(comp.MissChance))
             {
@@ -214,7 +214,7 @@ public sealed partial class NPCCombatSystem
             }
 
             _gun.SetTarget(gun, comp.Target); // Frontier - This ensures that the bullet won't fly over the target if it's downed
-            _gun.AttemptShoot(uid, gunUid, gun, targetCordinates, comp.Target);
+            _gun.AttemptShoot(uid, gunUid, gun, targetCordinates);
         }
     }
 }

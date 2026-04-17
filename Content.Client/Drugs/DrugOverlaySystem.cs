@@ -1,9 +1,7 @@
 using Content.Shared.Drugs;
-using Content.Shared.StatusEffectNew;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Player;
-using Robust.Shared.Random;
 
 namespace Content.Client.Drugs;
 
@@ -14,90 +12,86 @@ public sealed class DrugOverlaySystem : EntitySystem
 {
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IOverlayManager _overlayMan = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
 
     private RainbowOverlay _rainbowOverlay = default!;
     private AbyssalOverlay _abyssalOverlay = default!;
+
+    public static string RainbowKey = "SeeingRainbows";
+    public static string AbyssalKey = "AbyssalWhispers";
 
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<SeeingRainbowsStatusEffectComponent, StatusEffectAppliedEvent>(OnRainbowApplied);
-        SubscribeLocalEvent<SeeingRainbowsStatusEffectComponent, StatusEffectRemovedEvent>(OnRainbowRemoved);
+        SubscribeLocalEvent<SeeingRainbowsComponent, ComponentInit>(OnRainbowInit);
+        SubscribeLocalEvent<SeeingRainbowsComponent, ComponentShutdown>(OnRainbowShutdown);
+        SubscribeLocalEvent<SeeingRainbowsComponent, LocalPlayerAttachedEvent>(OnRainbowPlayerAttached);
+        SubscribeLocalEvent<SeeingRainbowsComponent, LocalPlayerDetachedEvent>(OnRainbowPlayerDetached);
 
-        SubscribeLocalEvent<SeeingRainbowsStatusEffectComponent, StatusEffectRelayedEvent<LocalPlayerAttachedEvent>>(OnRainbowPlayerAttached);
-        SubscribeLocalEvent<SeeingRainbowsStatusEffectComponent, StatusEffectRelayedEvent<LocalPlayerDetachedEvent>>(OnRainbowPlayerDetached);
-
-        SubscribeLocalEvent<AbyssalWhispersStatusEffectComponent, StatusEffectAppliedEvent>(OnAbyssalApplied); // HardLight
-        SubscribeLocalEvent<AbyssalWhispersStatusEffectComponent, StatusEffectRemovedEvent>(OnAbyssalRemoved); // HardLight
-
-        SubscribeLocalEvent<AbyssalWhispersStatusEffectComponent, StatusEffectRelayedEvent<LocalPlayerAttachedEvent>>(OnAbyssalPlayerAttached); // HardLight
-        SubscribeLocalEvent<AbyssalWhispersStatusEffectComponent, StatusEffectRelayedEvent<LocalPlayerDetachedEvent>>(OnAbyssalPlayerDetached); // HardLight
+        SubscribeLocalEvent<AbyssalWhispersComponent, ComponentInit>(OnAbyssalInit);
+        SubscribeLocalEvent<AbyssalWhispersComponent, ComponentShutdown>(OnAbyssalShutdown);
+        SubscribeLocalEvent<AbyssalWhispersComponent, LocalPlayerAttachedEvent>(OnAbyssalPlayerAttached);
+        SubscribeLocalEvent<AbyssalWhispersComponent, LocalPlayerDetachedEvent>(OnAbyssalPlayerDetached);
 
         _rainbowOverlay = new();
         _abyssalOverlay = new();
     }
 
-    // HardLight start: Rainbow and abyssal overlay separation.
     // Rainbow overlay events
-    private void OnRainbowRemoved(Entity<SeeingRainbowsStatusEffectComponent> ent, ref StatusEffectRemovedEvent args)
+    private void OnRainbowPlayerAttached(EntityUid uid, SeeingRainbowsComponent component, LocalPlayerAttachedEvent args)
     {
-        if (_player.LocalEntity != args.Target)
-            return;
+        _overlayMan.AddOverlay(_rainbowOverlay);
+    }
 
+    private void OnRainbowPlayerDetached(EntityUid uid, SeeingRainbowsComponent component, LocalPlayerDetachedEvent args)
+    {
         _rainbowOverlay.Intoxication = 0;
         _rainbowOverlay.TimeTicker = 0;
         _overlayMan.RemoveOverlay(_rainbowOverlay);
     }
 
-    private void OnRainbowApplied(Entity<SeeingRainbowsStatusEffectComponent> ent, ref StatusEffectAppliedEvent args)
+    private void OnRainbowInit(EntityUid uid, SeeingRainbowsComponent component, ComponentInit args)
     {
-        if (_player.LocalEntity != args.Target)
-            return;
-
-        _rainbowOverlay.Phase = _random.NextFloat(MathF.Tau); // random starting phase for movement effect
-        _overlayMan.AddOverlay(_rainbowOverlay);
+        if (_player.LocalEntity == uid)
+            _overlayMan.AddOverlay(_rainbowOverlay);
     }
 
-    private void OnRainbowPlayerAttached(Entity<SeeingRainbowsStatusEffectComponent> ent, ref StatusEffectRelayedEvent<LocalPlayerAttachedEvent> args)
+    private void OnRainbowShutdown(EntityUid uid, SeeingRainbowsComponent component, ComponentShutdown args)
     {
-        _overlayMan.AddOverlay(_rainbowOverlay);
-    }
-
-    private void OnRainbowPlayerDetached(Entity<SeeingRainbowsStatusEffectComponent> ent, ref StatusEffectRelayedEvent<LocalPlayerDetachedEvent> args)
-    {
-        _rainbowOverlay.Intoxication = 0;
-        _rainbowOverlay.TimeTicker = 0;
-        _overlayMan.RemoveOverlay(_rainbowOverlay);
+        if (_player.LocalEntity == uid)
+        {
+            _rainbowOverlay.Intoxication = 0;
+            _rainbowOverlay.TimeTicker = 0;
+            _overlayMan.RemoveOverlay(_rainbowOverlay);
+        }
     }
 
     // Abyssal overlay events
-    private void OnAbyssalRemoved(Entity<AbyssalWhispersStatusEffectComponent> ent, ref StatusEffectRemovedEvent args)
-    {
-        if (_player.LocalEntity != args.Target)
-            return;
-
-        _abyssalOverlay.Intoxication = 0;
-        _abyssalOverlay.TimeTicker = 0;
-        _overlayMan.RemoveOverlay(_abyssalOverlay);
-    }
-    private void OnAbyssalApplied(Entity<AbyssalWhispersStatusEffectComponent> ent, ref StatusEffectAppliedEvent args)
-    {
-        if (_player.LocalEntity == args.Target)
-            _overlayMan.AddOverlay(_abyssalOverlay);
-    }
-
-    private void OnAbyssalPlayerAttached(Entity<AbyssalWhispersStatusEffectComponent> ent, ref StatusEffectRelayedEvent<LocalPlayerAttachedEvent> args)
+    private void OnAbyssalPlayerAttached(EntityUid uid, AbyssalWhispersComponent component, LocalPlayerAttachedEvent args)
     {
         _overlayMan.AddOverlay(_abyssalOverlay);
     }
 
-    private void OnAbyssalPlayerDetached(Entity<AbyssalWhispersStatusEffectComponent> ent, ref StatusEffectRelayedEvent<LocalPlayerDetachedEvent> args)
+    private void OnAbyssalPlayerDetached(EntityUid uid, AbyssalWhispersComponent component, LocalPlayerDetachedEvent args)
     {
         _abyssalOverlay.Intoxication = 0;
         _abyssalOverlay.TimeTicker = 0;
         _overlayMan.RemoveOverlay(_abyssalOverlay);
     }
-    // HardLight end
+
+    private void OnAbyssalInit(EntityUid uid, AbyssalWhispersComponent component, ComponentInit args)
+    {
+        if (_player.LocalEntity == uid)
+            _overlayMan.AddOverlay(_abyssalOverlay);
+    }
+
+    private void OnAbyssalShutdown(EntityUid uid, AbyssalWhispersComponent component, ComponentShutdown args)
+    {
+        if (_player.LocalEntity == uid)
+        {
+            _abyssalOverlay.Intoxication = 0;
+            _abyssalOverlay.TimeTicker = 0;
+            _overlayMan.RemoveOverlay(_abyssalOverlay);
+        }
+    }
 }

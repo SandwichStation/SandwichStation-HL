@@ -2,7 +2,7 @@
   id: CrateServiceJanitorialSupplies
   parent: CratePlasticBiodegradable # Frontier: CratePlastic<CratePlasticBiodegradable
   name: janitorial supplies crate
-  description: Fight back against dirt and grime with Nanotrasen's Janitorial Essentials Plus™! Contains a bucket, two caution signs, and cleaner grenades. Also has a mop, a broom, two spray bottles of cleaner, two wire brushes, soap, a plunger, and a light replacer. # Frontier: Match crate contents, # HardLight: Further edited.
+  description: Fight back against dirt and grime with Nanotrasen's Janitorial Essentials Plus™! Contains a bucket and two caution signs, a mop, broom, two spray bottles of cleaner, soap, a plunger, and a light replacer. # Frontier: match crate contents
   components:
   - type: StorageFill
     contents:
@@ -17,11 +17,8 @@
         amount: 2
       - id: TrashBag
         amount: 2
-      - id: Plunger
-        amount: 1 # Frontier: 2<1
-      - id: BoxCleanerGrenades
-      - id: WireBrush
-        amount: 2
+      - id: Plunger # Frontier 2<1
+        amount: 1
       - id: LightReplacer # Frontier
         amount: 1
 
@@ -252,7 +249,6 @@
       - id: DrinkVodkaBottleFull
       - id: DrinkWhiskeyBottleFull
       - id: DrinkWineBottleFull
-      - id: DrinkJaegermisterBottleFull # Den - Jaegerminster
 
 - type: entity
   id: CrateServiceBox

@@ -4,7 +4,6 @@ using Content.Shared.DeviceLinking;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Hands.Components;
-using Content.Shared.Hands.EntitySystems; // HardLight
 using Content.Shared.Interaction;
 using Content.Shared.Throwing;
 using Robust.Shared.Containers;
@@ -19,7 +18,6 @@ public abstract class SharedInteractorSystem : EntitySystem
     [Dependency] private readonly CollisionWakeSystem _wake = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
-    [Dependency] private readonly SharedHandsSystem _hands = default!; // HardLight
     [Dependency] protected readonly StartableMachineSystem Machine = default!;
 
     private EntityQuery<ActiveDoAfterComponent> _doAfterQuery;
@@ -126,15 +124,11 @@ public abstract class SharedInteractorSystem : EntitySystem
 
     protected bool InteractWith(Entity<InteractorComponent> ent, EntityUid target)
     {
-        // HardLight start
-        var hands = _handsQuery.CompOrNull(ent);
-        var tool = hands is null ? null : _hands.GetActiveItem((ent.Owner, hands));
-        if (tool is not {} held)
-        // HardLight end
+        if (_handsQuery.CompOrNull(ent)?.ActiveHandEntity is not {} tool)
             return _interaction.InteractHand(ent, target);
 
         var coords = Transform(target).Coordinates;
-        return _interaction.InteractUsing(ent, held, target, coords); // HardLight: tool<held
+        return _interaction.InteractUsing(ent, tool, target, coords);
     }
 
     protected void TryRemoveTarget(Entity<InteractorComponent> ent, EntityUid target)
@@ -168,8 +162,7 @@ public abstract class SharedInteractorSystem : EntitySystem
 
     private void UpdateToolAppearance(EntityUid uid)
     {
-        var hands = _handsQuery.CompOrNull(uid); // HardLight
-        var state = hands != null && !_hands.ActiveHandIsEmpty((uid, hands)) // HardLight
+        var state = _handsQuery.CompOrNull(uid)?.ActiveHand?.IsEmpty == false
             ? InteractorState.Inactive
             : InteractorState.Empty;
         UpdateAppearance(uid, state);

@@ -35,7 +35,7 @@ using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Content.Server.Shuttles.Components;
 using Content.Server._NF.Salvage.Expeditions; // Frontier
-using Content.Shared.Station.Components; // HardLight
+using Content.Server.Station.Components; // Frontier
 using Content.Server.Station.Systems; // Frontier
 using Content.Server.Shuttles.Systems;
 using Content.Server._NF.Salvage.Expeditions.Structure; // Frontier
@@ -295,13 +295,13 @@ public sealed class SpawnSalvageMissionJob : Job<bool>
             dungeonBox = dungeonBox.ExtendToContain(tile);
         }
 
-        // HardLight: Modified for round persistence - work with or without StationDataComponent
+        // HARDLIGHT: Modified for round persistence - work with or without StationDataComponent
         EntityUid? shuttleUid = null;
 
         // Try to get shuttle from station data if available
-        if (_entManager.TryGetComponent<StationDataComponent>(Station, out StationDataComponent? stationData)) // HardLight: var<StationDataComponent?
+        if (_entManager.TryGetComponent<StationDataComponent>(Station, out var stationData))
         {
-            shuttleUid = _station.GetLargestGrid((Station, stationData)); // HardLight: Added Station
+            shuttleUid = _station.GetLargestGrid(stationData);
             _sawmill.Debug($"Using shuttle {shuttleUid} from station {Station} for mission generation");
         }
         else
