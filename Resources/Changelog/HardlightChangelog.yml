@@ -2692,3 +2692,11 @@ Entries:
         placed on it.
   id: 290
   time: '2026-04-16T09:23:51.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Remove
+      message: 'Removed a few PRS alongside the Omega PR '
+    - type: Fix
+      message: Fixed a number of major errors and crashes
+  id: 296
+  time: '2026-04-17T20:43:12.0000000+00:00'
