@@ -17,5 +17,8 @@
     - type: Appearance
     - type: GasPort
     - type: Construction
-      graph: GasUnary
+      graph: GasBinary
       node: portstorage
+    - type: GuideHelp
+      guides:
+      - GasCanisters
