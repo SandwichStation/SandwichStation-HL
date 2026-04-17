@@ -693,24 +693,6 @@
       collection: Cracks # Imp
 
 - type: emoteSounds
-  id: LewdSounds
-  sounds:
-    Stroke:
-      collection: Stroke
-    WetPlorp:
-      collection: WetPlorp
-    Plap:
-      collection: Plap
-    WetPlap:
-      collection: WetPlap
-    CumIn:
-      collection: CumIn
-    CumOut:
-      collection: CumOut
-    PullOut:
-      collection: PullOut
-
-- type: emoteSounds
   id: DionaBodyEmotes
   sounds:
     Clap:
