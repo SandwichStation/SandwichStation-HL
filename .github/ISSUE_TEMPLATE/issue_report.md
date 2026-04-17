@@ -1,6 +1,6 @@
 ---
 name: Report an Issue
-about: "..."
+about: "USE THIS ONE"
 title: ''
 labels: ''
 assignees: ''
