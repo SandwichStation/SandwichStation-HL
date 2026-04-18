@@ -411,3 +411,17 @@ Entries:
       message: MANY MANY BUGS!
   id: 29
   time: '2026-04-17T11:55:25.0000000+00:00'
+- author: B3CKDOOR
+  changes:
+    - type: Remove
+      message: 'Removed Protogen subspecies (temporary) #86 '
+    - type: Fix
+      message: Fixed HardCore map
+    - type: Fix
+      message: Fixed changelog tab title
+    - type: Fix
+      message: emotes menu
+    - type: Fix
+      message: aghosts (hopefully)
+  id: 30
+  time: '2026-04-17T21:45:47.0000000+00:00'
