@@ -2,30 +2,6 @@
 
 # Tier 2
 
-- type: technology
-  id: AdvancedTreatment
-  name: research-technology-advanced-treatment
-  icon:
-    sprite: _Shitmed/Objects/Specific/Medical/Surgery/e-scalpel.rsi
-    state: e-scalpel-on
-  discipline: CivilianServices
-  tier: 2
-  cost: 5000
-  recipeUnlocks:
-  # - BorgModuleAdvancedTreatment # Frontier
-  # - BorgModuleDefibrillator # Frontier
-  - BorgModuleAdvancedParamedic # Frontier
-  - MedicalTechFabCircuitboard
-  - EnergyScalpel
-  - EnergyCautery
-  - AdvancedRetractor
-  - BorgModuleAdvancedSurgery
-  # Goobstation R&D Console rework start
-  technologyPrerequisites:
-  - AdvancedEntertainment
-  position: -2,4
-  # Goobstation R&D Console rework end
-
 # Tier 3
 
 - type: technology
