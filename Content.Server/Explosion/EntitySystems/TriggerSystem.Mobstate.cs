@@ -25,16 +25,6 @@ public sealed partial class TriggerSystem
         if (!component.MobState.Contains(args.NewMobState))
             return;
 
-        if (component.PreventVore)
-        {
-            if (HasComp<VoredComponent>(args.Target))
-            {
-                // Typically, if someone is vored, they dont want people to come rush to
-                // their aid, so just block the trigger if they are vored.
-                return;
-            }
-        }
-
         //This chains Mobstate Changed triggers with OnUseTimerTrigger if they have it
         //Very useful for things that require a mobstate change and a timer
         if (TryComp<OnUseTimerTriggerComponent>(uid, out var timerTrigger))

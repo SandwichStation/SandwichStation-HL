@@ -71,7 +71,6 @@ public sealed class BrainwashVizorSystem : SharedBrainwashVizorSystem
             _flashSystem.FlashedKey,
             TimeSpan.FromSeconds(5),
             true);
-        _stun.TrySlowdown(user, TimeSpan.FromSeconds(5), true, 0, 0);
         TryComp<BrainwashedComponent>(user, out var newBrainwashedComponent);
         if (newBrainwashedComponent == null)
             AddComp<BrainwashedComponent>(user);
