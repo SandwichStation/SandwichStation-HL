@@ -1196,6 +1196,54 @@
 
 - type: entity
   parent: BasePlushie
+  id: PlushieNiaresa
+  name: CMO plushie
+  description: A plushie of a Cyan Shadowkin wearing the "Uniform" of the Chief Medical Officer. Shouldn't a doctor be wearing more clothes, not less?
+  components:
+  - type: Sprite
+    sprite: Objects/Fun/niaresa.rsi
+    state: niaresa
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: niaresa-inhand-left
+        shader: shaded
+      right:
+      - state: niaresa-inhand-right
+        shader: shaded
+    heldPrefix: plushielizard
+  - type: EmitSoundOnUse
+    sound:
+      path: /Audio/Voice/Shadowkin/mar.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/Voice/Human/femalescream_3.ogg
+  - type: EmitSoundOnActivate
+    sound:
+      path: /Audio/Voice/Shadowkin/wurble.ogg
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/Voice/Shadowkin/mar.ogg
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/Voice/Human/femalescream_4.ogg
+  - type: Edible
+    requiresSpecialDigestion: true
+    useSound:
+      path: /Audio/Voice/Human/cry_female_2.ogg
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    soundHit:
+      path: /Audio/Voice/Shadowkin/wurble.ogg
+  - type: Tag
+    tags:
+    - ClothMade
+    - Payload
+
+
+
+- type: entity
+  parent: BasePlushie
   id: PlushieMoth
   name: moth plushie
   description: Cute and fluffy moth plushie. Enjoy, bz!
