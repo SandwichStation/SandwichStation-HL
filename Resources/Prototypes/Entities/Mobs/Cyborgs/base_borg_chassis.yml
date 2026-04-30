@@ -276,12 +276,6 @@
     interactFailureString: petting-failure-generic-cyborg
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
-  - type: BypassLock
-    openWiresPanel: true
-  - type: BypassLockRequiresMobState
-    requiredMobState:
-    - Critical
-    - Dead
   - type: Blindable
   - type: EyeProtection
   - type: Stripping
