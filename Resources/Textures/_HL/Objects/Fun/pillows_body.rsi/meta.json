@@ -36,6 +36,8 @@
     { "name": "pillow_body_spacebear_back" },
     { "name": "pillow_body_syndie_blood_front" },
     { "name": "pillow_body_syndie_blood_back" },
+    { "name": "pillow_body_niaresa_front" },
+    { "name": "pillow_body_niaresa_back" },
     { "name": "bluepillow-inhand-left", "directions": 4 },
     { "name": "bluepillow-inhand-right", "directions": 4 },
     { "name": "greenpillow-inhand-left", "directions": 4 },

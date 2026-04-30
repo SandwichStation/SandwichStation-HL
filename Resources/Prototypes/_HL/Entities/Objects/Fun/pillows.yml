@@ -859,6 +859,22 @@
       map: ["back"]
 
 - type: entity
+  id: PillowBodyNiaresa
+  parent: PillowBodyBase
+  name: Niaresa Body Pillow
+  description: A pillow depicting the station's Chief Medical Officer. They approve.
+  components:
+  - type: Item
+    heldPrefix: whitepillow
+  - type: Sprite
+    sprite: _HL/Objects/Fun/pillows_body.rsi
+    layers:
+    - state: pillow_body_niaresa_front
+      map: ["base"]
+    - state: pillow_body_niaresa_back
+      map: ["back"]
+
+- type: entity
   id: PillowBodyDrDino
   parent: PillowBodyBase
   name: Dr.Dino body pillow
