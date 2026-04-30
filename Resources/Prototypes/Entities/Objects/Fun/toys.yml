@@ -1239,6 +1239,20 @@
     tags:
     - ClothMade
     - Payload
+  - type: Clothing
+    clothingVisuals:
+      head:
+      - state: niaresa-equipped-HELMET
+        shader: shaded
+    quickEquip: false
+    sprite: Objects/Fun/niaresa.rsi
+    equippedPrefix: niaresa
+    slots:
+    - HEAD
+  - type: FoodSequenceElement
+    entries:
+      CottonBurger: NiaresaPlushie
+
 
 
 

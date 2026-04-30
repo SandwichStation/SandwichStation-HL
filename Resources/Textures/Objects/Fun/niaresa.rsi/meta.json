@@ -17,6 +17,10 @@
     {
       "name": "niaresa-inhand-right",
       "directions": 4
+    },
+    {
+      "name": "niaresa-equipped-HELMET",
+      "directions": 4
     }
   ]
 }
