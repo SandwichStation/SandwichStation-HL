@@ -357,3 +357,19 @@ Entries:
       message: Plushies from shibastation
   id: 33
   time: '2026-06-07T10:27:45.0000000+00:00'
+- author: B3CKDOOR
+  changes:
+    - type: Add
+      message: Added legion plushie
+  id: 34
+  time: '2026-06-08T05:22:51.0000000+00:00'
+- author: B3CKDOOR
+  changes:
+    - type: Add
+      message: Added Sandwich Universal Login
+    - type: Remove
+      message: Removed "Vanilla" Wizden Login
+    - type: Tweak
+      message: Changed backend auth servers to use the new "Universal login"
+  id: 35
+  time: '2026-06-17T05:15:58.0000000+00:00'

@@ -166,7 +166,14 @@ namespace Content.Server.Connection
                 if (!ServerPreferencesManager.ShouldStorePrefs(e.AuthType))
                     return;
 
-                await _db.UpdatePlayerRecordAsync(userId, e.UserName, addr, hwid);
+                // MIGRATION: Try to migrate old account data to new Unified ID
+                var migrationRecord = await _db.GetPlayerRecordForMigrationAsync(userId, e.UserName ?? "");
+                if (migrationRecord != null)
+                {
+                    _sawmill.Info("[MIGRATION] Player record resolved for {UserName} -> {UserId}", e.UserName, userId);
+                }
+
+                await _db.UpdatePlayerRecordAsync(userId, e.UserName ?? userId.UserId.ToString(), addr, hwid);
             }
         }
 
@@ -251,12 +258,13 @@ namespace Content.Server.Connection
             var wasInGame = EntitySystem.TryGet<GameTicker>(out var ticker) &&
                             ticker.PlayerGameStatuses.ContainsKey(userId); // Frontier: remove status.JoinedGame check, TryGetValue<ContainsKey
 
-            if (_cfg.GetCVar(CCVars.PanicBunkerEnabled) && adminData == null && !wasInGame) // Frontier: allow users who joined before panic bunker was enforced to reconnect
+            if (_cfg.GetCVar(CCVars.PanicBunkerEnabled) && adminData == null && !wasInGame)
             {
                 var showReason = _cfg.GetCVar(CCVars.PanicBunkerShowReason);
                 var customReason = _cfg.GetCVar(CCVars.PanicBunkerCustomReason);
 
                 var minMinutesAge = _cfg.GetCVar(CCVars.PanicBunkerMinAccountAge);
+                // Use standard lookup since migration already ran above
                 var record = await _db.GetPlayerRecordByUserId(userId);
                 var validAccountAge = record != null &&
                                       record.FirstSeenTime.CompareTo(DateTimeOffset.UtcNow - TimeSpan.FromMinutes(minMinutesAge)) <= 0;

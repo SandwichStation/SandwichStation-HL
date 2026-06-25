@@ -27,10 +27,8 @@ namespace Content.Server.Database
         private int _msLag;
 
         public ServerDbPostgres(DbContextOptions<PostgresServerDbContext> options,
-            string connectionString,
-            IConfigurationManager cfg,
-            ISawmill opsLog,
-            ISawmill notifyLog)
+                                string connectionString, IConfigurationManager cfg,
+                                ISawmill opsLog, ISawmill notifyLog)
             : base(opsLog)
         {
             var concurrency = cfg.GetCVar(CCVars.DatabasePgConcurrency);
@@ -39,8 +37,7 @@ namespace Content.Server.Database
             _notifyLog = notifyLog;
             _prefsSemaphore = new SemaphoreSlim(concurrency, concurrency);
 
-            _dbReadyTask = Task.Run(async () =>
-            {
+            _dbReadyTask = Task.Run(async () => {
                 await using var ctx = new PostgresServerDbContext(_options);
                 try
                 {
@@ -57,15 +54,114 @@ namespace Content.Server.Database
             InitNotificationListener(connectionString);
         }
 
+        private static readonly (string Table, string Column)[] tablesToUpdate = {
+      ("admin_log_player", "player_user_id"),
+      ("admin_notes", "player_user_id"),
+      ("admin_watchlists", "player_user_id"),
+      ("admin_messages", "player_user_id"),
+      ("ban_player", "user_id"),
+      ("server_role_ban", "player_user_id"),
+      ("role_whitelists", "player_user_id"),
+      ("blacklist", "user_id"),
+      ("whitelist", "user_id"),
+      ("connection_log", "user_id"),
+      ("uploaded_resource_log", "user_id"),
+      ("consent_settings", "user_id"),
+      ("consent_freetext_read_receipt", "reader_user_id"),
+      ("preference", "user_id")
+    };
+
+        public override async Task MigratePlayerId(Guid oldId, Guid newId)
+        {
+            await using var db = await GetDbImpl();
+            await using var tx = await db.DbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                _opsLog.Info($"[MIGRATION] START {oldId} → {newId}");
+
+                // 1. Ensure NEW player exists (safe merge create)
+                await db.DbContext.Database.ExecuteSqlRawAsync(
+                    @"
+            INSERT INTO player (
+                user_id,
+                first_seen_time,
+                last_seen_time,
+                last_seen_user_name,
+                last_seen_address
+            )
+            SELECT
+                @p1,
+                COALESCE(first_seen_time, NOW()),
+                COALESCE(last_seen_time, NOW()),
+                COALESCE(last_seen_user_name, ''),
+                COALESCE(last_seen_address, '0.0.0.0'::inet)
+            FROM player
+            WHERE user_id = @p0
+            ON CONFLICT (user_id) DO NOTHING;
+        ",
+                    oldId, newId);
+
+                // 2. Merge metadata safely (new wins unless empty)
+                await db.DbContext.Database.ExecuteSqlRawAsync(
+                    @"
+            UPDATE player newp
+            SET
+                last_seen_time = GREATEST(newp.last_seen_time, NOW()),
+                last_seen_user_name = COALESCE(newp.last_seen_user_name, oldp.last_seen_user_name),
+                last_seen_address = COALESCE(newp.last_seen_address, oldp.last_seen_address)
+            FROM player oldp
+            WHERE oldp.user_id = @p0
+              AND newp.user_id = @p1;
+        ",
+                    oldId, newId);
+
+                // 3. Update dependent tables (critical: old → new mapping)
+                foreach (var (table, column) in tablesToUpdate)
+                {
+                    try
+                    {
+                        var sql = $"UPDATE {table} SET {column} = @p1 WHERE {column} = @p0";
+                        var rows = await db.DbContext.Database.ExecuteSqlRawAsync(
+                            sql, oldId, newId);
+
+                        _opsLog.Info($"[MIGRATION] {table}: {rows} rows");
+                    }
+                    catch (Exception ex)
+                    {
+                        _opsLog.Error($"[MIGRATION] Table {table} failed: {ex.Message}");
+                        throw;
+                    }
+                }
+
+                // 4. Delete OLD player row (prevents unique constraint failures
+                // forever)
+                await db.DbContext.Database.ExecuteSqlRawAsync(
+                    @"
+            DELETE FROM player WHERE user_id = @p0;
+        ",
+                    oldId);
+
+                await tx.CommitAsync();
+
+                _opsLog.Info($"[MIGRATION] COMPLETE {oldId} → {newId}");
+            }
+            catch (Exception ex)
+            {
+                await tx.RollbackAsync();
+                _opsLog.Error($"[MIGRATION] FAILED {oldId} → {newId}: {ex.Message}");
+                throw;
+            }
+        }
+
         #region Ban
         public override async Task<BanDef?> GetBanAsync(int id)
         {
             await using var db = await GetDbImpl();
 
-            var query = db.PgDbContext.Ban
-                .ApplyIncludes(GetBanDefIncludes())
-                .Where(p => p.Id == id)
-                .AsSplitQuery();
+            var query = db.PgDbContext.Ban.ApplyIncludes(GetBanDefIncludes())
+                            .Where(p => p.Id == id)
+                            .AsSplitQuery();
 
             var ban = await query.SingleOrDefaultAsync();
 
@@ -73,46 +169,49 @@ namespace Content.Server.Database
         }
 
         public override async Task<BanDef?> GetBanAsync(
-            IPAddress? address,
-            NetUserId? userId,
-            ImmutableArray<byte>? hwId,
-            ImmutableArray<ImmutableArray<byte>>? modernHWIds,
-            BanType type)
+            IPAddress? address, NetUserId? userId, ImmutableArray<byte>? hwId,
+            ImmutableArray<ImmutableArray<byte>>? modernHWIds, BanType type)
         {
             if (address == null && userId == null && hwId == null)
             {
-                throw new ArgumentException("Address, userId, and hwId cannot all be null");
+                throw new ArgumentException(
+                    "Address, userId, and hwId cannot all be null");
             }
 
             await using var db = await GetDbImpl();
 
             var exempt = await GetBanExemptionCore(db, userId);
-            var newPlayer = userId == null || !await PlayerRecordExists(db, userId.Value);
-            var query = MakeBanLookupQuery(address, userId, hwId, modernHWIds, db, includeUnbanned: false, exempt, newPlayer, type)
-                .OrderByDescending(b => b.BanTime);
+            var newPlayer =
+                userId == null || !await PlayerRecordExists(db, userId.Value);
+            var query =
+                MakeBanLookupQuery(address, userId, hwId, modernHWIds, db,
+                                   includeUnbanned: false, exempt, newPlayer, type)
+                    .OrderByDescending(b => b.BanTime);
 
             var ban = await query.FirstOrDefaultAsync();
 
             return ConvertBan(ban);
         }
 
-        public override async Task<List<BanDef>> GetBansAsync(IPAddress? address,
-            NetUserId? userId,
-            ImmutableArray<byte>? hwId,
-            ImmutableArray<ImmutableArray<byte>>? modernHWIds,
-            bool includeUnbanned,
+        public override async Task<List<BanDef>> GetBansAsync(
+            IPAddress? address, NetUserId? userId, ImmutableArray<byte>? hwId,
+            ImmutableArray<ImmutableArray<byte>>? modernHWIds, bool includeUnbanned,
             BanType type)
         {
             if (address == null && userId == null && hwId == null)
             {
-                throw new ArgumentException("Address, userId, and hwId cannot all be null");
+                throw new ArgumentException(
+                    "Address, userId, and hwId cannot all be null");
             }
 
             await using var db = await GetDbImpl();
 
-            var exempt = type == BanType.Role ? null : await GetBanExemptionCore(db, userId);
-            var newPlayer = !await db.PgDbContext.Player.AnyAsync(p => p.UserId == userId);
-            var query = MakeBanLookupQuery(address, userId, hwId, modernHWIds, db, includeUnbanned, exempt, newPlayer, type);
+            var exempt =
+                type == BanType.Role ? null : await GetBanExemptionCore(db, userId);
+            var newPlayer =
+                !await db.PgDbContext.Player.AnyAsync(p => p.UserId == userId);
+            var query = MakeBanLookupQuery(address, userId, hwId, modernHWIds, db,
+                                           includeUnbanned, exempt, newPlayer, type);
             var queryBans = await query.ToArrayAsync();
             var bans = new List<BanDef>(queryBans.Length);
 
@@ -129,16 +228,12 @@ namespace Content.Server.Database
             return bans;
         }
 
-        // This has to return IDs instead of direct objects because otherwise all the includes are too complicated.
+        // This has to return IDs instead of direct objects because otherwise all
+        // the includes are too complicated.
         private static IQueryable<Ban> MakeBanLookupQuery(
-            IPAddress? address,
-            NetUserId? userId,
-            ImmutableArray<byte>? hwId,
-            ImmutableArray<ImmutableArray<byte>>? modernHWIds,
-            DbGuardImpl db,
-            bool includeUnbanned,
-            ServerBanExemptFlags? exemptFlags,
-            bool newPlayer,
+            IPAddress? address, NetUserId? userId, ImmutableArray<byte>? hwId,
+            ImmutableArray<ImmutableArray<byte>>? modernHWIds, DbGuardImpl db,
+            bool includeUnbanned, ServerBanExemptFlags? exemptFlags, bool newPlayer,
             BanType type)
         {
             DebugTools.Assert(!(address == null && userId == null && hwId == null));
@@ -146,60 +241,65 @@ namespace Content.Server.Database
             var selectorQueries = new List<IQueryable<IBanSelector>>();
 
             if (userId is { } uid)
-                selectorQueries.Add(db.DbContext.BanPlayer.Where(b => b.UserId == uid.UserId));
+                selectorQueries.Add(
+                    db.DbContext.BanPlayer.Where(b => b.UserId == uid.UserId));
 
             if (hwId != null && hwId.Value.Length > 0)
             {
-                selectorQueries.Add(db.DbContext.BanHwid.Where(bh =>
-                    bh.HWId!.Type == HwidType.Legacy && bh.HWId!.Hwid.SequenceEqual(hwId.Value.ToArray())
-                ));
+                selectorQueries.Add(db.DbContext.BanHwid.Where(
+                    bh => bh.HWId!.Type == HwidType.Legacy &&
+                          bh.HWId!.Hwid.SequenceEqual(hwId.Value.ToArray())));
             }
 
             if (modernHWIds != null)
             {
                 foreach (var modernHwid in modernHWIds)
                 {
-                    selectorQueries.Add(db.DbContext.BanHwid
-                        .Where(b => b.HWId!.Type == HwidType.Modern
-                                    && b.HWId!.Hwid.SequenceEqual(modernHwid.ToArray())));
+                    selectorQueries.Add(db.DbContext.BanHwid.Where(
+                        b => b.HWId!.Type == HwidType.Modern &&
+                             b.HWId!.Hwid.SequenceEqual(modernHwid.ToArray())));
                 }
             }
 
-            if (address != null && !exemptFlags.GetValueOrDefault(ServerBanExemptFlags.None)
-                    .HasFlag(ServerBanExemptFlags.IP))
+            if (address != null &&
+                !exemptFlags.GetValueOrDefault(ServerBanExemptFlags.None)
+                     .HasFlag(ServerBanExemptFlags.IP))
             {
-                selectorQueries.Add(db.PgDbContext.BanAddress
-                    .Where(ba => EF.Functions.ContainsOrEqual(ba.Address, address)
-                                 && !(ba.Ban!.ExemptFlags.HasFlag(ServerBanExemptFlags.BlacklistedRange) &&
-                                      !newPlayer)));
+                selectorQueries.Add(db.PgDbContext.BanAddress.Where(
+                    ba => EF.Functions.ContainsOrEqual(ba.Address, address) &&
+                          !(ba.Ban!.ExemptFlags.HasFlag(
+                                ServerBanExemptFlags.BlacklistedRange) &&
+                            !newPlayer)));
             }
 
             DebugTools.Assert(
                 selectorQueries.Count > 0,
                 "At least one filter item (IP/UserID/HWID) must have been given to make query not null.");
 
-            var selectorQuery = selectorQueries
-                .Select(q => q.Select(sel => sel.BanId))
-                .Aggregate((selectors, queryable) => selectors.Union(queryable));
+            var selectorQuery =
+                selectorQueries.Select(q => q.Select(sel => sel.BanId))
+                    .Aggregate((selectors, queryable) => selectors.Union(queryable));
 
             var banQuery = db.DbContext.Ban.Where(b => selectorQuery.Contains(b.Id));
 
             if (!includeUnbanned)
             {
-                banQuery = banQuery.Where(p =>
-                    p.Unban == null && (p.ExpirationTime == null || p.ExpirationTime.Value > DateTime.UtcNow));
+                banQuery = banQuery.Where(
+                    p => p.Unban == null && (p.ExpirationTime == null ||
+                                             p.ExpirationTime.Value > DateTime.UtcNow));
             }
 
             if (exemptFlags is { } exempt)
             {
                 if (exempt != ServerBanExemptFlags.None)
-                    exempt |= ServerBanExemptFlags.BlacklistedRange; // Any kind of exemption should bypass BlacklistedRange
+                    exempt |= ServerBanExemptFlags
+                                  .BlacklistedRange;  // Any kind of exemption should
+                                                      // bypass BlacklistedRange
 
                 banQuery = banQuery.Where(b => (b.ExemptFlags & exempt) == 0);
             }
 
-            return banQuery
-                .Where(b => b.Type == type)
+            return banQuery.Where(b => b.Type == type)
                 .ApplyIncludes(GetBanDefIncludes(type))
                 .AsSplitQuery();
         }
@@ -213,7 +313,7 @@ namespace Content.Server.Database
             }
 
             NetUserId? aUid = null;
-            if (ban.BanningAdmin is {} aGuid)
+            if (ban.BanningAdmin is { } aGuid)
             {
                 aUid = new NetUserId(aGuid);
             }
@@ -223,25 +323,17 @@ namespace Content.Server.Database
             ImmutableArray<BanRoleDef>? roles = null;
             if (ban.Type == BanType.Role)
             {
-                roles = [..ban.Roles!.Select(br => new BanRoleDef(br.RoleType, br.RoleId))];
+                roles =
+                    [.. ban.Roles!.Select(br => new BanRoleDef(br.RoleType, br.RoleId))];
             }
 
             return new BanDef(
-                ban.Id,
-                ban.Type,
-                [..ban.Players!.Select(bp => new NetUserId(bp.UserId))],
-                [..ban.Addresses!.Select(ba => ba.Address.ToTuple())],
-                [..ban.Hwids!.Select(bh => bh.HWId)],
-                ban.BanTime,
-                ban.ExpirationTime,
-                [..ban.Rounds!.Select(r => r.RoundId)],
-                ban.PlaytimeAtNote,
-                ban.Reason,
-                ban.Severity,
-                aUid,
-                unbanDef,
-                ban.ExemptFlags,
-                roles);
+                ban.Id, ban.Type,
+                [.. ban.Players!.Select(bp => new NetUserId(bp.UserId))],
+                [.. ban.Addresses!.Select(ba => ba.Address.ToTuple())],
+                [.. ban.Hwids!.Select(bh => bh.HWId)], ban.BanTime, ban.ExpirationTime,
+                [.. ban.Rounds!.Select(r => r.RoundId)], ban.PlaytimeAtNote,
+                ban.Reason, ban.Severity, aUid, unbanDef, ban.ExemptFlags, roles);
         }
 
         private static UnbanDef? ConvertUnban(Unban? unban)
@@ -252,15 +344,12 @@ namespace Content.Server.Database
             }
 
             NetUserId? aUid = null;
-            if (unban.UnbanningAdmin is {} aGuid)
+            if (unban.UnbanningAdmin is { } aGuid)
             {
                 aUid = new NetUserId(aGuid);
             }
 
-            return new UnbanDef(
-                unban.Id,
-                aUid,
-                unban.UnbanTime);
+            return new UnbanDef(unban.Id, aUid, unban.UnbanTime);
         }
 
         public override async Task<BanDef> AddBanAsync(BanDef ban)
@@ -270,25 +359,28 @@ namespace Content.Server.Database
             var banEntity = new Ban
             {
                 Type = ban.Type,
-                Addresses = [..ban.Addresses.Select(ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
-                Hwids = [..ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
+                Addresses = [..ban.Addresses.Select(
+            ba => new BanAddress { Address = ba.ToNpgsqlInet() })],
+                Hwids = [.. ban.HWIds.Select(bh => new BanHwid { HWId = bh })],
                 Reason = ban.Reason,
                 Severity = ban.Severity,
                 BanningAdmin = ban.BanningAdmin?.UserId,
                 BanTime = ban.BanTime.UtcDateTime,
                 ExpirationTime = ban.ExpirationTime?.UtcDateTime,
-                Rounds = [..ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
+                Rounds = [.. ban.RoundIds.Select(bri => new BanRound { RoundId = bri })],
                 PlaytimeAtNote = ban.PlaytimeAtNote,
-                Players = [..ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
+                Players =
+                  [.. ban.UserIds.Select(bp => new BanPlayer { UserId = bp.UserId })],
                 ExemptFlags = ban.ExemptFlags,
                 Roles = ban.Roles == null
-                    ? []
-                    : ban.Roles.Value.Select(brd => new BanRole
-                        {
-                            RoleType = brd.RoleType,
-                            RoleId = brd.RoleId
-                        })
-                        .ToList(),
+                          ? []
+                          : ban.Roles.Value
+                                .Select(brd => new BanRole
+                                {
+                                    RoleType = brd.RoleType,
+                                    RoleId = brd.RoleId
+                                })
+                                .ToList(),
             };
             db.PgDbContext.Ban.Add(banEntity);
 
@@ -300,24 +392,21 @@ namespace Content.Server.Database
         {
             await using var db = await GetDbImpl();
 
-            db.PgDbContext.Unban.Add(new Unban
-            {
-                BanId = unban.BanId,
-                UnbanningAdmin = unban.UnbanningAdmin?.UserId,
-                UnbanTime = unban.UnbanTime.UtcDateTime
-            });
+            db.PgDbContext.Unban.Add(
+                new Unban
+                {
+                    BanId = unban.BanId,
+                    UnbanningAdmin = unban.UnbanningAdmin?.UserId,
+                    UnbanTime = unban.UnbanTime.UtcDateTime
+                });
 
             await db.PgDbContext.SaveChangesAsync();
         }
         #endregion
 
         public override async Task<int> AddConnectionLogAsync(
-            NetUserId userId,
-            string userName,
-            IPAddress address,
-            ImmutableTypedHwid? hwId,
-            float trust,
-            ConnectionDenyReason? denied,
+            NetUserId userId, string userName, IPAddress address,
+            ImmutableTypedHwid? hwId, float trust, ConnectionDenyReason? denied,
             int serverId)
         {
             await using var db = await GetDbImpl();
@@ -341,31 +430,39 @@ namespace Content.Server.Database
             return connectionLog.Id;
         }
 
-        public override async Task<((Admin, string? lastUserName)[] admins, AdminRank[])>
+        public override async
+            Task<((Admin, string? lastUserName)[] admins, AdminRank[])>
             GetAllAdminAndRanksAsync(CancellationToken cancel)
         {
             await using var db = await GetDbImpl();
 
             // Honestly this probably doesn't even matter but whatever.
-            await using var tx =
-                await db.DbContext.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead, cancel);
+            await using var tx = await db.DbContext.Database.BeginTransactionAsync(
+                IsolationLevel.RepeatableRead, cancel);
 
-            // Join with the player table to find their last seen username, if they have one.
-            var admins = await db.PgDbContext.Admin
-                .Include(a => a.Flags)
-                .GroupJoin(db.PgDbContext.Player, a => a.UserId, p => p.UserId, (a, grouping) => new {a, grouping})
-                .SelectMany(t => t.grouping.DefaultIfEmpty(), (t, p) => new {t.a, p!.LastSeenUserName})
-                .ToArrayAsync(cancel);
+            // Join with the player table to find their last seen username, if they
+            // have one.
+            var admins =
+                await db.PgDbContext.Admin.Include(a => a.Flags)
+                    .GroupJoin(db.PgDbContext.Player, a => a.UserId, p => p.UserId,
+                               (a, grouping) => new { a, grouping })
+                    .SelectMany(t => t.grouping.DefaultIfEmpty(),
+                                (t, p) => new { t.a, p!.LastSeenUserName })
+                    .ToArrayAsync(cancel);
 
-            var adminRanks = await db.DbContext.AdminRank.Include(a => a.Flags).ToArrayAsync(cancel);
+            var adminRanks = await db.DbContext.AdminRank.Include(a => a.Flags)
+                                 .ToArrayAsync(cancel);
 
-            return (admins.Select(p => (p.a, p.LastSeenUserName)).ToArray(), adminRanks)!;
+            return (admins.Select(p => (p.a, p.LastSeenUserName)).ToArray(),
+                    adminRanks)!;
         }
 
-        protected override IQueryable<AdminLog> StartAdminLogsQuery(ServerDbContext db, LogFilter? filter = null)
+        protected override IQueryable<AdminLog> StartAdminLogsQuery(
+            ServerDbContext db, LogFilter? filter = null)
         {
             // https://learn.microsoft.com/en-us/ef/core/querying/sql-queries#passing-parameters
-            // Read the link above for parameterization before changing this method or you get the bullet
+            // Read the link above for parameterization before changing this method or
+            // you get the bullet
             if (!string.IsNullOrWhiteSpace(filter?.Search))
             {
                 return db.AdminLog.FromSql($"""
@@ -398,9 +495,9 @@ WHERE to_tsvector('english'::regconfig, a.message) @@ websearch_to_tsquery('engl
             return new DbGuardImpl(this, new PostgresServerDbContext(_options));
         }
 
-        protected override async Task<DbGuard> GetDb(
-            CancellationToken cancel = default,
-            [CallerMemberName] string? name = null)
+        protected override async
+            Task<DbGuard> GetDb(CancellationToken cancel = default,
+                                [CallerMemberName] string? name = null)
         {
             return await GetDbImpl(cancel, name);
         }

@@ -30,9 +30,15 @@ namespace Content.Server.Database
 {
     public abstract class ServerDbBase
     {
-        private readonly ISawmill _opsLog;
+        protected readonly ISawmill _opsLog;
 
         public event Action<DatabaseNotification>? OnNotificationReceived;
+		
+		/// <summary>
+        /// Migrates a player's data from an old UserId to a new UserId across all relevant tables.
+        /// Called during the auth migration flow when a user with an existing account logs in via the new auth system.
+        /// </summary>
+        public abstract Task MigratePlayerId(Guid oldId, Guid newId);
 
         /// <param name="opsLog">Sawmill to trace log database operations to.</param>
         public ServerDbBase(ISawmill opsLog)

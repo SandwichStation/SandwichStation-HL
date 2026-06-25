@@ -1,0 +1,54 @@
+- type: entity
+  parent: BasePlushie
+  id: PlushieLegion
+  name: Lost Legion Unit 12 plushie
+  description: Smells of gunpowder and maple. Despite being made of a metallic alloy it is quite comfortable.
+  components:
+  - type: Sprite
+    layers:
+    - sprite: _Sandwich/Objects/Fun/legion_plush.rsi
+      state: icon
+    - shader: unshaded
+      sprite: _Sandwich/Objects/Fun/legion_plush.rsi
+      state: space
+  - type: AnimationPlayer
+  - type: EmitSoundOnUse
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: EmitSoundOnActivate
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: EmitSoundOnTrigger
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: EmitSoundOnLand
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: EmitSoundOnThrow
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: EmitSoundOnCollide
+    sound:
+      collection: sparks
+      params:
+        variation: 0.03
+  - type: UseDelay
+    delay: 0.5
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 5
+    soundHit:
+      collection: sparks
+      params:
+        variation: 0.03
+

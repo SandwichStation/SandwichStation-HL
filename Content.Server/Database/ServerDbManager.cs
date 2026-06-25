@@ -154,6 +154,7 @@ namespace Content.Server.Database
             ImmutableTypedHwid? hwId);
         Task<PlayerRecord?> GetPlayerRecordByUserName(string userName, CancellationToken cancel = default);
         Task<PlayerRecord?> GetPlayerRecordByUserId(NetUserId userId, CancellationToken cancel = default);
+        Task<PlayerRecord?> GetPlayerRecordForMigrationAsync(NetUserId userId, string userName, CancellationToken cancel = default);
         #endregion
 
         #region Connection Logs
@@ -565,10 +566,53 @@ namespace Content.Server.Database
             return RunDbCommand(() => _db.GetPlayerRecordByUserName(userName, cancel));
         }
 
-        public Task<PlayerRecord?> GetPlayerRecordByUserId(NetUserId userId, CancellationToken cancel = default)
+                public Task<PlayerRecord?> GetPlayerRecordByUserId(NetUserId userId, CancellationToken cancel = default)
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetPlayerRecordByUserId(userId, cancel));
+        }
+
+        public async Task<PlayerRecord?> GetPlayerRecordForMigrationAsync(NetUserId userId, string userName, CancellationToken cancel = default)
+        {
+            // 1. Try standard lookup by the new Unified ID first
+            DbReadOpsMetric.Inc();
+            var record = await RunDbCommand(() => _db.GetPlayerRecordByUserId(userId, cancel));
+            if (record != null)
+                return record;
+
+            // 2. Fallback: Search by username if the UUID is unrecognized
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                DbReadOpsMetric.Inc();
+                var legacyRecord = await RunDbCommand(() => _db.GetPlayerRecordByUserName(userName, cancel));
+
+                // Use .UserId property from PlayerRecord (as seen in DatabaseRecords.cs)
+                if (legacyRecord != null && legacyRecord.UserId != userId)
+                {
+                    var oldId = legacyRecord.UserId; 
+                    _sawmill.Info($"[MIGRATION] User '{userName}' (Old ID: {oldId}) not found by New ID ({userId}). Migrating...");
+
+                    try
+                    {
+                        DbWriteOpsMetric.Inc();
+                        // Pass the inner GUIDs (oldId.UserId and userId.UserId) to the DB layer
+                        await RunDbCommand(() => _db.MigratePlayerId(oldId.UserId, userId.UserId));
+
+                        _sawmill.Info($"[MIGRATION] Success! '{userName}' now linked to New ID ({userId}).");
+
+                        // Re-fetch with the new ID
+                        DbReadOpsMetric.Inc();
+                        return await RunDbCommand(() => _db.GetPlayerRecordByUserId(userId, cancel));
+                    }
+                    catch (Exception e)
+                    {
+                        _sawmill.Error($"[MIGRATION] Failed for '{userName}': {e}");
+                        return null;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public Task<int> AddConnectionLogAsync(
