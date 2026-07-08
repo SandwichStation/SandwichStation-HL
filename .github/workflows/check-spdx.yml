@@ -38,6 +38,7 @@ jobs:
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.event.pull_request.head.sha }}"
           PR_NUMBER="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
 
           failing_files=""
           warning_files=""
@@ -59,15 +60,23 @@ jobs:
             fi
           done
 
+          # Delete previous SPDX check comments
+          comment_ids=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate --jq '.[] | select(.body | contains("<!-- spdx-check-bot -->")) | .id' || true)
+          for cid in $comment_ids; do
+            gh api -X DELETE "repos/$REPO/issues/comments/$cid" || true
+          done
+
+          MARKER="<!-- spdx-check-bot -->"
+
           if [ -n "$warning_files" ]; then
             warning_files="${warning_files#${NL}}"
-            body=$(printf "⚠️ These files contain existing SPDX headers that should be removed:\n%s\n\nThe check will pass, but please consider removing them." "$warning_files")
+            body=$(printf "%s\n⚠️ These files contain existing SPDX headers that should be removed:\n%s\n\nThe check will pass, but please consider removing them." "$MARKER" "$warning_files")
             gh pr comment "$PR_NUMBER" --body "$body"
           fi
 
           if [ -n "$failing_files" ]; then
             failing_files="${failing_files#${NL}}"
-            body=$(printf "SPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$failing_files")
+            body=$(printf "%s\nSPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$MARKER" "$failing_files")
             gh pr comment "$PR_NUMBER" --body "$body"
             exit 1
           else
