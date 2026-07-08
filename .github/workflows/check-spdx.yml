@@ -1,0 +1,84 @@
+name: SPDX Header Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  check-spdx:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.action == 'opened' ||
+      github.event.action == 'reopened' ||
+      github.event.action == 'ready_for_review' ||
+      (github.event.action == 'synchronize' && github.event.pull_request.draft == false)
+    steps:
+      - name: Generate Bot Token
+        id: bot-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - name: Check for SPDX headers in added lines
+        env:
+          GH_TOKEN: ${{ steps.bot-token.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+
+          failing_files=""
+          warning_files=""
+          NL=$'\n'
+
+          for file in $(git diff "$BASE..$HEAD" --diff-filter=d --name-only); do
+            # Skip files that legitimately contain SPDX strings
+            case "$file" in
+              .github/workflows/check-spdx.yml) continue ;;
+              CONTRIBUTING.md) continue ;;
+            esac
+
+            added_spdx=$(git diff "$BASE..$HEAD" -- "$file" | grep -E '^\+' | grep -E '^\+.*(SPDX-FileCopyrightText|SPDX-License-Identifier)' || true)
+
+            if [ -n "$added_spdx" ]; then
+              failing_files="${failing_files}${NL}${file}"
+            elif grep -Eq '(SPDX-FileCopyrightText|SPDX-License-Identifier)' "$file"; then
+              warning_files="${warning_files}${NL}${file}"
+            fi
+          done
+
+          # Delete previous SPDX check comments
+          comment_ids=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate --jq '.[] | select(.body | contains("<!-- spdx-check-bot -->")) | .id' || true)
+          for cid in $comment_ids; do
+            gh api -X DELETE "repos/$REPO/issues/comments/$cid" || true
+          done
+
+          MARKER="<!-- spdx-check-bot -->"
+
+          if [ -n "$warning_files" ]; then
+            warning_files="${warning_files#${NL}}"
+            body=$(printf "%s\n⚠️ These files contain existing SPDX headers that should be removed:\n%s\n\nThe check will pass, but please consider removing them." "$MARKER" "$warning_files")
+            gh pr comment "$PR_NUMBER" --body "$body"
+          fi
+
+          if [ -n "$failing_files" ]; then
+            failing_files="${failing_files#${NL}}"
+            body=$(printf "%s\nSPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$MARKER" "$failing_files")
+            gh pr comment "$PR_NUMBER" --body "$body"
+            exit 1
+          else
+            echo "✅ No SPDX headers found in newly added lines."
+          fi
