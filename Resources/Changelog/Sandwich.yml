@@ -369,3 +369,9 @@ Entries:
       message: Fixed memory crash exploit
   id: 36
   time: '2026-06-25T20:15:39.0000000+00:00'
+- author: B3CKDOOR
+  changes:
+    - type: Tweak
+      message: Update of RobustToolbox v267.3.0 > v267.4.4
+  id: 37
+  time: '2026-07-08T02:54:22.0000000+00:00'
