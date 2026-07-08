@@ -96,6 +96,15 @@ An edit to a Delta-V locale file, note the `OLD<NEW` format and the separate lin
 # Sandwich: "Job Whitelists"<"Role Whitelists"
 player-panel-job-whitelists = Role Whitelists
 ```
+## No SPDX Headers
+
+Do **not** add SPDX headers (`SPDX-FileCopyrightText` or `SPDX-License-Identifier`) to any files in your PRs. This applies to both new files and modifications to existing ones.
+
+The entire codebase is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0-or-later)** as stated in the `LICENSE` file. Per-file SPDX headers are unnecessary and create several problems:
+
+- They imply individual copyright ownership on a per-file basis, which doesn't reflect how collaborative development works — a one-line change shouldn't grant copyright over a 300-line file.
+- They bloat files with repeated metadata that duplicates what the repo-level `LICENSE` already covers.
+- They create inconsistent attribution when files are ported or cherry-picked between forks.
 
 # Mapping
 
