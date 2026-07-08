@@ -2,6 +2,7 @@ name: SPDX Header Check
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
   contents: read
@@ -9,6 +10,11 @@ permissions:
 jobs:
   check-spdx:
     runs-on: ubuntu-latest
+    if: |
+      github.event.action == 'opened' ||
+      github.event.action == 'reopened' ||
+      github.event.action == 'ready_for_review' ||
+      (github.event.action == 'synchronize' && github.event.pull_request.draft == false)
     steps:
       - name: Generate Bot Token
         id: bot-token
@@ -33,17 +39,35 @@ jobs:
           HEAD="${{ github.event.pull_request.head.sha }}"
           PR_NUMBER="${{ github.event.pull_request.number }}"
 
-          offending_files=""
+          failing_files=""
+          warning_files=""
+          NL=$'\n'
 
           for file in $(git diff "$BASE..$HEAD" --diff-filter=d --name-only); do
+            # Skip files that legitimately contain SPDX strings
+            case "$file" in
+              .github/workflows/check-spdx.yml) continue ;;
+              CONTRIBUTING.md) continue ;;
+            esac
+
             added_spdx=$(git diff "$BASE..$HEAD" -- "$file" | grep -E '^\+' | grep -E '^\+.*(SPDX-FileCopyrightText|SPDX-License-Identifier)' || true)
+
             if [ -n "$added_spdx" ]; then
-              offending_files="${offending_files}\n${file}"
+              failing_files="${failing_files}${NL}${file}"
+            elif grep -Eq '(SPDX-FileCopyrightText|SPDX-License-Identifier)' "$file"; then
+              warning_files="${warning_files}${NL}${file}"
             fi
           done
 
-          if [ -n "$offending_files" ]; then
-            body=$(printf "SPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$offending_files")
+          if [ -n "$warning_files" ]; then
+            warning_files="${warning_files#${NL}}"
+            body=$(printf "⚠️ These files contain existing SPDX headers that should be removed:\n%s\n\nThe check will pass, but please consider removing them." "$warning_files")
+            gh pr comment "$PR_NUMBER" --body "$body"
+          fi
+
+          if [ -n "$failing_files" ]; then
+            failing_files="${failing_files#${NL}}"
+            body=$(printf "SPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$failing_files")
             gh pr comment "$PR_NUMBER" --body "$body"
             exit 1
           else
