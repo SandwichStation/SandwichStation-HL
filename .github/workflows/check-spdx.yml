@@ -1,0 +1,51 @@
+name: SPDX Header Check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-spdx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Bot Token
+        id: bot-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - name: Check for SPDX headers in added lines
+        env:
+          GH_TOKEN: ${{ steps.bot-token.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+
+          offending_files=""
+
+          for file in $(git diff "$BASE..$HEAD" --diff-filter=d --name-only); do
+            added_spdx=$(git diff "$BASE..$HEAD" -- "$file" | grep -E '^\+' | grep -E '^\+.*(SPDX-FileCopyrightText|SPDX-License-Identifier)' || true)
+            if [ -n "$added_spdx" ]; then
+              offending_files="${offending_files}\n${file}"
+            fi
+          done
+
+          if [ -n "$offending_files" ]; then
+            body=$(printf "SPDX check failed on the following files:\n%s\n\nPlease remove the headers from your PR" "$offending_files")
+            gh pr comment "$PR_NUMBER" --body "$body"
+            exit 1
+          else
+            echo "✅ No SPDX headers found in newly added lines."
+          fi
