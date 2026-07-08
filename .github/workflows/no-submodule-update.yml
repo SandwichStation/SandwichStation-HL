@@ -10,5 +10,26 @@ jobs:
     name: Submodule update in pr found
     runs-on: ubuntu-latest
     steps:
-      - name: Fail
-        run: exit 1
+      - name: Generate Bot Token
+        id: bot-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Check permissions
+        env:
+          GH_TOKEN: ${{ steps.bot-token.outputs.token }}
+        run: |
+          ACTOR="${{ github.actor }}"
+          REPO="${{ github.repository }}"
+
+          PERM=$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq '.permission')
+
+          if [ "$PERM" = "write" ] || [ "$PERM" = "admin" ]; then
+            echo "✅ User $ACTOR has $PERM permissions — overriding submodule check"
+            exit 0
+          fi
+
+          echo "❌ User $ACTOR ($PERM) — submodule updates not allowed"
+          exit 1
