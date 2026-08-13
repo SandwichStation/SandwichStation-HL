@@ -375,3 +375,9 @@ Entries:
       message: Update of RobustToolbox v267.3.0 > v267.4.4
   id: 37
   time: '2026-07-08T02:54:22.0000000+00:00'
+- author: B3CKDOOR
+  changes:
+    - type: Add
+      message: Added "The unknown" plushie back
+  id: 38
+  time: '2026-08-13T00:23:12.0000000+00:00'
