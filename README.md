@@ -6,8 +6,13 @@ This codebase is based on _HardLight_ <br>
 However, this fork is mainly customized to our own standards and balances.
 
 ## Licenses
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSandwichStation%2FSandwichStation-HL.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSandwichStation%2FSandwichStation-HL?ref=badge_shield)
+
 
 [You can find more information about the multiple licenses here](https://github.com/SandwichStation/SandwichStation-HL?tab=License-1-ov-file)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSandwichStation%2FSandwichStation-HL.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSandwichStation%2FSandwichStation-HL?ref=badge_large)
+
 ## Attributions
 
 When we pull content from other forks, we organize their content to repo-specific subfolders to better track attribution and limit merge conflicts.</br>
